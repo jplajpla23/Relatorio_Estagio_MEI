@@ -1,0 +1,239 @@
+% Preamble
+\documentclass[a4paper, twoside, 12pt]{report}
+
+% % -------------------- New packages  ----------------------------
+% \usepackage{multirow}
+%\usepackage{changepage}
+%\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{fancyhdr}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage[noend]{algpseudocode}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\setcounter{secnumdepth}{3}
+
+\usepackage{textcomp}
+\usepackage{gensymb}
+
+
+% % ------------------------------------------------
+
+% Includes
+		% UTF-8 encoding, so that yogoou can use characters like ç and ã
+
+\usepackage[T1]{fontenc}				% Same, but for output encoding
+\usepackage[utf8]{inputenc}		
+\usepackage[portuges]{babel}	% Still related to the above
+\usepackage{acronym}					% List of acronyms
+\usepackage{textcomp} 					% Extra characters
+\usepackage{graphicx} 					% \includegraphics{}, the most common command to include images in figures
+\usepackage{titlesec}					% To manually format the chapter titles
+\usepackage[left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry} % Margins, as dictated by the rules
+%\usepackage[nottoc,numbib]{tocbibind} 	% Hyperlinks in table of contents, useful for navigation
+\usepackage[section]{placeins}			% \FloatBarrier, a useful command when your figures are trying to run away
+\usepackage{caption}					% For captioning figures
+\usepackage{subcaption}					% Subfigures (the subfigure package is deprecated and should not be used)
+\usepackage[toc,page]{appendix}			% Appendices
+\usepackage{pdfpages}					% Useful when your appendix is a pre-compiled PDF, such as a whole paper
+\usepackage{url}						% Useful when one wants to include URLs in the text
+\usepackage[
+      colorlinks=true,    			%no frame around URL
+      urlcolor=black,    			%no colors
+      menucolor=black,    			%no colors
+      linkcolor=black,    			%no colors
+      citecolor=black,    			%no colors
+      bookmarks=true,    			%tree-like TOC
+      bookmarksopen=true,    		%expanded when starting
+      bookmarksnumbered=true, 		%Put section numbers in bookmarks
+      hyperfootnotes=true,    		%no referencing of footnotes, does not compile
+      pdfpagemode=UseOutlines,    	%show the bookmarks when starting the pdf viewer
+      plainpages=false, 			%solve problem ``destination with the same identifier'' warning
+      pdfpagelabels				 	%solve problem ``destination with the same identifier'' warning
+]{hyperref} 							% So that our citations look good and still work as links
+\usepackage{epigraph}					% For your inspirational quote
+\usepackage{etoolbox}
+\usepackage{enumitem}
+\usepackage{listings,xcolor}
+\usepackage{algpseudocode, algorithm2e}
+\usepackage{algcompatible}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{emptypage}
+%\usepackage{subfigure}
+%\usepackage{fontspec}
+
+\setlength{\parindent}{2em}
+
+\setlength{\headheight}{16pt}
+\renewcommand{\baselinestretch}{1.3}	% 1.5 line spacing, as mandated by the rules
+%\titleformat{\chapter}[hang] 			% Smaller chapter titles
+%{\normalfont\huge\bfseries}{\thechapter}{1em}{}
+
+% Your info goes here
+\newcommand{\thesistitle}{Relatório de Estágio MEI-IdC}			% Your work's title
+\newcommand{\myname}{João Paulo Lopes Agostinho}				% Your name
+\newcommand{\statedate}{Tomar, Março 2020}					% The date, usually "Place, Month Year"
+\newcommand{\supervisorname}{Renato Eduardo da Silva Panda, Instituto Politécnico de Tomar}		% Your supervisor's name
+%\newcommand{\cosupervisorname}{Professora Doutora Marie Curie}	% Your co-supervisor's name, if any.
+
+
+\renewcommand\lstlistingname{}
+\renewcommand\lstlistlistingname{Algorithms} %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+%\DeclareUnicodeCharacter{00A0}{~}
+
+\makeatletter
+\renewcommand*{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
+\hbox{}%
+\thispagestyle{empty}%
+\newpage%
+\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+\pagestyle{plain}
+\addto\captionsportuges{
+  \renewcommand{\contentsname}%
+    {ÍNDICE}%
+}
+\addto\captionsportuges{
+  \renewcommand{\listtablename}%
+    {ÍNDICE DE TABELAS}%
+}
+\addto\captionsportuges{
+  \renewcommand{\listfigurename}{ÍNDICE DE FIGURAS}
+}
+
+\renewcommand\appendixtocname{Apêndice}
+\renewcommand\appendixpagename{Apêndice}
+
+
+% MAIN DOCUMENT
+\begin{document}
+\pagestyle{headings}
+\pagenumbering{roman}
+
+\includepdf[pages={-}]{images/cover/capa.pdf}
+% Blank page
+\newpage
+\thispagestyle{empty}
+\mbox{}
+% Title page 1
+%\input{title_page1}
+% Blank page
+%\newpage
+%\thispagestyle{empty}
+%\mbox{}
+
+% Acknowledgements
+\titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
+\chapter*{AGRADECIMENTOS}
+\addcontentsline{toc}{chapter}{Agradecimentos}
+\input{acknowledgements}
+% You can add blank pages here, if you like
+\newpage\null\thispagestyle{empty}\newpage%Comentar esta linha se não for preciso página em branco
+
+
+% RESUMO
+\titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
+\chapter*{RESUMO}
+\addcontentsline{toc}{chapter}{Resumo}
+\input{resumo}
+\newpage\null\thispagestyle{empty}\newpage %Comentar esta linha se não for preciso página em branco
+
+%ABSTRACT
+\titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{abstract}
+% And here as well
+\newpage\null\thispagestyle{empty}\newpage%Comentar esta linha se não for preciso página em branco
+
+% INSPIRATIONAL QUOTE
+% Setup
+\setlength\epigraphwidth{12cm}
+\setlength\epigraphrule{0pt}
+\makeatletter
+\patchcmd{\epigraph}{\@epitext{#1}}{\itshape\@epitext{#1}}{}{}
+\makeatother
+% Actual Quote
+\vspace*{\fill}
+\epigraph{"It's not when you get there, it's always the climb."}{}
+{ ---  \textup{Robert A. Heinlein}}
+\vspace*{\fill}
+\newpage\null\thispagestyle{empty}\newpage
+
+% TABLE OF CONTENTS
+
+\titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
+\tableofcontents
+\clearpage
+% LIST OF ACRONYMS
+\chapter*{ACRÓNIMOS}
+\addcontentsline{toc}{chapter}{Acrónimos}
+\input{list_acronyms}
+
+
+\addcontentsline{toc}{chapter}{Índice de Figuras}
+\listoffigures
+\clearpage %\cleardoublepage %for openright
+\addcontentsline{toc}{chapter}{Índice de Tabelas}
+\listoftables
+\clearpage %\cleardoublepage %for openright
+% BODY
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\fancyhead[LE,RE]{\slshape\rightmark}
+\fancyhead[LO,RO]{\slshape\leftmark}
+\fancyhead[RE,LO]{}
+\pagestyle{fancy}
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+
+\chapter{Introdução}
+\pagenumbering{arabic}
+\input{introduction}
+	% Arabic numbering starts
+
+% For each chapter, you should have a bit of code that looks like this:
+% \label allows you to later \ref that chapter.
+% \input includes a different .tex file, so that you can have you dissertation
+% neatly partitioned into several files. I recommend one file per chapter.
+\chapter{Estado da Arte}
+\label{chap:state_of_the_art}
+\input{state_of_the_art}
+
+\chapter{Fundamentos}
+\label{chap:background_material}
+\input{background_material}
+
+\chapter{Conclusões}
+\input{conclusion_future_work}
+
+% REFERENCES
+% Edit the references.bib file to add your own references, that you can then
+% \cite on your text.
+
+
+\bibliographystyle{ieeetr}
+
+\addcontentsline{toc}{chapter}{Bibliografia}
+\bibliography{references}
+
+%\clearpage %\cleardoublepage %for openright
+\renewcommand{\thesection}{Apêndices \Roman{section}}
+
+\begin{appendices}
+
+\end{appendices}
+
+\end{document}

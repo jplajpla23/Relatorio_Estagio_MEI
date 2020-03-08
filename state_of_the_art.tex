@@ -122,17 +122,22 @@ As redes Low Power Wide Area são redes usadas frequentemente no IOT quando é n
 \section {Kea Tracker}\label{kea}
 O Projeto Kea Tracker utiliza Beacon’s da Ruuvi, uma Beacon open-source\cite{ruuvi}, que disponibiliza de forma open-source tanto o  Firmware para alterações, como as aplicações para Android e IOS. Será utilizada a aplicação disponibilizada alterando para o nosso funcionamento e o Firmware para disponibilizar a funcionalidade de data-logger.
 \subsection{Beacons BLE}
+\par
+O Bluetooth Low Energy ou simplesmente BLE foi desenvolvido a pensar nos novos equipamantos IOT, onde os utilizadores querem vários equipamentos ligado ao mesmo tempo. Para tal foi desenvolvido o BLE que permite mais ligações ao mesmo tempo comparadamente ao Bluetooth clássico.
+Como é indicado no nome, o principal fator diferenciador nesta versão, utilizada muitas vezes em equipamentos iot devido ao baixo consumo de aproximadamente metade relativamente ao Bluetooth normal. Outras caracteristicas melhoradas a visar os equipamentos de IOT no BLE são a baixa largura de banda e o baixo tempo de transmissão.
 
+Com o desenvolver do BLE foram criados novos tipos de equipamentos, nomeadamente as beacons, equipamentos quase sempre alimentados por pilhas que comunicam através de BLE, tornando o equipamento portátil.As beacons são caracterizadas por transmitir pequenas quantidades de informação em broadcasting.
+Existem dois tipos de beacons as beacons não connectaveis e as connectáveis. Como indicado no nome as beacons connectáveis permitem que um equipamento(como um smartphone) se connecte á beacons e esta fica preparada para receber dados. As não connectáveis apenas permitem o broadcasting dos dados, poupando energia pois apenas é necessário ter o módulo acordado para fazer o broadcast e o restante do tempo podem estar num estado sleep. Na figura \ref{blepacket} é apresentado o pacote que é transmitido em broadcast para os outros equipamentos receberem.
 
-{\color{red} \rule{\linewidth}{0.5mm} } 
-Explicar funcionamento BLE e beacons\par
-{\color{red} \rule{\linewidth}{0.5mm} } 
-
-
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.95\textwidth]{images/blepacket.png}
+  \caption{BLE Broadcast packet\cite{blepacket}}\label{blepacket}
+\end{figure}
 
 
 \subsection{Ruuvi Beacons}
-\par Neste projeto o firmware das beacons apenas necessita de uma alteração, adicionar á beacon a possibilidade de esta armazenar internamente as ultimas leituras numb buffer circular e criar um data-logger e caso o cliente pretenda poderá aceder mais tarde para fazer o download para aplicação e posterior envio para o Senslive, não necessitando a proximidade so smartphone á beacon durante todo o tempo. A Ruuvi dispõe de dois modos de desenvolvimento do firmware da beacon em C ou usando o Espruino, á semelhanca do MicroPython um interpretador de JavaScript para microcontroladdores lancçado em 2012, totalmente compativel com as Beacons da Ruuvi.
+\par Neste projeto o firmware das beacons apenas necessita de uma alteração, tornar a beacon numa beacon  connectável e esta armazenar internamente as ultimas leituras numb buffer circular e criar um data-logger e caso o cliente pretenda poderá connectar mais tarde para fazer o download para aplicação e posterior envio para o Senslive, não necessitando a proximidade so smartphone á beacon durante todo o tempo. A Ruuvi dispõe de dois modos de desenvolvimento do firmware da beacon em C ou usando o Espruino, á semelhanca do MicroPython um interpretador de JavaScript para microcontroladdores lancçado em 2012, totalmente compativel com as Beacons da Ruuvi.
 \subsection{Apps Smartphones}
 Na fase inicial será adaptada a versão disponibilizada para Android para possibilitar a integração com o portal Senslive. A aplicação base disponibilizada pela Ruuvi foi desenvolvida em Kotlin\cite{ruuviappgithub}, uma linguagem desenvolvida pela JetBrains multiplataforma e que inclui o Android nessas plataformas compatíveis.
  De seguida estão apresentadas algumas alterações necessárias na aplicação:

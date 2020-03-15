@@ -30,6 +30,10 @@
 
 \usepackage[T1]{fontenc}				% Same, but for output encoding
 \usepackage[utf8]{inputenc}		
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+\def\diameter{\tikz\filldraw[fill=white!60,line width=0.15mm](0,0) circle[radius=0.15cm] -- (-0.18,-0.18) -- (-0.19,-0.19) -- (-0.19,-0.19)-- (0.18,0.18) -- cycle;} 
+
 \usepackage[portuges]{babel}	% Still related to the above
 \usepackage{acronym}					% List of acronyms
 \usepackage{textcomp} 					% Extra characters

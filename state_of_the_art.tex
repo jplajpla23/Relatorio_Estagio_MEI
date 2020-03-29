@@ -161,23 +161,33 @@ De seguida estão apresentadas algumas alterações necessárias na aplicação:
 Atualmente a vida online do Homem passou a ter um grande impacto na sua vida. Para tal as páginas web e seus conteúdos foram aumentado em quantidade e tamanho e com menores tempos de resposta. Isso é aplicável tanto aos ficheiros que contem o layout da página, quer das imagens. Para poupar dados de transmissão e reduzir tempos de envios, ou simplesmente suportar larguras de banda inferiores, os browsers integraram a possibilidade de receber os ficheiros comprimidos e fazer a descompressão para mostrar ao cliente quase em tempo real. Atualmente os browser recentes suportam a compressão por GZIP( já utilizado na página do equipamento Nidus) e compressão utilizado a codificação Brotlin \cite{Alakuijala2019} \cite{brotlirfc}.
 Cada método de compressão posui as suas vantagens e desvantagens, o brotli por sua vez á semelhança de outros métodos comparadamente ao GZIP, tem uma taxa de compressão superior\cite{Alakuijala2015}, isto significa que consegue reduzir o mesmo ficheiro no seu respetivo ficheiro comprimido ocupando menos espaço comparadamente com o GZIP, mas como desvantagem o tempo de compressão do mesmo é superior. O tempo e velocidade de descompressão é superior no Brotli do que nas restantes alternativas.
 \par
-O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o algoritmo de compressão LZ77 , que procura sequências repetidas utilizando o método de janela deslizante e substitui essas sequências por referências para a primeira ocorrência que não foi substituída indicando a distancia a que a primeira ocurencia ocorre e o tamanho a substituit. Na figura \ref{gzip} e \ref{gzip2} é apresentado dois exemplos visuais e simples utilizando letras e frases de como o LZ277, uzado pelo GZIP e Brotli, comprime os ficheiros. Na Figura \ref{unzip} é apresentado o ficheiro base, neste caso representado por um pequeno texto. No exemplo apresentado pela figura \ref{gzip} apenas foi utilizado a substituição de palavras inteiras, na figura \ref{gzip2} procura sequências de caracteres sejam elas palavras ou não.
+O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o algoritmo de compressão LZ77 , que procura sequências repetidas utilizando o método de janela deslizante e substitui essas sequências por referências para a primeira ocorrência que não foi substituída indicando a distancia a que a primeira ocurencia ocorre e o tamanho a substitui.
+\par O sistema de janela deslizante define um tamanho da janela e ao deslocar a janela do tamanho definido define um dicionário. Após definir o dicionario com vários tamanhos de janelas, percorrer novamente o ficheiro através do método de janela deslizante novamente a procurar repetições das entradas que existem no dicionário. Quando uma sequencia é encontrada esta é repetedia por uma referencia da posição da primeira ocurrencia da mesma. Na figura \ref{janela} é apresentado um exemplo do funcionamento da janela deslizante para a obtenção do dicionário com o tamanho da janela a variar de 2 a 7.
 \begin{figure}[htb]
 \centering
-\includegraphics[width=0.95\textwidth]{images/FILE.png}
+\includegraphics[width=0.85\textwidth]{images/janeladeslizantedicionario.png}
+\caption{Funcionamento da Janela Deslizante}\label{janela}
+\end{figure}
+
+
+\par Na figura \ref{gzip} e \ref{gzip2} é apresentado dois exemplos visuais e simples utilizando frases de como o LZ277, uzado pelo GZIP e Brotl através do sistema de janela deslizante procura as repetições e comprime os ficheiros. Na Figura \ref{unzip} é apresentado o ficheiro base, representado por um pequeno texto. No exemplo apresentado pela figura \ref{gzip} apenas foi utilizado a substituição de palavras inteiras, na figura \ref{gzip2} procura sequências de caracteres sejam elas palavras ou não. Nos exemplos apresentados a redução foi de 20\% [$1-\dfrac{48}{60}\times100\%$] no primeiro exemplo e de aproximadamente de 32\% [$1-\dfrac{41}{60}\times100\%$] no segundo.
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.85\textwidth]{images/FILE.png}
 \caption{Sequência não comprimida}\label{unzip}
 \end{figure}
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=0.95\textwidth]{images/gzip.png}
+\includegraphics[width=0.85\textwidth]{images/gzip.png}
 \caption{Sequência comprimida com LZ77 (apenas palavras)}\label{gzip}
 \end{figure}
 \begin{figure}[htb]
 \centering
-\includegraphics[width=0.95\textwidth]{images/gzip2.png}
+\includegraphics[width=0.85\textwidth]{images/gzip2.png}
 \caption{Sequência comprimida com LZ77(palavras e sequências)}\label{gzip2}
 \end{figure}
+
 
 \subsubsection{Compressão de Imagens}
 \par

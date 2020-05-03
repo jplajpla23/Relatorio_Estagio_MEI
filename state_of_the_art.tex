@@ -1,6 +1,6 @@
 
 \section{Introdução}
-Nesta secção é apresentada o estado da arte dos projetos realizados durante o estágio na empresa CapTemp. Nessa ordem é apresentado o funcionamento do sistema do Nidus desenvolvido pela empresa CapTemp e a sua página de configuração e visualização. Na secção \ref{Página do Coletor de Dados Nidus} são apresentadas também as metodologias e tecnologias que o sistema implementa atualmente para a compressão das páginas que dão suporte ao sistema. Na secção \ref{nbiot} e \ref{kea} irá ser introduzido o plano inicial dos projetos a desenvolver e a base já existente tal como as tecnologias que estes irão utilizar. Na secção \ref{solucoesDisponiveis} será abordado as soluções e tecnologias existentes na comunidade científica e alguns produtos similares, já existentes para os projetos anteriormente referidos.
+Nesta secção é apresentada o estado da arte dos projetos realizados durante o estágio na empresa CapTemp. Nessa ordem é apresentado o funcionamento do sistema do Nidus desenvolvido pela empresa CapTemp e a sua página de configuração e visualização. Na secção \ref{Página do Coletor de Dados Nidus} são apresentadas também as metodologias e tecnologias que o sistema implementa atualmente para a compressão das páginas que dão suporte ao sistema. Na secção \ref{nbiot}, \ref{kea} e  \ref{dot} irá ser introduzido o plano inicial dos projetos a desenvolver e a base já existente tal como as tecnologias que estes irão utilizar. Na secção \ref{solucoesDisponiveis} será abordado as soluções e tecnologias existentes na comunidade científica e alguns produtos similares, já existentes para os projetos anteriormente referidos.
 
 \section{Coletor de Dados - Nidus} \label{Coletor de Dados - Nidus}
 \par
@@ -112,7 +112,7 @@ A cobertura da rede está a ser implementada pelas operadoras de telecomunicaç�
 disponibilizar cobertura nas antenas de rede móvel, normalmente já existe compatibilidade de Hardware e basta atualizações de Firmware. É aconselhado pelas operadoras que se utilize o Nb-Iot para equipamentos fixos e o LTE-M para equipamentos em movimento.
 
 \subsubsection { Low Power Wide Area}
-As redes Low Power Wide Area são redes usadas frequentemente no IOT quando é necessário enviar dados a distâncias longas. Combinam a largura de banda e o consumo de bateria presente em redes como BLE e Zigbee, com alcance igual ou superior ás redes de comunicação GSM. São caracterizadas por ter longo alcance, um baixo custo de transmissão e baixo consumo, onde simples baterias podem fornecer alimentação na ordem das décadas. Este alcance pode ser conseguido por exemplo por redes multihop ou modulações especificas que privilegiem o consumo energético e o alcance. A comunicação 2G e 3G pode ser usada em comunicação M2M mas as mesmas tem uma largura de banda superior ao necessário o que resulta em consumo de bateria excessivo onde não é tirado proveito da largura de banda disponível. Alguns exemplos de redes Low Power Wide Area, ou simplesmente denominadas por LPWAN, são o DASH7, o SigFox, LoRa, Ingenu, Telensa ou o NarrowBand Iot.\cite{lpwanoverview}
+As redes Low Power Wide Area são redes usadas frequentemente no IOT quando é necessário enviar dados a distâncias longas. Combinam a largura de banda e o consumo de bateria presente em redes como BLE e Zigbee, com alcance igual ou superior às redes de comunicação GSM. São caracterizadas por ter longo alcance, um baixo custo de transmissão e baixo consumo, onde simples baterias podem fornecer alimentação na ordem das décadas. Este alcance pode ser conseguido por exemplo por redes multihop ou modulações especificas que privilegiem o consumo energético e o alcance. A comunicação 2G e 3G pode ser usada em comunicação M2M mas as mesmas tem uma largura de banda superior ao necessário o que resulta em consumo de bateria excessivo onde não é tirado proveito da largura de banda disponível. Alguns exemplos de redes Low Power Wide Area, ou simplesmente denominadas por LPWAN, são o DASH7, o SigFox, LoRa, Ingenu, Telensa ou o NarrowBand Iot.\cite{lpwanoverview}
 
 \begin{figure}[ht]
 \centering
@@ -153,16 +153,22 @@ De seguida estão apresentadas algumas alterações necessárias na aplicação:
 \item Possibilidade da alteração dos intervalos de registo
 \end{itemize}
 
+\section {dot.Tracker}\label{dot}
+Á semelhança do projeto Kea Tracker o projeto dot.Tracker usa igualmente beacon's BLE para enviar a informação necessária para o respetivo portal. É necessário recolher os pacotes recebidos das beacons envia-los para o servidor e calcular a distância entre a beacon e o receptor e com o auxilio de multiplos recetores realizar a triangulação da beacon num mapa. No decorrer do projeto será necessário desenvolver uma plataforma web para receber e visualizar as localizações proveninentes das beacons e respetivas configurações, adotar o método de algoritmo para a triangulação da beacon relativamente a vários recetores e realizar testes ao funcionamento e precisão do sistema.
+\subsection{Beacons e gateway}
+ Para este projeto irá ser utilizado durante o desenvolvimento a solução da Beacon Line\cite{taskit} e posteriormente desenvolvido recetores propriétarios da Captemp. A solução apresentada pela Beacon Line, é composta por um gateway e vários nós. Cada nó possui um recetor BLE e quando o mesmo recebe um broadcast proveniente da beacon o transmite para o gateway. Caso exista alguma divergência da potência de transmissao desde o ultimo pacote enviado por essa mesma beacon o gateway com connectividade ethernet realiza o publish num broker onde é possivel o servidor obter os pacotes das beacon's.
+
+
 
 \section{Soluções e Tecnologias Disponíveis} \label{solucoesDisponiveis}
 \subsection{Tecnologias Disponíveis}
 \subsubsection{Compressão de Ficheiros}
 \par
 Atualmente a vida online do Homem passou a ter um grande impacto na sua vida. Para tal as páginas web e seus conteúdos foram aumentado em quantidade e tamanho e com menores tempos de resposta. Isso é aplicável tanto aos ficheiros que contem o layout da página, quer das imagens. Para poupar dados de transmissão e reduzir tempos de envios, ou simplesmente suportar larguras de banda inferiores, os browsers integraram a possibilidade de receber os ficheiros comprimidos e fazer a descompressão para mostrar ao cliente quase em tempo real. Atualmente os browser recentes suportam a compressão por GZIP( já utilizado na página do equipamento Nidus) e compressão utilizado a codificação Brotlin \cite{Alakuijala2019} \cite{brotlirfc}.
-Cada método de compressão posui as suas vantagens e desvantagens, o brotli por sua vez á semelhança de outros métodos comparadamente ao GZIP, tem uma taxa de compressão superior\cite{Alakuijala2015}, isto significa que consegue reduzir o mesmo ficheiro no seu respetivo ficheiro comprimido ocupando menos espaço comparadamente com o GZIP, mas como desvantagem o tempo de compressão do mesmo é superior. O tempo e velocidade de descompressão é superior no Brotli do que nas restantes alternativas.
+Cada método de compressão possui as suas vantagens e desvantagens, o brotli por sua vez á semelhança de outros métodos em comparação com o GZIP, tem uma taxa de compressão superior\cite{Alakuijala2015}, isto significa que consegue reduzir o mesmo ficheiro no seu respetivo ficheiro comprimido ocupando menos espaço em relação ao GZIP, mas como desvantagem o tempo de compressão do mesmo é superior. Ao contrário da compressão, na descompressão o Brotli tem melhores resultados do que nas restantes alternativas apresentando velocidades superiores de descompressão.
 \par
-O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o algoritmo de compressão LZ77 , que procura sequências repetidas utilizando o método de janela deslizante e substitui essas sequências por referências para a primeira ocorrência que não foi substituída indicando a distancia a que a primeira ocurencia ocorre e o tamanho a substitui.
-\par O sistema de janela deslizante define um tamanho da janela e ao deslocar a janela do tamanho definido define um dicionário. Após definir o dicionario com vários tamanhos de janelas, percorrer novamente o ficheiro através do método de janela deslizante novamente a procurar repetições das entradas que existem no dicionário. Quando uma sequencia é encontrada esta é repetedia por uma referencia da posição da primeira ocurrencia da mesma. Na figura \ref{janela} é apresentado um exemplo do funcionamento da janela deslizante para a obtenção do dicionário com o tamanho da janela a variar de 2 a 7.
+O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o algoritmo de compressão LZ77, que procura sequências repetidas utilizando o método de janela deslizante e substitui essas sequências por referências para a primeira ocorrência que não foi substituída indicando a distancia a que a primeira ocurencia ocorre e o tamanho a substitui.
+\par O sistema de janela deslizante define um tamanho da janela e ao deslocar a janela do tamanho definido define um dicionário. Após definir o dicionário com vários tamanhos de janelas, percorrer novamente o ficheiro através do método de janela deslizante novamente a procurar repetições das entradas que existem no dicionário. Quando uma sequência é encontrada esta é substituida por uma referencia da posição da primeira ocurrência da mesma. Na figura \ref{janela} é apresentado um exemplo do funcionamento da janela deslizante para a obtenção do dicionário com o tamanho da janela a variar de 2 a 7.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.85\textwidth]{images/janeladeslizantedicionario.png}
@@ -170,7 +176,7 @@ O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o a
 \end{figure}
 
 
-\par Na figura \ref{gzip} e \ref{gzip2} é apresentado dois exemplos visuais e simples utilizando frases de como o LZ277, uzado pelo GZIP e Brotl através do sistema de janela deslizante procura as repetições e comprime os ficheiros. Na Figura \ref{unzip} é apresentado o ficheiro base, representado por um pequeno texto. No exemplo apresentado pela figura \ref{gzip} apenas foi utilizado a substituição de palavras inteiras, na figura \ref{gzip2} procura sequências de caracteres sejam elas palavras ou não. Nos exemplos apresentados a redução foi de 20\% [$1-\dfrac{48}{60}\times100\%$] no primeiro exemplo e de aproximadamente de 32\% [$1-\dfrac{41}{60}\times100\%$] no segundo.
+\par Na figura \ref{gzip} e \ref{gzip2} é apresentado dois exemplos visuais e simples utilizando frases de como o LZ277, usado pelo GZIP e Brotl através do sistema de janela deslizante procura as repetições e comprime os ficheiros. Na Figura \ref{unzip} é apresentado o ficheiro base, representado por um pequeno texto. No exemplo apresentado pela figura \ref{gzip} apenas foi utilizado a substituição de palavras inteiras, na figura \ref{gzip2} procura sequências de caracteres sejam elas palavras ou não. Nos exemplos apresentados a redução foi de 20\% [$1-\dfrac{48}{60}\times100\%$] no primeiro exemplo e de aproximadamente de 32\% [$1-\dfrac{41}{60}\times100\%$] no segundo.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.85\textwidth]{images/FILE.png}
@@ -192,10 +198,93 @@ O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o a
 \subsubsection{Compressão de Imagens}
 \par
 
-O utilizador pretende igualmente ver as imagens com a máxima qualidade, mais qualidade significa um maior detalhe e por sequencia um ficheiro de maior tamanho. Existem atualmente vários softwares online e locais que reduzem o tamanho das imagens. Na conceção da página da Nidus é utilizado o website TinyPNG.com que analisa a imagem original e converte as cores em cores mais simples de o sistema armazenar, como por exemplo uma imagem com 24 bits de profundidade de cor pode ser convertido em uma similar com apenas 8 bits reduzindo o tamanho do ficheiro e impercetível para o olho humano num ecrã\cite{Hilles2019}. Alternativamente ao Tiny Png existem softwares, similares alguns de licença GNU/GPL, para comprimir imagens. O "Mass Image Compressor"\cite{Mass_Image_Compressor}(apenas um exemplo), é possível comprimir as imagens com a possibilidade de indicar a quantidade de compressão.
+O utilizador pretende igualmente ver as imagens com a máxima qualidade, mais qualidade significa um maior detalhe e por sequencia um ficheiro de maior tamanho. Existem atualmente vários softwares online e locais que reduzem o tamanho das imagens. Na conceção da página da Nidus é utilizado o website TinyPNG.com que analisa a imagem original e converte as cores em cores mais simples de o sistema armazenar, como por exemplo uma imagem com 24 bits de profundidade de cor pode ser convertido em uma similar com apenas 8 bits reduzindo o tamanho do ficheiro e impercetível para o olho humano num ecrã\cite{Hilles2019}. Alternativamente ao Tiny Png existem softwares, similares alguns de licença GNU/GPL, para comprimir imagens. Com o "Mass Image Compressor"\cite{Mass_Image_Compressor}(apenas um exemplo), é possível comprimir as imagens com a possibilidade de indicar a quantidade de compressão.
 \par
 Com a enorme quantidade e diversidade de monitores existentes, as páginas web necessitam de ser responsivas e apresentar a melhor imagem para o monitor em questão, isso normalmente traduz-se em várias versões similares da imagem alojadas no servidor. No caso dos microcontroladores e sistemas embebidos o espaço encontra-se limitado e deve-se arranjar uma solução. Uma solução possível é ao invés da utilização de imagens PNG, JPG ou outras, é a utilização de imagens em SVG, onde a imagem é representada por um ficheiro XML que descreve uma imagem bidimensional e utiliza na sua constituição modelos matemáticos para o cálculo das posições dos elementos. Com isto é possível manipular o XML em tempo real para alterar elementos ou remover, alterar cores, criar animações entre outras. Inclui a vantagem de como a imagem é representada por formulas matemáticas, é possível escalar a imagem sem perder qualidade pois a função matemática é ajustável. Num sistema embebido como o caso da Nidus é vantajoso a utilização de imagens em SVG para criação das animações. Atualmente as animações da página da Nidus são criadas com várias imagens PNG comprimidas e convertidas em base64 e são alternadas no HTML pelo JavaScript. Com a utilização de imagens SVG é possível ter apenas uma imagem alojada e manipular a imagem em tempo real através do JavaScript de uma forma mais suave para o utilizador, pois apenas a zona a alterar é alterada na imagem.
-Á semelhança dos JPG e PNG o SVG também pode ser comprimido, para tal basta no XML da definição remover os meta-dados  e utilização de funções mateméticas mais simples, não necessários para o browser apresentar a reprentação gráfica do mesmo, mas os softwares de edição adicionam para funcionalidades esclusivas do editor. Á semelhança dos ficheiros HTML após a remoção dos meta-dados o ficheiro pode ser minificado.
+Á semelhança dos JPG e PNG o SVG também pode ser comprimido, para tal basta no XML da imagem remover os meta-dados  e utilização de funções matemáticas mais simples, não necessários para o browser apresentar a representação gráfica do mesmo, mas os softwares de edição adicionam para funcionalidades exclusivas do editor. Á semelhança dos ficheiros HTML após a remoção dos meta-dados o ficheiro pode ser minificado.
+
+\subsubsection{Localização indoor}
+\par
+É possivel encontrar na comunidade científica vários estudos sobre a utilização de redes Wi-Fi e Bluetooth para sistemas de localização. Estes mesmos focam-se no cálculo das distâncias do equipamento para vários recetores no mesmo intervalo temporal, algumas destas soluções baseiam-senos valores de RSSI da transmissão e o valor definido como constante da potência de transmissão á distância de 1 metro, e estimar a sua distância aproximada de cada recetor, com essas aproximações é possivel através do algoritmo escolhido\cite{Wang2013}, obter a estimativa da localização do equipamento e a sua colocação num mapa.
+A distância de um recetor para o emissor baseada no  valor de RSSI é expressada pela seguinte formula, onde dbm é a constante da potência de transmissão da beacon a 1 metro, n a constante do ambiente e o RSSI corresponde ao RSSI da transmissão:
+\par
+\begin{center}
+  $d=10^(\frac{dbm-RSSI}{10 \times n})$
+\end{center}
+
+\par
+Após a obtenção da distância para cada recetor é possível  aplicar um algoritmo para estimar a localização. Os mais referenciados e adotados são o centroid baseado no centro geométrico do polígono formado pelas interceções das circunferências criadas com o raio da distância calculada pela fórmula anteriormente apresentada, o método Three-border Positioning e o Least Square Estimation.
+Como é possivel observar na figura \ref{centroid} utilizando o método do centroid, o centro geométrico corresponde á localização do equipamento com base nos recetores. A formula que representa o centro utilizando o centroid é expressada pela seguinte equação onde n representa o numero de recetores utilizados no cálculo.
+\par
+\begin{center}
+$ (x,y)= (\frac{x_{1}+x_{2}+x_{3}+...+x_{n}}{n},\frac{y_{1}+y_{2}+y_{3}+...+y_{n}}{n})$
+\end{center}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.95\textwidth]{images/centroid3.png}
+\caption{Posição utilizando o método Centroid com 3 e 4 recetores}\label{centroid}
+\end{figure}
+
+Ao invés da utilização do método do centroid se for adotado o método Three-border Positioing, é criada a função definida por ramos composta pelas três equações da circunferência A, B e C com os respetivos centros em cada recetor e com o raio igual á distância calculada para esse mesmo recetor. Para calcular a posição estimada é calculado o resultado dessa mesma função de modo a encontrar o ponto x,y que representa a posição do equipamento.
+\par 
+Utilizando o método Least Sqare Estimation ou simplesmente LSE e á semelhança do Three-border Position\cite{Zhu2014} é criada a função de ramos das equações das circunferências dos vários recetores com o raio da distância calculada, mas pode igualmente como o centroid utilizar mais do que três recetores aumentando a precisão. \par Hua, Z., Hang, L., Yue, L., Hang, L., \& Kan, Z. (2014). Geometrical constrained least squares estimation in wireless location systems. 2014 4th IEEE International Conference on Network Infrastructure and Digital Content. apresenta os passos necessários calcular a Posicação X do equipamento através do método LSE. Em primeiro são criadas a função de ramos composta pelas equações das circunferências com centro nos recetores ([$x_{1}$,$y_{1}$],[$x_{2}$,$y_{2}$],[$x_{3}$,$y_{3}$],[$x_{4}$,$y_{4}$]) e o raio igual á distância calculada($d_{1}$,$d_{2}$,$d_{3}$,$d_{4}$).
+\begin{center}
+\[
+  \begin{cases}
+      (x_{1} -x)^2 + (y_{1}-y)^2 = {d_{1}}^2\\
+      (x_{2} -x)^2 + (y_{2}-y)^2 = {d_{2}}^2\\
+      (x_{3} -x)^2 + (y_{3}-y)^2 = {d_{3}}^2\\
+      (x_{4} -x)^2 + (y_{4}-y)^2 = {d_{4}}^2\\
+  \end{cases}
+\]
+\end{center}
+
+\par Após a criação da função é subtraido o primeiro ramo aos restantes ramos e a função reduz o numero de ramos para n-1 onde n representa o numero de recetores a usar na função.
+\begin{center}
+
+\[
+  \begin{cases}
+     2(x_{2}-x_{1})x+2(y_{2}-y_{1})y={x_{2}}^2-{x_{1}}^2+{y_{2}}^2-{y_{1}}^2+{d_{2}}^2+{ d_{1}}^2\\
+     2(x_{3}-x_{1})x+2(y_{3}-y_{1})y={x_{3}}^2-{x_{1}}^2+{y_{3}}^2-{y_{1}}^2+{d_{3}}^2+{ d_{1}}^2\\
+     2(x_{4}-x_{1})x+2(y_{4}-y_{1})y={x_{4}}^2-{x_{1}}^2+{y_{4}}^2-{y_{1}}^2+{d_{4}}^2+{ d_{1}}^2\\
+  \end{cases}
+\]
+\end{center}
+\par A função pode ser representada pelo seu equivalente numa representação de matrizes por $2AX = b$ onde.
+
+\begin{center}
+
+
+
+$A=\begin{bmatrix}
+x_{2}-x_{1} & y_{2}-y_{1}\\
+x_{3}-x_{1} & y_{3}-y_{1}\\
+x_{4}-x_{1} & y_{4}-y_{1}
+\end{bmatrix}$
+
+$B=\begin{bmatrix}
+b_{1}\\
+b_{2}\\
+b_{3}
+\end{bmatrix}=\begin{bmatrix}
+{x_{2}}^2-{x_{1}}^2  + {y_{2}}^2-{y_{1}}^2 - {d_{2}}^2 + {d_{1}}^2 \\
+{x_{3}}^2-{x_{1}}^2  + {y_{3}}^2-{y_{1}}^2 - {d_{3}}^2 + {d_{1}}^2 \\
+{x_{4}}^2-{x_{1}}^2  + {y_{4}}^2-{y_{1}}^2 - {d_{4}}^2 + {d_{1}}^2 \\
+\end{bmatrix} $
+
+\end{center}
+
+\par A posição estimada do equipamento representada no exemplo por X é definida por:
+
+
+
+\par
+\begin{center}
+$ X= \frac{1}{2}(A^T A)^{-1} A^T b$
+\end{center}
+
+\par Os testes analisados demonstram\cite{Wang2013} , que o método LSE é o método que obtem os melhores resultados com os valores mais próximos do real. No teste apresentado em segundo lugar está o Three-border Position e por último o Centroid. Com algumas discrepâncias em algumas das amostragens.
 
 \subsection{Produtos Similares}
 \subsubsection{NB-Iot}
@@ -203,7 +292,7 @@ Com a enorme quantidade e diversidade de monitores existentes, as páginas web n
 Atualmente no mercado começam a surgir alguns produtos similares ao que se pretende desenvolver como é o caso dos sensores da Efento\cite{epoka}, que disponibiliza vários tipos de sensores que comunicam por NB-Iot. A Efento é uma empresa fundada em 2014 e é focada em desenvolvimento de equipamentos IOT. Atualmente desenvolveram versões com suporte para NB-Iot. Estes equipamentos tem a desvantagem de não ser compatível com o pacote de envio desenvolvido no portal Senslive e apenas permite o envio para o portal da Efento e não existe a possibilidade da utilização das sondas já comercializadas pela Captemp. Como vantagem á semelhança do equipamento a desenvolver é a utilização de um sistema com Log para quando não existe possibilidade de comunicação.
 Devido ao desenvolvimento da tecnologia ainda existem poucas soluções em comercialização, estando as mesmas em desenvolvimento. A Captemp possui igualmente outro equipamento, completamente desenvolvido pela empresa, em desenvolvimento que tira partido do NB-Iot com o acréscimo em relação ao que se pretende desenvolver durante o estágio, a possibilidade de ter mais sensores, maior capacidade de Log interno, configuração por Bluetooth, GPS e um Display integrado como extra.
 \subsubsection{Kea Tracker}
-Após pesquisas online é possível encontrar algumas soluções de beacons que permitem o armazenamento interno de leituras para desenvolver um sistema de data-logger tais como a Beacon da Fujitsu, a FWM8BLZ02A-109069\cite{beacon1} , á semelhança da beacon da Ruuvi usa o mesmo chip o nRF52832 da Nordic Semiconductor, mas apresenta como vantagens a inclusão de um sistema de Logs interno com capacidade para aproximadamente 4080 leituras e a diversidade de sensores já incluídos. Como desvantagem em relação á Beacon da Ruuvi tem a inclusão de um sensor de temperatura ao invés de temperatura e humidade, não possui sensor de pressão atmosférica e não é open-source possuindo um firmware fechado.
+Após pesquisas online é possível encontrar algumas soluções de beacons que permitem o armazenamento interno de leituras para desenvolver um sistema de data-logger tais como a Beacon da Fujitsu, a FWM8BLZ02A-109069\cite{beacon1} , á semelhança da beacon da Ruuvi usa o mesmo chip o nRF52832 da Nordic Semiconductor, mas apresenta como vantagens a inclusão de um sistema de Logs interno com capacidade para aproximadamente 4080 leituras e a diversidade de sensores já incluídos. Como desvantagem em relação á Beacon da Ruuvi tem a inclusão de um sensor de temperatura ao invés de temperatura e humidade, não possui sensor de pressão atmosférica e não é open-source possuindo um firmware fechado. A vantagem de se desenvolver um produto desde a sua raiz é a possibilidade de ter o controlo total sobre a solução para posteriores melhoramentos e ter a solução a desempenhar apenas o que pretendemos.
 \par
 Outra solução existente no mercado é igualmente a solução da Blue Maestro que possui variadas versões de beacons. Á semelhança da Beacon da Fujitsu possuem igualmente sistema de Log. Contrariamente á FWM8BLZ02A-109069 é uma beacon que tem disponível em Open-Source uma API e um SDK para desenvolver as nossas aplicações. Comparada com a beacon da Ruuvi, a Ruuvi beacon é completamente open-source e não apenas a API para comunicação.
 \par

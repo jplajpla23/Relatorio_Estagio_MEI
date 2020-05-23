@@ -64,37 +64,37 @@ Com o surgimento da nova tecnologia NB-Iot surgiu a necessidade de serem criados
 O "Kea Tracker" é um projeto de Beacon’s BLE que comunicam com o smartphone, onde é possível definir alertas locais no smartphone e envio dos dados obtidos dos sensores das beacon’s e envio para a plataforma Senslive.
 Tal como o projeto anterior será necessário além de criar uma aplicação para smartphone, criar Firmware específico para as beacon’s que na ausência de comunicação com o smartphone devem armazenar em Log as leituras dos sensores e quando este está ao alcance descarregar para o smartphone.
 \subsection{dot.Tracker}
-A pedido de um cliente foi solicitado o desenvolvimento de uma plataforma para localização de pessoas e objetos em ambientes interiores. O cliente pretende ter uma plataforma onde seja capaz de ver em tempo real a posição de pessoas e objetos defenidos previamente, definir zonas de alerta, e consultar o histórico de movimentos. Neste projeto iram ser usadas beacon's BLE e um gateway BLE que dispõe de vários recetores BLE colocados estratégicamente no edificio e responsáveis por receber os broadcasts das beacons que por sua vez transmitem para o gateway que implementa um cliente de MQTT onde são disponibilizadas as mensagens recebidas pelos recetores BLE. O projeto é constituido pelo desenvolvimento da plataforma de gestão e visualização, pelo recetor dos pacotes provenientes do Broker MQTT e respetivos cálculos segundo o algoritmo a adotar.
+A pedido de um cliente foi solicitado o desenvolvimento de uma plataforma para localização de pessoas e objetos em ambientes interiores. O cliente pretende ter uma plataforma onde seja capaz de ver em tempo real a posição de pessoas e objetos definidos previamente, definir zonas de alerta, e consultar o histórico de movimentos. Neste projeto iram ser usadas beacon's BLE e um gateway BLE que dispõe de vários recetores BLE colocados estratégicamente no edificio e responsáveis por receber os broadcasts das beacons que por sua vez transmitem para o gateway que implementa um cliente de MQTT onde são disponibilizadas as mensagens recebidas pelos recetores BLE. O projeto é constituído pelo desenvolvimento da plataforma de gestão e visualização, pelo recetor dos pacotes provenientes do Broker MQTT e respetivos cálculos segundo o algoritmo a adotar.
 
 \section{Os Problemas}
-A página WEB da nidus desde a sua criação já sofreu muitas alterações para seguir os padrões e tendências da concorrência e, portanto está em constante atualização. Hoje em dia com a mundialização quase todas as pessoas sabem inglês e usam sistemas em inglês, mas existem algumas pessoas que ou não sabem ou preferem usar a língua nativa preferem ter o sistema na sua língua, para tal a captemp pretende desenvolver uma página WEB com um sistema de tradução que seja possível alojar na memória do equipamento para o utilizador escolher a linguagem a usar e assim cativar mais clientes a usar os equipamentos Captemp e expandir a Captemp para outros países. Com o acéscimo do sistema de tradução surge o problema de uma quantidade maior de código alojado na memória, irá ser revisto otimizações que se possam fazer no código já existente, irá ser estudado o melhor método de compressão da página mantendo o GZIP utilizado atualmente ou migrar para outro mais recente como o Brotli e compressão de imagens migrando as imagens existentes para imagens SVG, possibilitando outras soluções para a página com sistemas mais interativos e ocupando o menor espaço disponivel. Além dos problemas referidos anteriormente poderão surgir novas funcionalidades a implementar, a pedido do cliente, como por exemplo páginas com layout especificos ou novos sensores, ou a simples correção de possíveis Bugs encontrados nas versões em produção
+A página WEB da nidus desde a sua criação já sofreu muitas alterações para seguir os padrões e tendências da concorrência e, portanto, está em constante atualização. Hoje em dia com a mundialização quase todas as pessoas sabem inglês e usam sistemas em inglês, mas existem algumas pessoas que ou não sabem ou preferem usar a língua nativa preferem ter o sistema na sua língua, para tal a captemp pretende desenvolver uma página WEB com um sistema de tradução que seja possível alojar na memória do equipamento para o utilizador escolher a linguagem a usar e assim cativar mais clientes a usar os equipamentos Captemp e expandir a Captemp para outros países. Com o acréscimo do sistema de tradução surge o problema de uma quantidade maior de código alojado na memória, irá ser revisto otimizações que se possam fazer no código já existente, irá ser estudado o melhor método de compressão da página mantendo o GZIP utilizado atualmente ou migrar para outro mais recente como o Brotli e compressão de imagens migrando as imagens existentes para imagens SVG, possibilitando outras soluções para a página com sistemas mais interativos e ocupando o menor espaço disponível. Além dos problemas referidos anteriormente poderão surgir novas funcionalidades a implementar, a pedido do cliente, como por exemplo páginas com layout especificos ou novos sensores, ou a simples correção de possíveis Bugs encontrados nas versões em produção
 \par
-Outro problema a resolver detetado pelo feed-back recebido dos clientes é a complexidade para a criação de eventos, ações e reações, que controlam o Sistema Nidus. Para isso a Captemp pretende reformular a estrutura de gestão de eventos para um sistema mais visual  e atual similar ao Scratch, um software utilizado para ensinar a crianças as bases da programação e elas mesmos criarem alguns programas sem saber nenhuma linguagem de programação. Na figura \ref{scratch} é apresentado um exemplo de programação usando a ferramenta Scratch, onde o utilizador com um sistema de blocos pode criar condiçoes e eventos a despoltar consoante algumas condições.
+Outro problema a resolver detetado pelo feed-back recebido dos clientes é a complexidade para a criação de eventos, ações e reações, que controlam o Sistema Nidus. Para isso a Captemp pretende reformular a estrutura de gestão de eventos para um sistema mais visual  e atual similar ao Scratch, um software utilizado atualmente para ensinar a crianças as bases da programação e elas mesmos criarem alguns programas sem saber nenhuma linguagem de programação. Na figura \ref{scratch} é apresentado um exemplo de programação usando a ferramenta Scratch, onde o utilizador com um sistema de blocos pode criar condiçoes e eventos a despoletar consoante algumas condições.
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.55\textwidth]{images/scratch.png}
+  \includegraphics[width=0.50\textwidth]{images/scratch.png}
   \caption{ Programação com a ferramenta Scratch}\label{scratch}
 \end{figure}
-
-Outros problemas existentes, a resolver durante o estágio, são a criação de sistemas low-cost, de outros equipamentos CapTemp, para o cliente que não necessita de tantas funcionalidades com a introdução da alternativa para NB-Iot com recurso ao módulo Xbee da Digi, e a substituição de produtos antigos deixados de ser comercializados pela Captemp, os data-logger(Figura \ref{ds1921}) compatíveis com o Software Captemp SQL e sua substituição por similares com as mesmas funções e mais tipos de sensores disponíveis,uma necessidade também já requisitada pelos clientes que pretendem monotorizar mais grandezas além da temperatura, mas com os padrões e tecnologias dos dias de hoje e com suporte para o novo Portal da Captemp o Senslive. Ou simplesmente o desenvolvimento de novos produtos a pedido dos clientes.
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.25\textwidth]{images/ds1921.jpg}
+  \includegraphics[width=0.20\textwidth]{images/ds1921.jpg}
   \caption{Data Logger iButton}\label{ds1921}
 \end{figure}
+Outros problemas existentes, a resolver durante o estágio, são a criação de sistemas low-cost, de outros equipamentos CapTemp, para o cliente que não necessita de tantas funcionalidades com a introdução da alternativa para NB-Iot com recurso ao módulo Xbee da Digi, e a substituição de produtos antigos descontinuados, os data-logger(Figura \ref{ds1921}) e sua substituição por similares com as mesmas funções e mais tipos de sensores disponíveis, uma necessidade também já requisitada pelos clientes que pretendem monitorizar mais grandezas além da temperatura, mas com os padrões e tecnologias dos dias de hoje e com suporte para o novo Portal da Captemp o Senslive. Ou simplesmente o desenvolvimento de novos produtos a pedido dos clientes.
+
 \par
 Em resumo os problemas a solucionar durante o estágio podem ser encontrados na seguinte lista:
 \begin{itemize}
 \item Melhorar a compressão da página WEB da Nidus;
 \item Melhorar a compressão das imagens presentes na página WEB da Nidus;
 \item Correção de Bugs da página Web da Nidus;
-\item Melhoração do processo de criação de eventos;
+\item Melhorar o processo de criação de eventos;
 \item Criação de uma página com sistema de tradução automático;
-\item Versões costumizadas da página WEB a pedido do cliente;
+\item Versões customizadas da página WEB a pedido do cliente;
 \item Seguir as tendências da concorrencia;
 \item Criação de soluções/equipamentos de baixo custo;
 \item Substituição de produtos descontinuados;
-\item Desenvolvinemto de produtos á medida do cliente.
+\item Desenvolvimento  de produtos á medida do cliente.
 \end{itemize}
 
 \section{Organização do relatório}

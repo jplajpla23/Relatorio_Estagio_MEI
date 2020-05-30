@@ -1,6 +1,6 @@
 
 \section{Introdução}
-Nesta secção é apresentada o estado da arte dos projetos realizados durante o estágio na empresa CapTemp. Nessa ordem é apresentado o funcionamento do sistema do Nidus desenvolvido pela empresa CapTemp e a sua página de configuração e visualização. Na secção \ref{Página do Coletor de Dados Nidus} são apresentadas também as metodologias e tecnologias que o sistema implementa atualmente para a compressão das páginas que dão suporte ao sistema. Na secção \ref{nbiot}, \ref{kea} e  \ref{dot} irá ser introduzido o plano inicial dos projetos a desenvolver e a base já existente tal como as tecnologias que estes irão utilizar. Na secção \ref{solucoesDisponiveis} será abordado as soluções e tecnologias existentes na comunidade científica e alguns produtos similares, já existentes para os projetos anteriormente referidos.
+Nesta secção é apresentado o estado da arte dos projetos realizados durante o estágio na empresa CapTemp. Nessa ordem é apresentado o funcionamento do sistema do Nidus desenvolvido pela empresa CapTemp e a sua página de configuração e visualização. Na secção \ref{Página do Coletor de Dados Nidus} são apresentadas também as metodologias e tecnologias que o sistema implementa atualmente para a compressão das páginas que dão suporte ao sistema. Na secção \ref{nbiot}, \ref{kea} e  \ref{dot} irá ser introduzido o plano inicial dos projetos a desenvolver e a base já existente tal como as tecnologias que estes irão utilizar. Na secção \ref{solucoesDisponiveis} será abordado as soluções e tecnologias existentes na comunidade científica e alguns produtos similares, já existentes para os projetos anteriormente referidos.
 
 \section{Coletor de Dados - Nidus} \label{Coletor de Dados - Nidus}
 \par
@@ -141,9 +141,10 @@ Existem dois tipos de beacons as beacons não conectáveis e as conectáveis\cit
 
 \subsection{Ruuvi Beacons}
 \par Neste projeto o firmware das beacons necessita de uma alteração, tornar a beacon numa beacon conectável e esta armazenar internamente as últimas leituras num buffer circular e criar um data-logger e caso o cliente pretenda poderá conectar mais tarde para fazer o download para aplicação e posterior envio para o Senslive, não necessitando a proximidade do smartphone á beacon durante todo o tempo. A Ruuvi dispõe de dois modos de desenvolvimento de firmware da beacon em C ou usando o Espruino, á semelhança do MicroPython um interpretador de JavaScript para microcontroladores lançado em 2012, totalmente compatível com as beacons da Ruuvi.
+
 \subsection{Apps Smartphones}
 Na fase inicial será adaptada a versão disponibilizada para Android para agilizar a integração com o portal Senslive. A aplicação base para android disponibilizada pela Ruuvi foi desenvolvida em Kotlin\cite{ruuviappgithub}, uma linguagem desenvolvida pela JetBrains multiplataforma e que inclui o Android nessas plataformas compatíveis.
-De seguida estão apresentadas algumas alterações necessárias na aplicação:
+De seguida estão apresentadas as alterações necessárias na aplicação:
 \begin{itemize}
 \item Alteração das Imagens e Logotipo da App;
 \item Alteração do Nome da App;
@@ -161,8 +162,15 @@ De seguida estão apresentadas algumas alterações necessárias na aplicação:
 
 
 \section{Soluções e Tecnologias Disponíveis} \label{solucoesDisponiveis}
-\subsection{Tecnologias Disponíveis}
-\subsubsection{Compressão de Ficheiros}
+
+Neste subcapítulo abordamos algumas das abordagens possíveis para atingir os objectivos nas secções anteriores (Secção \ref{compressaoFicheiros}), assim como a aplicação dos mesmos em produtos existentes (Secção \ref{produtos}).
+
+
+\subsection{Tecnologias Disponíveis} \label{compressaoFicheiros}
+
+Existem diversas abordagens possíveis para a compressão de ficheiros de código, de imagens e localização indoor. Algumas destas são descritas de seguida.
+
+\subsubsection{Compressão de Ficheiros} 
 \par
 Atualmente a vida online do Homem passou a ter um grande impacto na sua vida. Para tal as páginas web e seus conteúdos foram aumentado em quantidade e tamanho e com menores tempos de resposta. Isso é aplicável tanto aos ficheiros que contem o layout da página, quer das imagens. Para poupar dados de transmissão e reduzir tempos de envios, ou simplesmente suportar larguras de banda inferiores, os browsers integraram a possibilidade de receber os ficheiros comprimidos e fazer a descompressão para mostrar ao cliente quase em tempo real. Atualmente os browser recentes suportam a compressão por GZIP( já utilizado na página do equipamento Nidus) e compressão utilizado a codificação Brotlin \cite{Alakuijala2019} \cite{brotlirfc}.
 Cada método de compressão possui as suas vantagens e desvantagens, o brotli por sua vez á semelhança de outros métodos em comparação com o GZIP, tem uma taxa de compressão superior\cite{Alakuijala2015}, isto significa que consegue reduzir o mesmo ficheiro no seu respetivo ficheiro comprimido ocupando menos espaço em relação ao GZIP, mas como desvantagem o tempo de compressão do mesmo é superior. Ao contrário da compressão, na descompressão o Brotli tem melhores resultados do que nas restantes alternativas apresentando velocidades superiores de descompressão.
@@ -286,7 +294,7 @@ $ X= \frac{1}{2}(A^T A)^{-1} A^T b$
 
 \par Os testes analisados demonstram\cite{Wang2013} , que o método LSE é o método que obtém os melhores resultados com os valores mais próximos do real. No teste apresentado em segundo lugar está o Three-border Position e por último o Centroid. Com algumas discrepâncias em algumas das amostragens.
 
-\subsection{Produtos Similares}
+\subsection{Produtos Similares}  \label{produtos}
 \subsubsection{NB-Iot}
 \par
 Atualmente no mercado começam a surgir alguns produtos similares ao que se pretende desenvolver como é o caso dos sensores da Efento\cite{epoka}, que disponibiliza vários tipos de sensores que comunicam por NB-Iot. A Efento é uma empresa fundada em 2014 e é focada em desenvolvimento de equipamentos IOT. Atualmente desenvolveram versões com suporte para NB-Iot. Estes equipamentos tem a desvantagem de não ser compatível com o pacote de envio desenvolvido no portal Senslive e apenas permite o envio para o portal da Efento e não existe a possibilidade da utilização das sondas já comercializadas pela Captemp. Como vantagem á semelhança do equipamento a desenvolver é a utilização de um sistema com Log para quando não existe possibilidade de comunicação.

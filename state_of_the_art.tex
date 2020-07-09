@@ -154,7 +154,7 @@ De seguida estão apresentadas as alterações necessárias na aplicação:
 \item Possibilidade da alteração dos intervalos de registo
 \end{itemize}
 
-\section {dot.Tracker}\label{dot}
+
 Á semelhança do projeto Kea Tracker o projeto dot.Tracker usa igualmente beacon's BLE para enviar a informação necessária para o respetivo portal. É necessário recolher os pacotes recebidos das beacons enviá-los para o servidor e calcular a distância entre a beacon e o receptor e com o auxilio de múltiplos recetores realizar a triangulação da beacon num mapa. No decorrer do projeto será necessário desenvolver uma plataforma web para receber e visualizar as localizações provenientes das beacons e respetivas configurações, adotar o método de algoritmo para a triangulação da beacon relativamente a vários recetores e realizar testes ao funcionamento e precisão do sistema.
 \subsection{Beacons e gateway}
  Para este projeto irá ser utilizado durante o desenvolvimento a solução da Beacon Line\cite{taskit} e posteriormente desenvolvido recetores propriétarios da Captemp. A solução apresentada pela Beacon Line, é composta por um gateway e vários nós. Cada nó possui um recetor BLE e quando o mesmo recebe um broadcast proveniente da beacon o transmite para o gateway. Caso exista alguma divergência da potência de transmissao desde o último pacote enviado por essa mesma beacon o gateway com connectividade Ethernet realiza o publish num broker onde é possível o servidor obter os pacotes das beacon's.

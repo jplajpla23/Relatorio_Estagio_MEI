@@ -14,7 +14,7 @@ O desenvolvimento do projeto NB-Iot \& Digi Xbee 3  é composto por 4 fases, 3 d
 
 \par Como foi indicado no Capítulo \ref{nbiot} a estrutura de pacote a enviar é similar ao do outro produto desenvolvido pela captemp. Este pacote é enviado através de um pacote UDP para o portal que posteiormente confirma a receção na camada de aplicação. O tamanho máximo definido para este pacote é de 1000 bytes.
 A estrutura criada pela captemp segue o formato apresentado na figura \ref{packet}.
-\par No Primeiro cabeçalho é possivel obter os dados do equipamento que fez o envio tais como a data de envio, o IMEI, a versão do mesmo e o CRC do pacote para confirmar a integridade do mesmo. No restante do pacote são adicionados vários sub pacotes seguindo a estrutura apresentada na figura \ref {packet}, o primeiro byte indica o tipo de dados se é envio o valor de um sensor uma configuraçao do equipamento por exemplo a operadora, o byte seguinte fornece o número de bytes dos dados e posterioremente segundo o número de bytes é dado o valor no exemplo indicado da operadora pode ser a string "ALTICE".
+\par No Primeiro cabeçalho é possivel obter os dados do equipamento que fez o envio tais como a data de envio, o IMEI, a versão do mesmo e o CRC do pacote para confirmar a integridade do mesmo. No restante do pacote são adicionados vários sub pacotes seguindo a estrutura apresentada na figura \ref {packet}, o primeiro byte indica o tipo de dados se é envio o valor de um sensor uma configuraçao do equipamento(Exemplo: Operadora), o byte seguinte fornece o número de bytes dos dados e posterioremente segundo o número de bytes, o valor (Exemplo: operadora ="ALTICE").
 
  \begin{figure}[ht]
 \centering
@@ -38,7 +38,7 @@ A estrutura criada pela captemp segue o formato apresentado na figura \ref{packe
 \subsubsection {Diminuição da alocação de memória}
 
 \par A modo de resolver a incorreta gestão de memória é necessário diminuir a alocação de novas variáveis. Para tal todo o código do programa visa a possuir todas as constantes e variáveis em variaveis globais as quais nunca são eliminadas e criadas apenas alteram o seu valor. Os dois pontos criticos identificados são o array circular com as leituras dos sensores e a criação do pacote de envio para o portal Cloud.
-\par Na criação do pacote todos os cabeçallhos fixos são alocados em constantes globais que não vem o seu valor alterado não afetando a memória e os valores que podem ser alterados são guardados em buffers globais criados no inicio e tem o seu tamanho estático. Como o módulo utilizado não possui suporte para multrithread não existe nunhum problema de sincronismo ao utilizar as variáveis e os buffers globais. Ao recolher um dado de modo a enviar para o portal, como por exemplo a operadora, este tem de ser alocado num buffer que depois é enviado pela rede para o servidor. Este buffer de bytes com o tamanho fixo do máximo do pacote de envio é utilizado para fazer a contatenação dos vários campos antes de enviar. Caso se pretenda adicionar valores a enviar é consultada a ultima posiçao ocupada, encontrada numa váriavel separada e é alterado os bytes das posições seguintes para o bytes do valor não alocando espaço para continuar o array.
+\par Na criação do pacote todos os cabeçallhos fixos são alocados em constantes globais que não vem o seu valor alterado não afetando a memória e os valores que podem ser alterados são guardados em buffers globais criados no inicio e tem o seu tamanho estático. Devido á utilização de um módulo que possui suporte para multrithread não existe problema de sincronismo entre os fluxos ao utilizar as variáveis e os buffers globais. Ao recolher um dado de modo a enviar para o portal, como por exemplo a operadora, este tem de ser alocado num buffer que depois é enviado pela rede para o servidor. Este buffer de bytes com o tamanho fixo do máximo do pacote de envio é utilizado para fazer a contatenação dos vários campos antes de enviar. Caso se pretenda adicionar valores a enviar é consultada a ultima posiçao ocupada, encontrada numa váriavel separada e é alterado os bytes das posições seguintes para o bytes do valor não alocando espaço para continuar o array.
 \par Supondo que o buffer tem já preenchidos 300 bytes dos 1000, ao pretender adicionar o pacote da operadora, é copiado para a posição 301 o byte correspondente áo DATA ID do operador, no byte seguinte é colocado o tamanho de bytes que a operadora ocupa ("ALTICE"= 6 Bytes), e nos seguintes 6 bytes é colocada a string.
 \par No exemplo acima elucidado todas a variável DATA ID é estática e definida no inicio do código, o tamanho foi previamente guardado numa variavel auxiliar de tamanho fixo, e a operadora é soilicatado a funções nativas do MicroPtyhon  e guardado num buffer de tamanho fixo. Após a definição apenas são efetuadas copias de bytes entre variaveis e buffers não afetando a alocação de memória. No código seguinte é exempleficado  a operação anteriormente apresentada. Neste caso de modo a simplificar é apresentado um buffer do tamanho da operadora, no projeto foram criados buffers do tamanho 1,2,4,10,16,32 bytes consoante os valores mais comuns, no caso particular de um valor que possa ter por exemplo 20 bytes este é guardado no buffer de 32 e no momento da gravacao apenas são copiados os 20 primeiros bytes.
 
@@ -60,18 +60,18 @@ A estrutura criada pela captemp segue o formato apresentado na figura \ref{packe
 
 	cmdID = c0 #  DATA ID
 	cmdLEN = (6).to_bytes(1, 'little') # Data Size
-	cmd6 = (oper).to_bytes(2, 'little') # Data
+	cmd6 = bytes(oper, 'ascii') # Data (string to bytes)
 	byteschange(c, 300, 301, cmdID) # Copy to packet array 
 	byteschange(c, 301, 302, cmdLEN)  # Copy to packet array 
 	byteschange(c, 302, 308, cmd6)  # Copy to packet array 
  \end{verbatim}
 
-\par Ao copiar valores de entre buffers e não alocando espaço para o array crescer é necessário um maior controlo nos tamanhos das variáveis de modo a não copiar valores de buffers vazios ou posições enexistentes. A versão do MicroPython disponibilizada pela Digi não incorpora a biblioteca que faz a gestão de arrays limitando não possibilitando a copia direta de arrays para outros arrays indicando apenas a posição inicial. Para tal a função byteschange definida previamente no código, simula essa operação onde apenas indicamos o buffer de destino, a posiçao inicial, a final e a origem da cópia. Esta função é responsável por verificar se os tamanhos são possiveis de copiar e copia posição a posição (byte a byte no caso apresentado) para as posiçoes entre os valores indicados. No fim do pacote ser enviado é possivel limpar o buffer chamando a mesma função indicando como origem da copia o buffer clean, um buffer constante do mesmo tamanho mas com os bytes todos vazios. Todos os buffers utilizados ao longo do projeto tem um semelhante em tamanho mas completamente vazio. Deste modo é possivel utilizar sempre os mesmos buffers e não existir a necessidade de alocar buffers ao longo do programa.
+\par Ao copiar valores de entre buffers e não alocando espaço ao array, é necessário um maior controlo nos tamanhos das variáveis de modo a não copiar valores de buffers vazios ou posições enexistentes. A versão do MicroPython disponibilizada pela Digi não incorpora a biblioteca que faz a gestão de arrays limitando não possibilitando a copia direta de arrays para outros arrays indicando apenas a posição inicial. Para tal a função byteschange definida previamente no código, simula essa operação onde apenas indicamos o buffer de destino, a posiçao inicial, a final e a origem da cópia. Esta função é responsável por verificar se os tamanhos são possiveis de copiar e copia posição a posição (byte a byte no caso apresentado) para as posiçoes entre os valores indicados. No fim do pacote ser enviado é possivel limpar o buffer chamando a mesma função indicando como origem da copia o buffer clean, um buffer constante do mesmo tamanho mas com os bytes todos vazios. Todos os buffers utilizados ao longo do projeto tem um semelhante em tamanho mas completamente vazio. Deste modo é possivel utilizar sempre os mesmos buffers e não existir a necessidade de alocar buffers ao longo do programa.
 
 \subsubsection {Gestão da memória durante leituras}
 
-\par À semelhança do buffer onde é criado o pacote enviado para o portal, as leituras são um dos pontos criticos referente á alocação de memória. Para tal á semenlhança do pacote de envio, é inicializado no inicio do programa, um array de tamanho fixo e com cada posição com um array do tamanho máximo de cada leitura. Ao adicionar uma nova leitura são colocados nos buffers intermédios todos os dados e são copiados para a posição seguinte á ultima posiçã ocupada. Caso a ultima posição ocupada corresponda à ultima do array, é adicionado sobre a primeira posição, criando assim o array circular.
-\par Todas as operações para adicionar uma leitura ao array ou remover são efetuadas com a função byteschange de  copiando o buffer temporátio com a leitura ou o vazio respetivamente. Na figura \ref{circbuf} é apresentado o esquema do array circular com as leituras. Como array é definido inicialmente e o utilizador pode alterar as sondas enquanto o equipamento está em funcionamento é sempre alocado para cada leitura o máximo de sensores garantindo que caso o utilizador adicione um sensor não seja necessário expandir o tamanho da posiçao no array causando os problemas de memoria já identificados. Para eliminar a posição é decrementado a posição currente do array e por proteção de modo a posteriormente não acedermos a dados que possam la existir, como por exemplo numa leitura antiga com 6 sensores e nova com 3 sensores os ultimos 3 sensores da leitura antiga ainda estavam associados apesar de no cabeçalho da leitura indicar que eram apenas 3. Zerando o buffer garantimos que por algum lapso ocorra leituras erradas da zona do buffer a mesma nao irá afetar nenhuma leitura.
+\par À semelhança do buffer onde é gerado o pacote enviado para o portal, as leituras são um dos pontos criticos referente á alocação de memória. Para tal á semenlhança do pacote de envio, é inicializado no inicio do programa, um array de tamanho fixo e com cada posição com um array do tamanho máximo de cada leitura. Ao adicionar uma nova leitura são colocados nos buffers intermédios todos os dados e são copiados para a posição seguinte á ultima posiçã ocupada. Caso a ultima posição ocupada corresponda à ultima do array, é adicionado sobre a primeira posição, criando assim o array circular.
+\par Todas as operações para adicionar uma leitura ao array ou remover são efetuadas com a função byteschange de  copiando o buffer temporátio com a leitura ou o vazio respetivamente. Na figura \ref{circbuf} é apresentado o esquema do array circular com as leituras. Como array é definido inicialmente e o utilizador pode alterar as sondas enquanto o equipamento está em funcionamento é sempre alocado para cada leitura o numero de bytes necessário para o máximo de sensores garantindo que caso o utilizador adicione um sensor não seja necessário expandir o tamanho da posiçao no array causando os problemas de memoria já identificados. Para eliminar a posição é decrementado a posição currente do array e por proteção de modo a posteriormente não acedermos a dados que possam la existir, como por exemplo numa leitura antiga com 6 sensores e nova com 3 sensores os ultimos 3 sensores da leitura antiga ainda estavam associados apesar de no cabeçalho da leitura indicar que eram apenas 3. COpiando uma leitura vazia para a posiçao da leitura garantimos que nao existem dados sem nexo a afetar alguma das leituras.
 
 
  \begin{figure}[ht]
@@ -89,26 +89,25 @@ A estrutura criada pela captemp segue o formato apresentado na figura \ref{packe
 
 \subsection {Encriptação dos dados}
 
-\par De modo a proteger os dados na rede todo o pacote é encriptado con recurso á biblioteca MicroPython-AES disponibilizada online !!!!!!!!!!!!!!! colocar link do github. !!!!!!!!!!!!!!!!!!!!!!!. De modo a exta biblioteca desenvolvida para o MicroPython Base e não para a versão disponibilizada nos módulos DIGI, é necessário reconstruir a biblioteca para nao utilizar a biblioteca dos arrays  indisponivel nesta versão e fazer a alteração para a função byteschange ou aquando da necessidade de acrescentar dados no array colocar posição por posição. 
+\par De modo a proteger os dados na rede todo o pacote é encriptado con recurso á biblioteca MicroPython-AES disponibilizada online \cite{microaes}. De modo a esar esta biblioteca desenvolvida para o MicroPython Base e não para a versão disponibilizada nos módulos DIGI, é necessário reformular a biblioteca de modo a  não utilizar a biblioteca de gestão de arrays  indisponivel nesta versão e fazer a alteração aquando da necessidade de acrescentar dados no array colocar posição por posição.  No código seguinte é apresentado o problema inerente a esta biblioteca(Linha 4) e a sua respetiva resolução(Linha 13).
 
 
 \begin{verbatim}
-...
-for offset in range(0, len(data), block_size):
-    block = data[offset:offset + block_size]
-    block_func(block)
-    data[offset:offset + block_size] = block # ERROR 
-    #['array' object does not support item assignment]
-...
-
-...
-for offset in range(0, len(data), block_size):
-    block = data[offset:offset + block_size]
-    block_func(block)
-    # Solution ['array' object does not support item assignment]
-    for i in range(block_size)
-        data[offset+i]= block[i]
-...
+1    for offset in range(0, len(data), block_size):
+2        block = data[offset:offset + block_size]
+3        block_func(block)
+4        data[offset:offset + block_size] = block # ERROR 
+5       #['array' object does not support item assignment]
+6     ...
+7
+8    ...
+9     for offset in range(0, len(data), block_size):
+10       block = data[offset:offset + block_size]
+11       block_func(block)
+12       # Solution ['array' object does not support item assignment]
+13      for i in range(block_size)
+14          data[offset+i]= block[i]
+15   ...
  \end{verbatim}
 
 \section {Kea Tracker}
@@ -164,9 +163,9 @@ No final o utilizador da plataforma deve ser capaz de realizar as seguintes oper
 \subsection{ Portal Cloud - Back-end}
 
 \par O Back-End é responsável por fornecer uma API REST ao Front-end para o mesmo obter os dados da base de dados. É igualmente responsável por obter os dados proveninentes dos gateways das beacons e calcular as suas posiçoes para apresentar no mapa. 
-\par O primeiro problema a identificado no back-end é a necessidade de possuir atualizações em tempo real das posições. O Front-end não é capaz de calcular quando uma beacon comunica com o back-end apesar da mesma enviar o broadcast em tempos regulares, mas tanto a beacon  pode não estar ao alcance do gateway, como a mesma pode apenas estar ao alcance de menos de X(dependendo do algoritmo) gateways impossibilitando a utilização do algoritmo. 
-\par Para tal além do serviço web é disponibilizado um servidor de WEB-Sockets para comunicações em tempo real entre o Back-end e o Front-End. Os WEB-Sockets é uma tecnologia que permite aos browsers mais recentes, ter um canal em tempo real com o back-end sem a necessidade de fazer um pedido HTTP, o que acarreta todo o processo do protocolo, como por exemplo o \textit{3-Way Handshake}. No momento da criação do websocket é criado uma ligação TCP a qual não é finalizada até ao fechar do websocket, o que elemina o sobrecarregamento da criação de pedidos e soluciona o problema da comunicação em tempo real para as atualizações dos mapas.
-\par Outro problema e solucionar deparado na análise das tecnologias e soluções existentes é a falta de sincronismo da comunicação dos gateways. Supondo um exemplo com 5 gateways e 1 beacon. A beacon ao intervalo de tempo X1 comunica o pacote e apenas 4 gateways recebem o pacote e o enviam para o servidor através de um pedido HTTP. O servidor apesar de ter configurado 5 gateways não é capaz de prever se o 5º gateway irá comunicar a transmissão da beacon, o mesmo pode não estar ao alcance, pode não ter comunicação ao servidor, pode estar desligado ou pode haver algum problema na rede que atrase a chegada do pacote. Igualmente por variados motivos os 4 gateways que enviaram o pacote ao servidor não irão chegar todos em simultaneamente, criando o problema "Já chegaram todos os pacotes? Calculo com os que tenho, ou espero que chegue mais algum pacote?",
+\par O primeiro problema a identificado no back-end é a necessidade de possuir atualizações em tempo real das posições. O Front-end não é capaz de calcular quando uma beacon comunica com o back-end apesar da mesma enviar o broadcast em tempos regulares, mas tanto a beacon  pode não estar ao alcance do gateway, como a mesma pode apenas estar ao alcance de menos de X(dependendo do algoritmo) gateways impossibilitando a utilização do algoritmo. Deste modo não é eficaz o Browser solicitar ao servidor num intervalo regular qual a posição do elemento no mapa.
+\par Para tal além do serviço web é disponibilizado um servidor de WEB-Sockets para comunicações em tempo real entre o Back-end e o Front-End. Os WEB-Sockets é uma tecnologia que permite aos browsers mais recentes, ter um canal em tempo real com o back-end sem a necessidade de fazer um pedido HTTP, o que acarreta todo o processo do protocolo, como o \textit{3-Way Handshake}. No momento da criação do websocket é criado uma ligação TCP a qual não é finalizada até ao fechar do websocket, o que elemina o sobrecarregamento da criação de pedidos e soluciona o problema da comunicação em tempo real para as atualizações dos mapas.
+\par Outro problema e solucionar deparado na análise das tecnologias e soluções existentes é a falta de sincronismo da comunicação dos gateways. Supondo um cenário com 5 gateways e 1 beacon. A beacon ao intervalo de tempo X1 comunica o pacote e apenas 4 gateways recebem o pacote e o enviam para o servidor através de um pedido HTTP. O servidor apesar de ter configurado 5 gateways não é capaz de prever se o 5º gateway irá comunicar a transmissão da beacon, o mesmo pode não estar ao alcance, pode não ter comunicação ao servidor, pode estar desligado ou pode haver algum problema na rede que atrase a chegada do pacote. Igualmente por variados motivos os 4 gateways que enviaram o pacote ao servidor não irão chegar todos em simultaneamente, criando o problema "Já chegaram todos os pacotes? Calculo com os que tenho, ou espero que chegue mais algum pacote?",
 \par O primeiro passo para resolver o problema acima citado ao contrário das soluções mais tradicionais não irá ser utilizado um serviço WEB como o APACHE2 ou o NGINX, pois o mesmo não possui nenhum sincronismo entre pedidos e seria necessário armazenar momentaneamente todos os pacotes na base de dados e ter a tabela em constante escrita e leitura, não sendo o mais eficaz no cenário deste projeto. Para tal o serviço web irá ser responsabilidade do NodeJS(módulo express) que irá ter além do serviço WEB o servidor de WEB-Sockets, centralizando assim os dois serviçoes e possibilitando igualmente durante o processamento do pedido HTTP o envio de mensagens através do WEB-Socket. 
 \par Na lista apresentada de seguida estão selecionados os pontos principais das funcionalidades do Back-End:
 

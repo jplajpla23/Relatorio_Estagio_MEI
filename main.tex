@@ -23,6 +23,10 @@
 \usepackage{gensymb}
 
 
+\usepackage{pgfplots}
+\usepackage{pgfplotstable} 
+
+
 % % ------------------------------------------------
 
 % Includes
@@ -237,7 +241,14 @@
 \renewcommand{\thesection}{Apêndices \Roman{section}}
 
 \begin{appendices}
-
+\chapter{Exemplo de um SVG} \label{svg}
+\input{svg}
+ \chapter{Exemplo de um SVG comprimido} \label{svggo}
+\input{svggo}
+ \chapter{Fluxograma do processo de receção de pacotes} \label{flux1}
+\input{C}
+\chapter{Código da obtenção da posicção - LSE}\label{D}
+\input{D}
 \end{appendices}
 
 \end{document}

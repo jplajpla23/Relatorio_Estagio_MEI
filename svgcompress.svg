@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10mm" height="10mm" viewBox="0 0 10 10">
+    <g transform="translate(0 -287)">
+        <path fill="red" d="M.367 287.378h9.121v4.661H.367z" />
+        <circle cx="3.575" cy="293.074" r="2.389" fill="#0ff" />
+        <text style="line-height:1.25" x="8.689" y="242.432" transform="scale(.82155 1.2172)" font-weight="400" font-size="1.273" font-family="sans-serif" letter-spacing="0" word-spacing="0" stroke-width=".032">
+            <tspan x="8.689" y="242.432">SVG</tspan>
+        </text>
+    </g>
+</svg>

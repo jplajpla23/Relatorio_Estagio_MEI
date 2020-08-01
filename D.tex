@@ -1,0 +1,102 @@
+\begin{verbatim}
+1  function getPosLSE(d1,d2,d3,d4,n1,n2,n3,n4,scale){
+2      if(scale==null){
+3          return -1;
+4      }
+5
+6      /*Convert values from String to Float*/
+7      scale=parseFloat(scale);
+8      d1=parseFloat(d1);
+9      d2=parseFloat(d2);
+10     d3=parseFloat(d3);
+11     d4=parseFloat(d4);
+10
+11     /*matriz A
+12     | a  d |
+13     | b  e |
+14     | c  f |
+15     */
+16     var a=(n2.x)-(n1.x);
+17     var b=(n3.x)-(n1.x);
+18     var c=(n4.x)-(n1.x);
+19     var d=(n2.y)-(n1.y);
+20     var e=(n3.y)-(n1.y);
+21     var f=(n4.y)-(n1.y);
+22
+23     /*transposta de A
+24     | a b c |
+25     | d e f |
+26     
+27     At * a
+28     | aa bb |
+29     | cc dd |
+30     */
+31
+21     var aa=(a*a)+(b*b)+(c*c);
+22     var bb=(a*d)+(b*e)+(c*f);
+23     var cc=bb; /*(d*a)+(e*b)+(f*c);*/
+24     var dd=(d*d)+(e*e)+(f*f);
+25
+26     /*determinante de At*A
+27
+28     var det=(aa*dd)-(bb*cc);
+29     if(det!=0)
+30         {
+31             /*pode proceguir há inversa
+32
+33             inversa
+34             | aaa  bbb |
+35             | ccc  ddd |
+36
+37             formula
+38             | dd/det  -bb/det | 
+39             | -cc/det  aa/det |
+40             */
+41             var aaa=dd/det;
+42             var bbb=-(bb/det);
+43             var ccc=-(cc/det);
+44             var ddd=(aa/det);
+45
+46             /* Multiplicar por 1/2
+47             var aaaa=aaa*0.5;
+48             var bbbb=bbb*0.5;
+49             var cccc=ccc*0.5;
+50             var dddd=ddd*0.5;	
+51
+52             /* multiplicar pela transposta
+53                 | aaaa bbbb |   *  | a b c |
+54                 | cccc dddd |      | d e f |
+55             */
+56             var a5=(aaaa*a)+(bbbb*d);
+57             var b5=(aaaa*b)+(bbbb*e);
+58             var c5=(aaaa*c)+(bbbb*f);
+59             var d5=(cccc*a)+(dddd*d);
+60             var e5=(cccc*b)+(dddd*e);
+61             var f5=(cccc*c)+(dddd*f);
+62
+63             /* definir b
+64            | b1 |
+65            | b2 |
+66            | b3 |
+67
+68             var d12=Math.pow((d1*scale),2);
+69             var b1=Math.pow((n2.x),2) - Math.pow((n1.x),2)
++ Math.pow((n2.y),2) - Math.pow((n1.y),2) - Math.pow((d2*scale),2) + d12;
+70             var b2=Math.pow((n3.x),2) - Math.pow((n1.x),2)
++ Math.pow((n3.y),2) - Math.pow((n1.y),2) - Math.pow((d3*scale),2) + d12;
+71             var b3=Math.pow((n4.x),2) - Math.pow((n1.x),2)
++ Math.pow((n4.y),2) - Math.pow((n1.y),2) - Math.pow((d4*scale),2) + d12;
+72 
+73
+74             /* Multiplicar por b
+75             | a5 b5 c5 |       *        | b1 |
+76             | d5 e5 f5 |                | b2 |
+77                                         | b3 |
+78             */
+79             var resX=(a5*b1)+(b5*b2)+(c5*b3);
+80             var resY=(d5*b1)+(e5*b2)+(f5*b3);
+81             return {"x":resX,"y":resY};
+82         }
+83         return -1;
+84  }
+\end{verbatim}

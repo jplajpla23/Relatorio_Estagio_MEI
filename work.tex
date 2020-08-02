@@ -1,39 +1,39 @@
 \section{Introdução}
 Nesta secção é apresentado o trabalho e desenvolvimento dos projetos realizados durante o estágio e á semelhança do capítulo anterior cada projeto será desenvolvido num subcapítulo dedicado.
 
-\section{Coletor de Dados - Nidus} 
+\section{Coletor de dados - Nidus} 
 \par Durante o estágio o projeto referente ao coletor de dados Nidus apresenta 5 subsecções a tratar, o desenvolvimento do sistema de tradução para a página do equipamento no menor espaço de memória possível, o desenvolvimento de páginas com layouts específicos, a correção de \textit{Bug's} que possam existir e venham a ser descobertos, a compressão dos ficheiros e imagens e melhorar/manter a página com layouts e funcionalidades de acordo com a concorrência e atualidade. Cada um dessas subsecções serão abordadas em cada subsecção seguinte.
 
-\subsection{Sistema de Tradução Automática}
+\subsection{Sistema de tradução automática}
 \par Os sistemas de internacionalização das páginas web, fornecem ao utilizador final um sistema com tradução automática para a língua pretendida, são cada vez mais utilizados. Isto acarreta um acréscimo da complexidade do sistema e por consequência o acréscimo do escaço ocupado pelo código. O sistema utilizado no caso particular das páginas web com JavaScript é o I18N, uma \textit{Framework} desenvolvida em JavaScript, com várias funcionalidades além da tradução de páginas. Estas funcionalidades extras não necessárias para o projeto apenas acarretam o aumento do peso do plugin no sistema, diminuindo possibilidades futuras de alterações e novos desenvolvimentos. Para tal será desenvolvido de raiz um sistema similar ao I18N apenas com as funcionalidades pretendias de modo a ser possível comparar a diferença de espaço ocupado.
 
 
-\subsubsection{O Funcionamento}
+\subsubsection{O funcionamento}
 \par Os sistemas de tradução são baseados numa função chamada no momento necessário da obtenção de uma tradução onde é passado um parâmetro indicando qual a tradução pretendida. Esta função é responsável por percorrer o conjunto de traduções da língua selecionada e através de um sistema associativo chave-valor retornar caso este exista o valor para a chave fornecida. Caso este não exista é devolvido o valor \textit{default}, por normal a chave do mesmo. Na figura \ref{i18n} é apresentado o esquema do funcionamento do sistema de tradução descrito acima.
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{images/i18n.png}
 \caption{Processo da obtenção da tradução de um valor}\label{i18n}
 \end{figure}
 
-\par As funcionalidades requeridas para o projeto Nidus, são as seguintes:
+\par Após análise as funcionalidades requeridas para o projeto Nidus, são as seguintes:
 
 \begin{itemize}
 \item Tradução automática da página
 \item Armazenamento persistente da linguagem escolhida
 \item Alteração da linguagem pretendida, mediante a lista de opções
 \item Carregamento das linguagens dinamicamente.
-\end{itemize}	
+\end{itemize} 
 
-\par De modo a armazenar a linguagem, esta estará alocada no browser sob a forma de uma \textit{Cookie}. No momento de uma tradução, o sistema verifica o valor da cookie em vigor e procura na associação chave-valor respetiva á linguagem selecionada, se a chave pretendida existe e caso exista o valor desta é devolvida.
+\par De modo a armazenar a linguagem, esta estará alocada no browser sob a forma de uma \textit{cookie}. No momento de uma tradução, o sistema verifica o valor da \textit{cookie} em vigor e procura na associação chave-valor respetiva á linguagem selecionada, se a chave pretendida existe e caso exista o valor desta é devolvida. Caso a \textit{cookie} não exista é devolvida a opção \textit{default}.
 
-\par O Sistema é composto por 4 funções. A primeira, gLng, responsável por verificar se existe a cookie no \textit{Browser} e retornar o seu valor ou o valor da língua \textit{default} o Inglês ("EN"). A segunda função, sLng, é utilizada aquando do guardar da linguagem para posterior utilização, esta como parâmetros recebe o valor a inserir, esta cookie fica disponível no browser durante 365 dias após a sua última atualização. Após guardar a cookie, a página é recarregada de modo a atualizar todos os campos e não apenas os gerados a partir do momento da seleção da nova língua, garantindo que a página tenha várias línguas no mesmo instante de tempo. A terceira função "\_" é responsável por retornar o valor da chave fornecida no único parâmetro da mesma. Caso a chave não exista na língua selecionada pela \textit{Cookie} é retornado o valor de default, correspondente á chave fornecida como parâmetro da função. Por último existe a função "ll" com dois parâmetros, como primeiro parâmetro temos a string correspondente ás iniciais da lingua a adicionar(Exemplo: "PT","EN","ES","FR") e o segundo parâmetro um objeto com associações chave-valor  para a língua fornecida. Esta função é responsável por adicionar ao conjunto de dicionários a língua pretendida ou atualizar o dicionário da lingua caso este já exista.
-\par O conjunto de dicionários armazenado segue o esquema  apresentado na figura \ref{dicextr}. No caso de apenas se pretender desenvolver numa língua é possivel apenas fazer a definição das funções e não fornecer nenhum dicionário, visto nesse caso ele devolver a chave, bastando para isso a chave corresponder á tradução pretendida na única língua disponível.
+\par O Sistema é composto por 4 funções. A primeira, gLng, responsável por verificar se existe a \textit{cookie} no \textit{browser} e retornar o seu valor ou o valor da língua \textit{default} o Inglês ("EN"). A segunda função, sLng, é utilizada aquando do guardar da linguagem para posterior utilização, esta como parâmetros recebe o valor a inserir, esta \textit{cookie} fica disponível no \textit{browser} durante 365 dias após a sua última atualização. Após guardar a \textit{cookie}, a página é recarregada de modo a atualizar todos os campos e não apenas os gerados a partir do momento da seleção da nova língua, garantindo que a página tenha várias línguas no mesmo instante de tempo. A terceira função "\_" é responsável por retornar o valor da chave fornecida no único parâmetro da mesma. Caso a chave não exista na língua selecionada pela \textit{cookie} é retornado o valor de \textit{default}, correspondente á chave fornecida como parâmetro da função. Por último existe a função "ll" com dois parâmetros, como primeiro parâmetro temos a \textit{string} correspondente ás iniciais da língua a adicionar (Exemplo: "PT","EN","ES","FR") e o segundo parâmetro um objeto com associações chave-valor para a língua fornecida. Esta função é responsável por adicionar ao conjunto de dicionários a língua pretendida ou atualizar o dicionário da língua caso este já exista.
+\par O conjunto de dicionários armazenado segue o esquema apresentado na figura \ref{dicextr}. No caso de apenas se pretender desenvolver numa língua é possível apenas fazer a definição das funções e não fornecer nenhum dicionário, visto nesse caso ele devolver a chave, bastando para isso a chave corresponder á tradução pretendida na única língua disponível.
 
 
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.25\textwidth]{images/extrjson.png}
 \caption{Estrutura JSON do conjunto de dicionários}\label{dicextr}
@@ -41,82 +41,82 @@ Nesta secção é apresentado o trabalho e desenvolvimento dos projetos realizad
 
 \par No excerto seguinte é apresentado o código referente ás funções criadas para o sistema.
 \begin{verbatim}
-1   var _d={}; //Dicionários
-2   function gLng() {
+1  var _d={}; //Dicionários
+2  function gLng() {
 3      var v = document.cookie.match('(^|;) ?locale=([^;]*)(;|$)');
 4      return v ? v[2].toUpperCase(): "EN";
-5   }
+5  }
 6
-7   function sLng(v) {
+7  function sLng(v) {
 8      var d = new Date;
 9      d.setTime(d.getTime() + 31536000000);
-10     document.cookie ="locale=" + v + ";path=/;expires=" +
-    d.toGMTString();
-11     location.reload();
-12  }
+10    document.cookie ="locale=" + v + ";path=/;expires=" +
+   d.toGMTString();
+11    location.reload();
+12 }
 13
-14  function _(k){
-15       if(_d==null|| _d==undefined || cd==undefined || cd==null ||
-    _d[gLng()]==null || _d[gLng()]==undefined) {return k;}
-16       return _d[gLng()][k];
-17   }
+14 function _(k){
+15     if(_d==null|| _d==undefined || cd==undefined || cd==null ||
+   _d[gLng()]==null || _d[gLng()]==undefined) {return k;}
+16         return _d[gLng()][k];
+17 }
 18
-19   function ll(a,b){
-20       if(_d==null|| _d==undefined){ _d={};}
-21       _d[a]=b;
-22   }
+19 function ll(a,b){
+20     if(_d==null|| _d==undefined){ _d={};}
+21         _d[a]=b;
+22 }
 
- \end{verbatim}
+\end{verbatim}
 
 \subsubsection{Resultados obtidos}
-\par Após comparação do sistema implementado em comparação com o I18N\cite{i18n} é possível observar a redução do tamanho  para cerca de 34 \% ( 1178b - 66\% = 404b), este valor foi obtido na comparação entre as duas versões minificadas e comprimidas com o GZIP como é possível observar no gráfico apresentado na figura \ref{garph1}, no gráfico é possível verificar os tamanhos originais, após a minificação e o tamanho do minificado após a compressão com o GZIP. Ambos valores relativos à comparação não contemplam os dicionários, apenas o código inerente á utilização das funcionalidades.
+\par Após comparação do sistema implementado em comparação com o I18N\cite{i18n} é possível observar a redução do tamanho para cerca de 34 \% ( 1178b - 66\% = 404b), este valor foi obtido na comparação entre as duas versões minificadas e comprimidas com o GZIP como é possível observar no gráfico apresentado na figura \ref{garph1}, no gráfico é possível verificar os tamanhos originais, após a minificação e o tamanho do minificado após a compressão com o GZIP. Ambos valores relativos à comparação não contemplam os dicionários, apenas o código inerente á utilização das funcionalidades.
 
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}
-    \begin{axis}[
-        xbar,
-        height=5cm,width=10.8cm, 
-        y axis line style = { opacity = 0 },
-        axis x line       = none,
-        tickwidth         = 0pt,
-        enlarge y limits  = 0.7, 
-        enlarge x limits  = 0.02,
-        symbolic y coords = {I18N, Solução desenvolvida},
-        nodes near coords,
-        ytick=data,
-         legend style={
-            at={(rel axis cs:0.5,1)},
-            anchor=south,
-            legend columns=-1, 
-            column sep=2mm, 
-            draw=none 
-            }
-    ]
-        \addplot coordinates { (6579,I18N)     (575,Solução desenvolvida) };
-        \addplot coordinates { (2961,I18N)     (427,Solução desenvolvida) };
-        \addplot coordinates { (1178,I18N)     (404,Solução desenvolvida) };
-        \legend{Original, Minificado, Minificado+ GZIP}
-    \end{axis}
+\begin{axis}[
+xbar,
+height=5cm,width=10.8cm, 
+y axis line style = { opacity = 0 },
+axis x line = none,
+tickwidth = 0pt,
+enlarge y limits = 0.7, 
+enlarge x limits = 0.02,
+symbolic y coords = {I18N, Solução desenvolvida},
+nodes near coords,
+ytick=data,
+legend style={
+at={(rel axis cs:0.5,1)},
+anchor=south,
+legend columns=-1, 
+column sep=2mm, 
+draw=none 
+}
+]
+\addplot coordinates { (6579,I18N) (575,Solução desenvolvida) };
+\addplot coordinates { (2961,I18N) (427,Solução desenvolvida) };
+\addplot coordinates { (1178,I18N) (404,Solução desenvolvida) };
+\legend{Original, Minificado, Minificado+ GZIP}
+\end{axis}
 \end{tikzpicture}
 
-\caption{Gráfico com comparação do Tamanho entre versões (em Bytes)}\label{garph1}
+\caption{Gráfico com comparação do tamanho entre versões (em Bytes)}\label{garph1}
 \end{figure}
 
 \subsection{Compressão de ficheiros}
 
-\par Durante o estágio foi estudado igualmente a comparação entre a utilização do GZIP e do Brotli de modo a analizar as vantagens e desvantagens aplicadas ao projeto em questão.
-\par Segundo estudos online \cite{brotlivsgzip}, é possível analisar que comparando apenas o Brotli e o GZIP, que este último tem uma taxa de compressão inferior, significa isto que o mesmo ficheiro após compressão é maior no caso do GZIP, tornando o Brotli um candidato a ponderar. Já no campo da velocidade de descompressão o caso inverte, sendo o GZIP a possuir melhores resultados, este parâmetro, não afeta o espaço ocupado na memória do microcontrolador. A velocidade de compressão é superior no Brotli não o tornando ideal para compressões em tempo real, mas visto o servidor web alojado na Nidus já possuir todos os ficheiros comprimidos e são sempre estáticos, o tempo de compressão não afeta o equipamento. 
-\par Visto o método Brotli possuir mais valias ao projeto, de modo a estudar e comparar as vantagens/desvantagens inerentes á migração para o Brotli, serão comprimidos os ficheiros atuais do projeto em ambos os métodos de modo a analisar os ganhos obtidos no projeto em especifico antes da sua atualização. Na tabela \ref{tabw2} são apresentados os resultados obtidos para cada ficheiro do projeto, os valores apresentados correspondem ao tamanho em bytes. No valor apresentado correspondente ao Tamanho Original, este no caso do HTML e CSS encontra-se Minificado, caso seja JavaScript este encontra-se minificado e comprimido com recurso ao Google Clousure Compiler.
+\par Durante o estágio foi estudado igualmente a comparação entre a utilização do GZIP e do Brotli de modo a analisar as vantagens e desvantagens aplicadas ao projeto em questão.
+\par Segundo estudos online \cite{brotlivsgzip}, é possível analisar que comparando apenas o Brotli e o GZIP, que este último tem uma taxa de compressão inferior, significa isto que o mesmo ficheiro após compressão é maior no caso do GZIP, tornando o Brotli um candidato a ponderar. Já no campo da velocidade de descompressão o caso inverte, sendo o GZIP a possuir melhores resultados, este parâmetro, não afeta o espaço ocupado na memória do microcontrolador. A velocidade de compressão é superior no Brotli não o tornando ideal para compressões em tempo real, mas visto o servidor WEB alojado na Nidus já possuir todos os ficheiros comprimidos e estes são sempre estáticos, o tempo de compressão não afeta o equipamento neste projeto. 
+\par Visto o método Brotli possuir mais valias ao projeto, de modo a estudar e comparar as vantagens/desvantagens inerentes á migração para o Brotli, serão comprimidos os ficheiros atuais do projeto em ambos os métodos de modo a analisar os ganhos obtidos no projeto em especifico antes da sua atualização. Na tabela \ref{tabw2} são apresentados os resultados obtidos para cada ficheiro do projeto, os valores apresentados correspondem ao tamanho em bytes. No valor apresentado correspondente ao tamanho original, este no caso do HTML e CSS encontra-se minificado, caso seja JavaScript este encontra-se minificado e comprimido com recurso ao Google Clousure Compiler.
 
 
 \begin{table}[htb]
 \caption{Comparação entre Brotli e GZIP}\label{tabw2}
 \begin{tabular}{|c|c|c|c|c|}\hline
-Tipo do Ficheiro& \begin{tabular}{@{}c@{}} Tamanho Original\\ Minificado\end{tabular} &Tamanho GZIP& Tamanho Brotli& Diferença \\\hline
+Tipo do Ficheiro& \begin{tabular}{@{}c@{}} Tamanho original\\ Minificado\end{tabular} &Tamanho GZIP& Tamanho Brotli& Diferença \\\hline
 JavaScript&230 304 & 58 061&52 453& -5 608 \\\hline
-JavaScript&462  316& 95 196& 75 702& -19 494\\\hline
-JavaScript&627  032& 221 754&206 150& -15 604 \\\hline
+JavaScript&462 316& 95 196& 75 702& -19 494\\\hline
+JavaScript&627 032& 221 754&206 150& -15 604 \\\hline
 JavaScript&140 389 & 46 945& 42 687&-4 258\\\hline
 JavaScript&84 249 & 28 579&26 594&-1 985\\\hline
 HTML&37 302 & 16 728& 15 893&-835\\\hline
@@ -130,144 +130,144 @@ Total&1 936 744&579 710&522 547&-57 163\\\hline
 \end{tabular} 
 \end{table}
 
-\par Analisando os ganhos obtidos com a utilização do brotli é possivel libertar cerca de 57 KB alterando o método de compressão. De modo a realizar a migração entre a utilização do GZIP e Brolti apenas é necessário alterar o software desenvolvido responsável por comprimir os ficheiros originais na sua respetiva compressão de forma autónoma e a alteração dos cabeçalhos enviados pelo servidor aquando de uma resposta por parte deste para o cliente. Na figura \ref{packet123} é possível observar a diferença presente nos cabeçalhos da resposta HTTP proveniente do \textit{Browser}.
+\par Analisando os ganhos obtidos com a utilização do Brotli é possível libertar cerca de 57 KB alterando o método de compressão dos ficheiros. De modo a realizar a migração entre a utilização do GZIP e Brolti apenas é necessário alterar o \textit{software} desenvolvido responsável por comprimir os ficheiros originais na sua respetiva compressão de forma autónoma e a alteração dos cabeçalhos enviados pelo servidor aquando de uma resposta por parte deste para o cliente. Na figura \ref{packet123} é possível observar a diferença presente nos cabeçalhos da resposta HTTP proveniente do \textit{browser}.
 \par Estas fases não serão realizadas durante o estágio referente deste relatório.
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{images/header.png}
-\caption{Comparção entre os Headers HTTP GZIP e Brotli\cite{headerImage}}\label{packet123}
+\caption{Comparção entre os \textit{headers} HTTP GZIP e Brotli\cite{headerImage}}\label{packet123}
 \end{figure}
 
 
 \subsection{Compressão de imagens}\label{compressimaage}
 
 \par As imagens são um ponto importante dos sistemas IOT, onde o utilizador através de esquemas, imagens e gráficos consegue obter o que pretende sem muito esforço. O sistema Nidus apenas despõe de imagens em algumas versões a pedido de clientes devido ao sobre carregamento de espaço que acarreta a utilização de imagens.
-\par Para desenvolver uma interface com recurso a sistemas visuais é necessário ter ou uma imagem com uma qualidade estipulada para o ecrã máximo necessário para ser possível reduzir a mesma em ecrãs mais pequenos, ou existirem múltiplas imagens de vários tamanhos para cada tipo de ecrã. A utilização de imagens pequenas que ocupem pouco espaço em disco, aquando da utilização em ecrãs maiores irá provocar visível na imagem cada pixel revelando ao utilizador a fraca qualidade do sistema. Na utilização de imagens superior ao máximo dos ecrãs e fazer o redimensionamento para um tamanho inferior, torna as imagens mais atrativas, pois o efeito não provoca o aparecimento da imagem “Pixelizada”. Isto implica mais espaço de memória para alojar imagens, que não existe na configuração de Hardware atual do sistema Nidus. Em alternativa ás codificações mais comuns nas imagens (PNG, JPEG, entre outras) existe a possibilidade de em imagens que não representem fotografias a utilização de SVG. No SVG ao contrário dos outros formatos indicados não é feita a representação de cada pixel da imagem, mas sim a definição de uma função que representa uma reta, uma forma, um polígono, ou as coordenadas de pontos, sobre a forma de uma estrutura XML. O HTML já possui suport para elementos SVG, Na utilização de SVG dentro de páginas HTML é possível a utilização de todas as funcionalidades inerentes ao CSS tais como criar animações. 
+\par Para desenvolver uma interface com recurso a sistemas visuais é necessário ter ou uma imagem com uma qualidade estipulada para o ecrã máximo necessário para ser possível reduzir a mesma em ecrãs mais pequenos, ou existirem múltiplas imagens de vários tamanhos para cada tipo de ecrã. A utilização de imagens pequenas que ocupem pouco espaço em disco, aquando da utilização em ecrãs maiores irá provocar visível na imagem cada pixel revelando ao utilizador a fraca qualidade do sistema. Na utilização de imagens superior ao máximo dos ecrãs e fazer o redimensionamento para um tamanho inferior, torna as imagens mais atrativas, pois o efeito não provoca o aparecimento da imagem “Pixelizada”. Isto implica mais espaço de memória para alojar imagens, que não existe na configuração de \textit{hardware} atual do sistema Nidus. Em alternativa às codificações mais comuns nas imagens (PNG, JPEG, entre outras) existe a possibilidade de em imagens que não representem fotografias a utilização de SVG. No SVG ao contrário dos outros formatos indicados não é feita a representação de cada pixel da imagem, mas sim a definição de uma função que representa uma reta, uma forma, um polígono, ou as coordenadas de pontos, sobre a forma de uma estrutura XML. O HTML já possui suporte  para elementos SVG, Na utilização de SVG dentro de páginas HTML é possível a utilização de todas as funcionalidades inerentes ao CSS tais como criar animações. 
 \par Outra funcionalidade possível com a utilização de SVG é a alteração do texto existente na imagem apenas fazendo a alteração do valor do elemento XML, à semelhança da alteração do texto numa página HTML.
 
-\par Os editores de SVG possuem variadas opções que não representam nada para o utilizador final, são apenas informações para o próprio editor. Para remover essa informação são utilizadas ferramentas para a remoção de tal informação. A ferramenta escolhida durante o estágio foi a SVGO\cite{svgo}, uma ferramenta desenvolvida em node.js de modo a otimizar os SVG. Com esta ferramenta é possível remover toda a informação desnecessária e otimizar e simplificar algumas funções não afetando a qualidade da imagem. De modo a ser possível em tempo real fazer alterações é necessário á semelhança das páginas HTML cada elemento possuir um ID para fazer a sua procura na árvore XML e deste modo ser possível alterar a cor, o conteúdo do texto adicionar animações. O próprio SVG possibilita a inserção de imagens PNG , JPEG dentro do SVG. Estas imagens são adicionadas ao XML sob a forma de Base64.  No apêndice \ref{svg} é apresentado o exemplo do svg gerado pelo editor. No Apêndice \ref{svggo} a respetiva compressão utilizando a ferramenta SVGO. Uma das considerações na utilização do SVGO é a necessidade de preservar os ID's e não os remover durante a compressão. Para tal na utilização da ferramenta é possível indicar se pretendemos manter os ID's ou não, para tal basta durante a utilização utilizar a opção '--disable=cleanupIDs'.
+\par Os editores de SVG possuem variadas opções que não representam nada para o utilizador final, são apenas informações para o próprio editor. Para remover essa informação são utilizadas ferramentas para a remoção de tal informação. A ferramenta escolhida durante o estágio foi a SVGO\cite{svgo}, uma ferramenta desenvolvida em node.js de modo a otimizar os SVG. Com esta ferramenta é possível remover toda a informação desnecessária e otimizar e simplificar algumas funções não afetando a qualidade da imagem. De modo a ser possível em tempo real fazer alterações é necessário á semelhança das páginas HTML cada elemento possuir um ID para fazer a sua procura na árvore XML e deste modo ser possível alterar a cor, o conteúdo do texto adicionar animações. O próprio SVG possibilita a inserção de imagens PNG, JPEG dentro do SVG. Estas imagens são adicionadas ao XML sob a forma de Base64. No apêndice \ref{svg} é apresentado o exemplo do svg gerado pelo editor. No Apêndice \ref{svggo} a respetiva compressão utilizando a ferramenta SVGO. Uma das considerações na utilização do SVGO é a necessidade de preservar os ID's e não os remover durante a compressão. Para tal na utilização da ferramenta é necessário indicar que  pretendemos manter os ID's, para tal basta durante a utilização utilizar a opção '--disable=cleanupIDs'.
 
 \par Para criar animações á semelhança do HTML é possível atribuir classes a cada elemento do SVG e tirar partido das animações possíveis no CSS. 
-\par No gráfico da figura \ref{compSV} é apresentado o tamanho ganho na compressão do SVG do Apêndice \ref{svg}. O Tamanho do SVG após a otimização com a ferramenta SVGO é de cerca de 20\% do tamanho original (2 485b - 80\%= 559b).
+\par No gráfico da figura \ref{compSV} é apresentado o tamanho ganho na compressão do SVG do Apêndice \ref{svg}. O Tamanho do SVG após a otimização com a ferramenta SVGO é de apenas cerca de 20\% do tamanho original (2 485b - 80\%= 559b).
 
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}
-    \begin{axis}[
-        xbar,
-        height=5cm,width=10.8cm, 
-        y axis line style = { opacity = 0 },
-        axis x line       = none,
-        tickwidth         = 0pt,
-        enlarge y limits  = 0.7, 
-        enlarge x limits  = 0.02,
-        symbolic y coords = {Original, Otimizado},
-        nodes near coords,
-        ytick=data,
-         legend style={
-            at={(rel axis cs:0.5,1)},
-            anchor=south,
-            legend columns=-1, 
-            column sep=2mm, 
-            draw=none 
-            }
-    ]
-        \addplot coordinates { (2485,Original)     (559,Otimizado) };
-        \legend{SVG- Apêndice \ref{svg}}
-    \end{axis}
+\begin{axis}[
+xbar,
+height=5cm,width=10.8cm, 
+y axis line style = { opacity = 0 },
+axis x line = none,
+tickwidth = 0pt,
+enlarge y limits = 0.7, 
+enlarge x limits = 0.02,
+symbolic y coords = {Original, Otimizado},
+nodes near coords,
+ytick=data,
+legend style={
+at={(rel axis cs:0.5,1)},
+anchor=south,
+legend columns=-1, 
+column sep=2mm, 
+draw=none 
+}
+]
+\addplot coordinates { (2485,Original) (559,Otimizado) };
+\legend{SVG- Apêndice \ref{svg}}
+\end{axis}
 \end{tikzpicture}
 
-\caption{Gráfico com comparação do Tamanho entre original e otimizado(em Bytes)}\label{compSV}
+\caption{Gráfico com comparação do tamanho entre original e otimizado(em Bytes)}\label{compSV}
 
 
 \end{figure}
 
 \subsection{Desenvolvimento a pedido de cliente}
 
-\par Durante o estágio existiu apenas um desenvolvimento pedido pelo cliente. O cliente pretende utilizar uma Nidus IT para controlar o seu sistema de alimentação dos animais de forma automática. Além de todas as qestões a tratar no Back-end da nidus, relativas a funcionamentos especificos da solução, o cliente pçretende aceder na página da nidus uma interface visual para inserir num monitor com o estado da alimentação, dos motores, da agua. Este desenvolvimento para a sua realização usou as capacidade referidas no capitulo \ref{compressimaage}, de modo para obter uma imagem única e responsiva com animações em termpo real. Após o desenho da interface pretendida no editor SVG, o mesmo foi comprimido com a ferramenta SVGO indicada anteriormente. \par De modo a criar uma interface atrativa ao utilizador foram criadas algumas animações nos sem fins da alimentação, no silo da alimentacao indicando o seu estado atual, tal como o estado das condutas de água.
+\par Durante o estágio existiu apenas um desenvolvimento pedido pelo cliente. O cliente pretende utilizar uma Nidus IT para controlar o seu sistema de alimentação dos animais de forma automática. Além de todas as questões a tratar no Back-end da Nidus, relativas a funcionamentos específicos da solução, o cliente pretende aceder na página da Nidus uma interface visual para inserir num monitor com o estado da alimentação, dos motores, da água. Este desenvolvimento para a sua realização usou as capacidades referidas no capítulo \ref{compressimaage}, de modo para obter uma imagem única e responsiva com animações em tempo real. Após o desenho da interface pretendida no editor SVG, o mesmo foi comprimido com a ferramenta SVGO indicada anteriormente. \par De modo a criar uma interface atrativa ao utilizador foram criadas algumas animações nos sem fins da alimentação, no silo da alimentação indicando o seu estado atual, tal como o estado das condutas de água.
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{images/svgpig.png}
 \caption{Exemplo do SVG utilizado na Solução}\label{pig}
 \end{figure}
 
-\subsection{Correção de Bugs}
+\subsection{Correção de \textit{bugs}}
 
-\par Durante o estágio apenas foi reportado a existencia de um \textit{Bug}. Estre prede-se com a estrutura criada para comunicação entre o Front-end e o Back-end ou com sistemas que pretendam integrar os equipamentos Nidus.
+\par Durante o estágio apenas foi reportado a existência de um \textit{bug}. Estre prede-se com a estrutura criada para comunicação entre o \textit{Front-end} e o \textit{Back-end} ou com sistemas que pretendam integrar os equipamentos Nidus.
 \par No momento do carregamento da página WEB, a mesma solicita um ficheiro XML com todas as informações necessárias. Em alguns dos pontos da estrutura como por exemplo o caso dos Input, Outputs, Sensores, entre outros, os mesmos são agrupados num elemento principal como é possível observar no exemplo seguinte.
 
 \begin{verbatim}
-1   ...
-2   <Sensors>
-3      <Entry>
-4          <ID>0</ID>
-5          ....
-6      </Entry>
-7      <Entry>
-8          <ID>1</ID>
-9          ....
-10     </Entry>
-11     ...
-12   </Sensors>
+1 ...
+2 <Sensors>
+3     <Entry>
+4         <ID>0</ID>
+5 ....
+6     </Entry>
+7     <Entry>
+8         <ID>1</ID>
+9 ....
+10    </Entry>
+11 ...
+12 </Sensors>
 
- \end{verbatim}
+\end{verbatim}
 
 
 
-\par Este Id é utilizado na comunicação de modo a indicar a que sensor se refere os dados. O problema surge aquando da eliminação de um sensor. Supondo o seguinte cenário. É eliminado o sensor com o ID 0, o sistema nidus eliminar o sensor e a entrada no XML com o ID 0 fica inutilizada  passado o xml a conter os id's 1,2,3,4 ,... de modo ao sistemas que integram a nidus poderem utilizar o ID como uma chave primária. O problema reside no código JavaScript que converte o XML numa váriavel Javascript, mais concretamente num array. O sistema em alguns dos pontos do código ao invés de utilizar o valor presente no elemento ID, utilizava a sua posição no array, fazendo que em sistemas onde tivessem sido feitas alterações(Exemplo: eliminar sensores) os ID's não correspondiam. Supondo o exemplo seguinte onde existem dois sensores com os ID's 0 e 1.  Na conversão para um objecto no Javascript é obtida a estrutura apresentada na figura \ref{estruct1}.
+\par Este ID é utilizado na comunicação de modo a indicar a que sensor se refere os dados. O problema surge aquando da eliminação de um sensor. Supondo o seguinte cenário. É eliminado o sensor com o ID 0, o sistema Nidus eliminar o sensor e a entrada no XML com o ID 0 fica inutilizada passado o XML a conter os ID's 1,2,3,4 ,... de modo ao sistemas que integram a Nidus poderem utilizar o ID como uma chave primária. O problema reside no código JavaScript que converte o XML numa variável JavaScript, mais concretamente num \textit{array}. O sistema em alguns dos pontos do código ao invés de utilizar o valor presente no elemento ID, utilizava a sua posição no \textit{array}, fazendo que em sistemas onde tivessem sido feitas alterações (Exemplo: eliminar sensores) os ID's não correspondiam. Supondo o exemplo seguinte onde existem dois sensores com os ID's 0 e 1. Na conversão para um objeto no JavaScript era obtida a estrutura apresentada na figura \ref{estruct1}.
 
 \begin{verbatim}
-1   ...
-2   <Sensors>
-3      <Entry>
-4          <ID>0</ID>
-5          <Name>0</Name>
-6      </Entry>
-7      <Entry>
-8          <ID>1</ID>
-9          <Name>1</Name>
+1 ...
+2 <Sensors>
+3     <Entry>
+4         <ID>0</ID>
+5         <Name>0</Name>
+6     </Entry>
+7     <Entry>
+8         <ID>1</ID>
+9         <Name>1</Name>
 10     </Entry>
-11     ...
-12   </Sensors>
+11 ...
+12 </Sensors>
 
- \end{verbatim}
+\end{verbatim}
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.25\textwidth]{images/estructu1.png}
 \caption{Estrutura obtida no JavaScript - 1}\label{estruct1}
 \end{figure}
 
-\par Após a eliminação do Sensor 0, o XML obtido é similar ao apresentado de seguida. Neste caso o array criado no JavaScript era similar ao apresentado na figura \ref{estruct2}. O problema reside na utilização da posiçao do array em algumas partes do código nomeadamente na procura do sensor. No exemplo apresentado na figura \ref{estruct2} antes da correção do Bug o código existente ao necessitar dos dados do sensor com o ID 1 aceder á posição 1 do arraym,ao invés de procurar por cada elemento qual o elemento que possui aquele id. 
+\par Após a eliminação do Sensor 0, o XML obtido é similar ao apresentado de seguida. Neste caso o \textit{array} criado no JavaScript era similar ao apresentado na figura \ref{estruct2}. O problema reside na utilização da posição do \textit{array} em algumas partes do código nomeadamente na procura do sensor. No exemplo apresentado na figura \ref{estruct2} antes da correção do \textit{bug} o código existente ao necessitar dos dados do sensor com o ID 1 aceder á posição 1 do \textit{array}, ao invés de procurar por cada elemento qual o elemento que possui aquele id. 
 \par No caso de terem sido eliminados alguns sensores como apresentado neste exemplo os dados selecionados não correspondem ao pretendido pelo utilizador.
 
 \begin{verbatim}
-1   ...
-2   <Sensors>
-3      <Entry>
-4          <ID>1</ID>
-5          <Name>1</Name>
-6      </Entry>
-7      <Entry>
-8          <ID>2</ID>
-9          <Name>2</Name>
-10     </Entry>
-11     ...
-12   </Sensors>
+1 ...
+2 <Sensors>
+3     <Entry>
+4         <ID>1</ID>
+5         <Name>1</Name>
+6     </Entry>
+7     <Entry>
+8         <ID>2</ID>
+9         <Name>2</Name>
+10    </Entry>
+11 ...
+12 </Sensors>
 
- \end{verbatim}
+\end{verbatim}
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.25\textwidth]{images/estruct2.png}
 \caption{Estrutura obtida no JavaScript - 2}\label{estruct2}
 \end{figure}
 
 
-\par De modo a resolver o problema identificado foi criada no projeto uma função com 3 parâmetros. No primeiro parâmetro é indicado o array onde deve o sistema procurar. Em seguida é indicado em que propridade pretendemos compara e por último indicamos o valor que pretendemos encontrar. No código seguinte é apresentado o código utilizado. Caso o elemento não exista é devolvido o valor null.
- \begin{verbatim}
+\par De modo a resolver o problema identificado foi criada no projeto uma função com 3 parâmetros. No primeiro parâmetro é indicado o \textit{array} onde deve o sistema procurar. Em seguida é indicado em que propriedade pretendemos compara e por último indicamos o valor que pretendemos encontrar. No código seguinte é apresentado o código utilizado. Caso o elemento não exista é devolvido o valor \textit{null}.
+\begin{verbatim}
 1 function findObjectByKey(array, key, value) {
 2     for (var i = 0; i < array.length; i++) {
 3         if (array[i][key].toString() === value.toString()) {
@@ -276,42 +276,42 @@ Total&1 936 744&579 710&522 547&-57 163\\\hline
 6     }
 7     return null;
 8 }
- \end{verbatim}
+\end{verbatim}
 
-\par Ao invés do acesso á posição diratamente no array é necessário a alterçaão de todo o código para fazer utilização da função e obter o valor correto.
-\subsection{Melhoração da página}
-\par Após anáilise da página do sistema Nidus, foi acordado a necessidade de desenvolver um sistema mais simplificado para o processo de criação de eventos. Pretende-se assim estudar a melhor solução para a criação das ações e das reações e uma interface para criar os eventos com recurso às ações e reações previamente criadas. Todas as opções e menus para a criação e manutenção das ações e reações mantém-se inalteradas no momento atual. Já a criação de eventos necessita de ser restruturado, após debate chegou-se á decissão de necessitar de um sistema visual onde o utilizador por blocos é capaz de criar a situação que pretende.
-\par Durante o estágio foram analisadas as opções possíveis para a solução pretendida. Após reflexão foi adotado a utilização do plugin Blockly\cite{blockly}, devido á sua semelhança com o pretendido (Scratch) e devido ao baixo espçao ocupado pós compressão e á possibilidade de criar os próprops tipos de blocos. Devido ao restantes projetos realizados durante o estágio este desenvolvimento ainda não se encontra concretizado e apenas foi selecionado a solução a adotar. No gráfico da Figura \ref{block} é apresentado o espaço ocupado pelo código fonte do plugin escolhido.
+\par Ao invés do acesso á posição diretamente no \textit{array} é necessário a alteração de todo o código para fazer utilização da função e obter o valor correto.
+\subsection{Melhoramento da página}
+\par Após análise prévia da página do sistema Nidus, foi acordado a necessidade de desenvolver um sistema mais simplificado para o processo de criação de eventos. Pretende-se assim estudar a melhor solução para a criação das ações e das reações e uma interface para criar os eventos com recurso às ações e reações previamente criadas. Todas as opções e menus para a criação e manutenção das ações e reações mantém-se inalteradas no momento atual. Já a criação de eventos necessita de ser restruturado, após debate chegou-se á decisão de necessitar de um sistema visual onde o utilizador por blocos é capaz de criar a situação que pretende.
+\par Durante o estágio foram analisadas as opções possíveis para a solução pretendida. Após análise foi adotado a utilização do plugin Blockly\cite{blockly}, devido á sua semelhança com o pretendido (Scratch) e devido ao baixo espaço ocupado pós compressão e á possibilidade de criar os próprios tipos de blocos. Devido aos restantes projetos realizados durante o estágio este desenvolvimento ainda não se encontra concretizado e apenas foi selecionado a solução a adotar. No gráfico da Figura \ref{block} é apresentado o espaço ocupado pelo código fonte do \textit{plugin} escolhido.
 
 
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}
-    \begin{axis}[
-        xbar,
-        height=5cm,width=10.8cm, 
-        y axis line style = { opacity = 0 },
-        axis x line       = none,
-        tickwidth         = 0pt,
-        enlarge y limits  = 0.7, 
-        enlarge x limits  = 0.02,
-        symbolic y coords = {Minificado, GZIP},
-        nodes near coords,
-        ytick=data,
-         legend style={
-            at={(rel axis cs:0.5,1)},
-            anchor=south,
-            legend columns=-1, 
-            column sep=2mm, 
-            draw=none 
-            }
-    ]
-        \addplot coordinates { (76455,Minificado)     (13456,GZIP) };
-        \legend{Blockly}
-    \end{axis}
+\begin{axis}[
+xbar,
+height=5cm,width=10.8cm, 
+y axis line style = { opacity = 0 },
+axis x line = none,
+tickwidth = 0pt,
+enlarge y limits = 0.7, 
+enlarge x limits = 0.02,
+symbolic y coords = {Minificado, GZIP},
+nodes near coords,
+ytick=data,
+legend style={
+at={(rel axis cs:0.5,1)},
+anchor=south,
+legend columns=-1, 
+column sep=2mm, 
+draw=none 
+}
+]
+\addplot coordinates { (76455,Minificado) (13456,GZIP) };
+\legend{Blockly}
+\end{axis}
 \end{tikzpicture}
 
-\caption{Gráfico com comparação do Tamanho do Plugin Blockly (em Bytes)}\label{block}
+\caption{Gráfico com comparação do tamanho do plugin Blockly (em Bytes)}\label{block}
 
 
 \end{figure}
@@ -320,15 +320,15 @@ Total&1 936 744&579 710&522 547&-57 163\\\hline
 
 \section {NB-Iot \& Digi Xbee 3 }
 \par
-O desenvolvimento do projeto NB-Iot \& Digi Xbee 3  é composto por 4 fases, 3 das quais desenvolvidas durante este estágio. A fase não desenvolvida durante o estágio refere-se ao desenho e produção do hardware e a parte do software referente á leitura de sensores (comunicação entre hardware desenvolvido e software). As fases realizadas durante o estágio são a implementação do envio do pacote definido com os mecanismos de proteção e segurança, sincronismo dos tempos de leitura e envio e testes ao sistema.
+O desenvolvimento do projeto NB-Iot \& Digi Xbee 3 é composto por 4 fases, 3 das quais desenvolvidas durante este estágio. A fase não desenvolvida durante o estágio refere-se ao desenho e produção do \textit{hardware} e a parte do \textit{software} referente á leitura de sensores (comunicação entre \textit{hardware} desenvolvido e \textit{software}). As fases realizadas durante o estágio são a implementação do envio do pacote definido com os mecanismos de proteção e segurança, sincronismo dos tempos de leitura e envio e testes ao sistema.
 
 \subsection {Envio de dados para o portal}
 
-\par Como foi indicado no Capítulo \ref{nbiot} a estrutura de pacote a enviar é similar ao do outro produto desenvolvido pela captemp. Este pacote é enviado através de um pacote UDP para o portal que posteiormente confirma a receção na camada de aplicação. O tamanho máximo definido para este pacote é de 1000 bytes.
-A estrutura criada pela captemp segue o formato apresentado na figura \ref{packet}.
-\par No primeiro cabeçalho é possivel obter os dados do equipamento que fez o envio tais como a data de envio, o IMEI, a versão do mesmo e o CRC do pacote para confirmar a integridade do mesmo. No restante do pacote são adicionados vários sub pacotes seguindo a estrutura apresentada na figura \ref {packet}, o primeiro byte indica o tipo de dados se é envio o valor de um sensor uma configuraçao do equipamento(Exemplo: Operadora), o byte seguinte fornece o número de bytes dos dados e posterioremente segundo o número de bytes, o valor (Exemplo: operadora ="ALTICE").
+\par Como foi indicado no Capítulo \ref{nbiot} a estrutura de pacote a enviar é similar ao do outro produto desenvolvido pela Captemp. Este pacote é enviado através de um pacote UDP para o portal que posteriormente confirma a receção na camada de aplicação. O tamanho máximo definido para este pacote é de 1000 bytes.
+A estrutura criada pela Captemp segue o formato apresentado na figura \ref{packet}.
+\par No primeiro cabeçalho é possível obter os dados do equipamento que fez o envio tais como a data de envio, o IMEI, a versão do mesmo e o CRC do pacote para confirmar a integridade do mesmo. No restante do pacote são adicionados vários sub pacotes seguindo a estrutura apresentada na figura \ref {packet}, o primeiro byte indica o tipo de dados se é envio o valor de um sensor uma configuração do equipamento(Exemplo: Operadora), o byte seguinte fornece o número de bytes dos dados e posteriormente segundo o número de bytes, o valor (Exemplo: operadora ="ALTICE").
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{images/packetnb.png}
 \caption{Estrutura do Pacote NB-IOT}\label{packet}
@@ -336,10 +336,10 @@ A estrutura criada pela captemp segue o formato apresentado na figura \ref{packe
 
 \subsection {Gestão de memória}
 
-\par O principal motivo da desistencia da utilização deste equipamento como o equipamento principal da Captemp para o NB-iot é a incorreta gestão de memória do MicroPython. Segundo a documentação quando uma variável já não é acessivel pelo código esta é removida pelo \textit{Garbage Collector} mas o espaço de memória  ocupado fica disponivel mas não é mais usado pelo MicroPython e este aloca no final ao invés de procurar o primeiro espaço disponivel. No esquema apresentado na figura \ref{memo} é apresentado o comportamento da memória com a gestão nativa do MicroPython, com o decorrer do tempo a memória fica totalmente alocada não permitindo ao equipamento guardar novas leituras nem enviar para o portal.
+\par O principal motivo da desistência da utilização deste equipamento como o equipamento principal da Captemp para o NB-Iot prendeu-se com a incorreta gestão de memória do MicroPython. Segundo a documentação quando uma variável já não é acessível pelo código esta é removida pelo \textit{Garbage Collector} mas o espaço de memória ocupado fica disponível e nem todas as vezes é utilizada pelo MicroPython e este aloca no final ao invés de procurar o primeiro espaço disponível. No esquema apresentado na figura \ref{memo} é apresentado o comportamento da memória com a gestão nativa do MicroPython, com o decorrer do tempo a memória fica totalmente alocada não permitindo ao equipamento guardar novas leituras nem enviar para o portal.
 
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.90\textwidth]{images/memo.png}
 \caption{Comportamento da gestão de Memória}\label{memo}
@@ -349,147 +349,145 @@ A estrutura criada pela captemp segue o formato apresentado na figura \ref{packe
 
 \subsubsection {Diminuição da alocação de memória}
 
-\par A modo de resolver a incorreta gestão de memória é necessário diminuir a alocação de novas variáveis. Para tal todo o código do programa visa a possuir todas as constantes e variáveis em variaveis globais as quais nunca são eliminadas e criadas apenas alteram o seu valor. Os dois pontos criticos identificados são o array circular com as leituras dos sensores e a criação do pacote de envio para o portal Cloud.
-\par Na criação do pacote todos os cabeçallhos fixos são alocados em constantes globais que não vem o seu valor alterado não afetando a memória e os valores que podem ser alterados são guardados em buffers globais criados no inicio e tem o seu tamanho estático. Devido á utilização de um módulo que não possui suporte para multrithread não existe problema de sincronismo entre os fluxos ao utilizar as variáveis e os buffers globais. Ao recolher um dado de modo a enviar para o portal, como por exemplo a operadora, este tem de ser alocado num buffer que depois é enviado pela rede para o servidor. Este buffer de bytes com o tamanho fixo do máximo do pacote de envio é utilizado para fazer a contatenação dos vários campos antes de enviar. Caso se pretenda adicionar valores a enviar é consultada a ultima posiçao ocupada, encontrada numa váriavel separada e é alterado os bytes das posições seguintes para o bytes do valor não alocando espaço para continuar o array.
-\par Supondo que o buffer tem já preenchidos 300 bytes dos 1000, ao pretender adicionar o pacote da operadora, é copiado para a posição 301 o byte correspondente áo DATA ID do operador, no byte seguinte é colocado o tamanho de bytes que a operadora ocupa ("ALTICE"= 6 Bytes), e nos seguintes 6 bytes é colocada a string.
-\par No exemplo acima elucidado todas a variável DATA ID é estática e definida no inicio do código, o tamanho foi previamente guardado numa variavel auxiliar de tamanho fixo, e a operadora é soilicatado a funções nativas do MicroPtyhon  e guardado num buffer de tamanho fixo. Após a definição apenas são efetuadas copias de bytes entre variaveis e buffers não afetando a alocação de memória. No código seguinte é exempleficado  a operação anteriormente apresentada. Neste caso de modo a simplificar é apresentado um buffer do tamanho da operadora, no projeto foram criados buffers do tamanho 1,2,4,10,16,32 bytes consoante os valores mais comuns, no caso particular de um valor que possa ter por exemplo 20 bytes este é guardado no buffer de 32 e no momento da gravacao apenas são copiados os 20 primeiros bytes.
+\par A modo de resolver a incorreta gestão de memória é necessário diminuir a alocação de novas variáveis. Para tal todo o código do programa visa a possuir todas as constantes e variáveis em variáveis globais as quais nunca são eliminadas e criadas apenas alteram o seu valor. Os dois pontos críticos identificados são o \textit{array } circular com as leituras dos sensores e a criação do pacote de envio para o portal \textit{Cloud}.
+\par Na criação do pacote todos os cabeçalhos fixos são alocados em constantes globais que não vem o seu valor alterado não afetando a memória e os valores que podem ser alterados são guardados em \textit{buffers} globais criados no inicio e tem o seu tamanho estático. Devido á utilização de um módulo que não possui suporte para \textit{multri thread} não existe problema de sincronismo entre os fluxos ao utilizar as variáveis e os \textit{buffers} globais. Ao recolher um dado de modo a enviar para o portal, como por exemplo a operadora, este tem de ser alocado num \textit{buffer} que depois é enviado pela rede para o servidor. Este \textit{buffer} de bytes com o tamanho fixo do máximo do pacote de envio é utilizado para fazer a concatenação dos vários campos antes do envio ao invés da abordagem anterior da utilização de um \textit{buffer} de tamanho dinâmico. Caso se pretenda adicionar valores a enviar é consultada o ultimo \textit{byte} ocupado, encontrada numa variável separada e é alterado os bytes das posições seguintes para o bytes do valor não alocando memória para continuar o \textit{array}.
+\par Supondo que o \textit{buffer} tem já preenchidos 300 bytes dos 1000, ao pretender adicionar o pacote da operadora, é copiado para a posição 301 o byte correspondente ao DATA ID do operador, no byte seguinte é colocado o tamanho de bytes que a operadora ocupa ("ALTICE"= 6 Bytes), e nos seguintes 6 bytes é colocada a \textit{string}.
+\par No exemplo acima elucidado todas as variáveis são estáticas, o DATA ID é definida no inicio do código, o tamanho foi previamente guardado numa variável auxiliar de tamanho fixo, e a operadora é solicitada a funções nativas do MicroPtyhon e guardado num \textit{buffer} de tamanho fixo. Após a definição apenas são efetuadas copias de bytes entre variáveis e \textit{buffers} não afetando a alocação de memória. No código seguinte é exemplificado a operação anteriormente apresentada. Neste caso de modo a simplificar é apresentado um \textit{buffer} do tamanho da operadora, no projeto foram criados \textit{buffers} do tamanho 1,2,4,10,16,32 bytes consoante os valores mais comuns, no caso particular de um valor dinâmico que possa ter por exemplo 20 bytes este é guardado no \textit{buffer} de 32 e no momento da gravação apenas são copiados os 20 primeiros bytes.
 
-	
 \begin{verbatim}
-	1   c=bytearray(1000) # Packet Array
-	2   clean=bytearray(1000) # Empty Packet Array 
-	3 
-	4  #BUFFERs
-	5 
-	6  cmd6=bytes(6)
-	7  cmdID=bytes(1)
-	8  cmdLEN=bytes(1)
-	9 
-	10 #DATA IDs
-	11 c0=bytes([0x01])
-	12
-	13 (...)	
-	14
-	15 cmdID = c0 #  DATA ID
-	16 cmdLEN = (6).to_bytes(1, 'little') # Data Size
-	17 cmd6 = bytes(oper, 'ascii') # Data (string to bytes)
-	18 byteschange(c, 300, 301, cmdID) # Copy to packet array 
-	19 byteschange(c, 301, 302, cmdLEN)  # Copy to packet array 
-	20 byteschange(c, 302, 308, cmd6)  # Copy to packet array 
- \end{verbatim}
+1  c=bytearray(1000) # Packet Array
+2  clean=bytearray(1000) # Empty Packet Array 
+3 
+4  #BUFFERs
+5 
+6  cmd6=bytes(6)
+7  cmdID=bytes(1)
+8  cmdLEN=bytes(1)
+9 
+10 #DATA IDs
+11 c0=bytes([0x01])
+12
+13  (...) 
+14
+15 cmdID = c0 # DATA ID
+16 cmdLEN = (6).to_bytes(1, 'little') # Data Size
+17 cmd6 = bytes(oper, 'ascii') # Data (string to bytes)
+18 byteschange(c, 300, 301, cmdID) # Copy to packet array 
+19 byteschange(c, 301, 302, cmdLEN) # Copy to packet array 
+20 byteschange(c, 302, 308, cmd6) # Copy to packet array 
+\end{verbatim}
 
-\par Ao copiar valores de entre buffers e não alocando espaço ao array, é necessário um maior controlo nos tamanhos das variáveis de modo a não copiar valores de buffers vazios ou posições enexistentes. A versão do MicroPython disponibilizada pela Digi não incorpora a biblioteca que faz a gestão de arrays limitando não possibilitando a copia direta de arrays para outros arrays indicando apenas a posição inicial. Para tal a função desenvolvida, byteschange utilizada previamente no código, simula essa operação onde apenas indicamos o buffer de destino, a posiçao inicial, a final e a origem da cópia. Esta função é responsável por verificar se os tamanhos são possiveis de copiar e copia posição a posição (byte a byte no caso apresentado) para as posiçoes entre os valores indicados. No fim do pacote ser enviado é possivel limpar o buffer chamando a mesma função indicando como origem da copia o buffer clean, um buffer constante do mesmo tamanho mas com os bytes todos vazios. Todos os buffers utilizados ao longo do projeto tem um semelhante em tamanho mas completamente vazio. Deste modo é possivel utilizar sempre os mesmos buffers e não existir a necessidade de alocar buffers ao longo do programa.
+\par Ao copiar valores de entre \textit{buffers} e não alocando espaço ao \textit{array}, é necessário um maior controlo nos tamanhos das variáveis de modo a não copiar valores de \textit{buffers} vazios ou posições inexistentes. A versão do MicroPython disponibilizada pela Digi não incorpora a biblioteca que faz a gestão de \textit{arrays} limitando não possibilitando a copia direta de \textit{arrays} para outros \textit{arrays} indicando apenas a posição inicial. Para tal a função desenvolvida, byteschange utilizada previamente no código, simula essa operação onde apenas indicamos o \textit{buffer} de destino, a posição inicial, a final e a origem da cópia. Esta função é responsável por verificar se os tamanhos são possíveis de copiar e copia posição a posição (byte a byte no caso apresentado) para as posições entre os valores indicados. No fim do pacote ser enviado é possível limpar o \textit{buffer} chamando a mesma função indicando como origem da copia o \textit{buffer clean}, um \textit{buffer} constante do mesmo tamanho mas com os bytes todos vazios. Todos os \textit{buffers} utilizados ao longo do projeto tem um semelhante em tamanho, mas completamente vazio. Deste modo é possível utilizar sempre os mesmos \textit{buffer} e não existir a necessidade de alocar \textit{buffer} ao longo do programa.
 
 \subsubsection {Gestão da memória durante leituras}
 
-\par À semelhança do buffer onde é gerado o pacote enviado para o portal, as leituras são um dos pontos criticos referente á alocação de memória. Para tal á semenlhança do pacote de envio, é inicializado no inicio do programa, um array de tamanho fixo e com cada posição com um array do tamanho máximo de cada leitura. Ao adicionar uma nova leitura são colocados nos buffers intermédios todos os dados e são copiados para a posição seguinte á ultima posiçã ocupada. Caso a ultima posição ocupada corresponda à ultima do array, é adicionado sobre a primeira posição, criando assim o array circular.
-\par Todas as operações para adicionar uma leitura ao array ou remover são efetuadas com a função byteschange de  copiando o buffer temporátio com a leitura ou o vazio respetivamente. Na figura \ref{circbuf} é apresentado o esquema do array circular com as leituras. Como array é definido inicialmente e o utilizador pode alterar as sondas enquanto o equipamento está em funcionamento é sempre alocado para cada leitura o numero de bytes necessário para o máximo de sensores garantindo que caso o utilizador adicione um sensor não seja necessário expandir o tamanho da posiçao no array causando os problemas de memoria já identificados. Para eliminar a posição é decrementado a posição currente do array e por proteção de modo a posteriormente não acedermos a dados que possam la existir, como por exemplo numa leitura antiga com 6 sensores e nova com 3 sensores os ultimos 3 sensores da leitura antiga ainda estavam associados apesar de no cabeçalho da leitura indicar que eram apenas 3. COpiando uma leitura vazia para a posiçao da leitura garantimos que nao existem dados sem nexo a afetar alguma das leituras.
+\par À semelhança do \textit{buffer} onde é gerado o pacote enviado para o portal, as leituras são um dos pontos críticos referente á alocação de memória. Para tal á semelhança do pacote de envio, é inicializado no início do programa, um \textit{array} de tamanho fixo e com cada posição com um \textit{array} do tamanho máximo ocupado por uma leitura com o máximo de sensores do equipamento. Ao adicionar uma nova leitura são colocados nos \textit{buffers} intermédios todos os dados e são copiados para a posição seguinte á última posição ocupada. Caso a última posição ocupada corresponda à última do \textit{array}, é adicionado sobre a primeira posição, criando assim o \textit{array} circular.
+\par Todas as operações para adicionar uma leitura ao \textit{array} ou remover são efetuadas com a função byteschange de copiando o \textit{buffer} temporário com a leitura ou o vazio respetivamente. Na figura \ref{circbuf} é apresentado o esquema do \textit{array} circular com as leituras. Como \textit{array} é definido inicialmente e o utilizador pode alterar as sondas enquanto o equipamento está em funcionamento é sempre alocado para cada leitura o numero de bytes necessário para o máximo de sensores garantindo que caso o utilizador adicione um sensor não seja necessário expandir o tamanho da posição no \textit{array} causando os problemas de memoria já identificados. Para eliminar uma leitura é decrementado a posição corrente do \textit{array} e por proteção de modo a posteriormente não acedermos a dados que possam lá existir, como por exemplo numa leitura antiga com 6 sensores e nova com 3 sensores os últimos 3 sensores da leitura antiga ainda estavam associados apesar de no cabeçalho da leitura indicar que são apenas 3, é copiada a leitura vazia para a posição da leitura garantimos que não existem dados sem nexo a afetar alguma das leituras.
 
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{images/circbuf.png}
 \caption{Array Circular com leituras}\label{circbuf}
 \end{figure}
 
-\subsection {Sincronismo de Leitura e Envio} \label{sinc}
+\subsection {Sincronismo de leitura e envio} \label{sinc}
 
-\par À semelhança dos restantes produtos produzidos pela captemp existe sempre sincronismo de leituras entre os equipamentos. Para tal além de cada equipamento possuir um relógio interno (RTC), é necesário fazer o sincronismo na primeira leitura, ou seja caso esteja programado para fazer a leitura a cada 5 minutos, existe uma diferença caso o mesmo seja ligado ás 00:00 e fazer as leituras respetivamente às 00:05, 00:10,00:15,00:20 , mas caso seja ligado por exemplo às 00:12, faz leituras às 00:17,00:00:22 e por diante não existindo um sincronismo entre os vários equipamentos dos clientes.
-\par Para tal o equipamento no momento inicial do arranque verifica qual o intervalo de leitura e de envio, e verifica caso fosse ligado pelas 00:00 qual seria a proxima leitura ao momento atual, neste momento o equipamento não entra em modo de poupança de energia durante os 5 minutos até á leitura e apenas o tempo restante até ao valor caso fosse ligado pelas 00:00, no momento da leitura o equipamento já entra em modo de poupança de energia durante o tempo definido (Ex:5 minutos). Este método é igualmente aplicado ao intervalo de envio. Aquando do envio é enviado na resposta proveniente do servidor o \textit{Timestamp} do servidor de modo a sincronizar o tempo de todos os equipamentos e configurar nos novos equipamentos que sejam ligados e ainda possuam o valor default do RTC, no caso do escolhido no projeto 1 de Janeiro de 2000.
-\par Caso o equipamento possuir uma data inferior á estipulada de 1 de Janeiro de 2019, o mesmo não faz leituras, esperando pelo intervalo de envio para enviar um pacote apenas com os campos fixos e sem leituras de modo a obter a resposta com o \textit{Timestamp} do servidor para iniciar as leituras.
+\par À semelhança dos restantes produtos produzidos pela Captemp existe sempre sincronismo de leituras entre os equipamentos. Para tal além de cada equipamento possuir um relógio interno (RTC), é necessário fazer o sincronismo na primeira leitura, ou seja caso esteja programado para fazer a leitura a cada 5 minutos, existe uma diferença caso o mesmo seja ligado ás 00:00 e fazer as leituras respetivamente às 00:05, 00:10,00:15,00:20 , mas caso seja ligado por exemplo às 00:12, faz leituras às 00:17,00:00:22 e por diante não existindo um sincronismo entre os vários equipamentos dos clientes.
+\par Para tal o equipamento no momento inicial do arranque verifica qual o intervalo de leitura e de envio, e verifica caso fosse ligado pelas 00:00 qual seria a próxima leitura ao momento atual, neste momento o equipamento não entra em modo de poupança de energia durante os 5 minutos até á leitura e apenas o tempo restante até ao valor caso fosse ligado pelas 00:00, no momento da leitura o equipamento já entra em modo de poupança de energia durante o tempo definido (Ex:5 minutos). Este método é igualmente aplicado ao intervalo de envio. Aquando do envio é enviado na resposta proveniente do servidor o \textit{Timestamp} do servidor de modo a sincronizar o tempo de todos os equipamentos e configurar nos novos equipamentos que sejam ligados e ainda possuam o valor \textit{default} do RTC, no caso do escolhido no projeto 1 de Janeiro de 2000.
+\par Caso o equipamento possuir uma data inferior á estipulada de 1 de Janeiro de 2019, o mesmo não faz leituras, esperando pelo intervalo de envio para enviar um pacote apenas com os campos fixos e sem leituras de modo a obter a resposta com o \textit{timestamp} do servidor para iniciar as leituras.
 
 
 \subsection {Encriptação dos dados}
 
-\par De modo a proteger os dados na rede todo o pacote é encriptado con recurso á biblioteca MicroPython-AES disponibilizada online \cite{microaes}. De modo a esar esta biblioteca desenvolvida para o MicroPython Base e não para a versão disponibilizada nos módulos DIGI, é necessário reformular a biblioteca de modo a  não utilizar a biblioteca de gestão de arrays  indisponivel nesta versão e fazer a alteração aquando da necessidade de acrescentar dados no array colocar posição por posição.  No código seguinte é apresentado o problema inerente a esta biblioteca(Linha 4) e a sua respetiva resolução(Linha 13).
+\par De modo a proteger os dados na rede todo o pacote é encriptado com recurso á biblioteca MicroPython-AES disponibilizada \textit{online} \cite{microaes}. Esta biblioteca desenvolvida para o MicroPython Base e não para a versão disponibilizada nos módulos DIGI, é necessário reformular a biblioteca de modo a não utilizar a biblioteca de gestão de \textit{arrays} indisponível nesta versão e fazer a alteração aquando da necessidade de acrescentar dados no \textit{array} colocar posição por posição. No código seguinte é apresentado o problema inerente a esta biblioteca (linha 4) e a sua respetiva resolução (linha 13).
 
 
 \begin{verbatim}
-1    for offset in range(0, len(data), block_size):
-2        block = data[offset:offset + block_size]
-3        block_func(block)
-4        data[offset:offset + block_size] = block # ERROR 
+1   for offset in range(0, len(data), block_size):
+2       block = data[offset:offset + block_size]
+3       block_func(block)
+4       data[offset:offset + block_size] = block # ERROR 
 5       #['array' object does not support item assignment]
-6     ...
+6  ...
 7
-8    ...
-9     for offset in range(0, len(data), block_size):
-10       block = data[offset:offset + block_size]
-11       block_func(block)
-12       # Solution ['array' object does not support item assignment]
-13      for i in range(block_size)
-14          data[offset+i]= block[i]
-15   ...
- \end{verbatim}
+8  ...
+9   for offset in range(0, len(data), block_size):
+10     block = data[offset:offset + block_size]
+11     block_func(block)
+12     # Solution ['array' object does not support item assignment]
+13     for i in range(block_size)
+14         data[offset+i]= block[i]
+15 ...
+\end{verbatim}
 
 \section {Kea Tracker}
 
-\par De modo a substituir um produto descontinuado e apresentar novas soluções aos clientes, irão ser utilizadas beacons para armazenar os valores da temperatura, humidade e pressão ambiental para posterior envio para o portal Senslive. No início do estágio não estava disponivel nenhuma versão de \textit{Firmware} com armazenamento dos dados e estava proposto o desenvolvimento da solução utilizando o Espruino, uma plataforma que permite fazer a programação de microcontroladores com recurso a JavaScript. Foram realizados pequenos testes e chegou-se á conclusão que a camada intepretadora do Javascript tem um consumo mais elevado comparadamente com uma versão desenvolvida em C. Além do maior consumo energético, já disponibilzado \textit{Firmware} com armazenamento de leituras para posterior arquivo. Devido a esses dois fatores não será desenvolvido o firmware como estava inicialmente proposto e irá ser apostado no melhoramento e desenvolvimento da aplicação responsável por obter os dados e enviar para o portal Senslive. 
+\par De modo a substituir um produto descontinuado e apresentar novas soluções aos clientes, irão ser utilizadas beacons para armazenar os valores da temperatura, humidade e pressão ambiental para posterior envio para o portal Senslive. No início do estágio não estava disponível nenhuma versão de \textit{Firmware} com armazenamento dos dados e estava proposto o desenvolvimento da solução utilizando o Espruino, uma plataforma que permite fazer a programação de microcontroladores com recurso a JavaScript. Foram realizados pequenos testes e chegou-se á conclusão que a camada interpretadora do Javascript tem um consumo mais elevado comparando com uma versão desenvolvida em C. Além do maior consumo energético, já foi disponibilizado um \textit{Firmware} com armazenamento de leituras para posterior arquivo. Devido a esses dois fatores não será desenvolvido o \textit{Firmware} como estava inicialmente proposto e irá ser apostado no melhoramento e desenvolvimento da aplicação responsável por obter os dados e enviar para o portal Senslive. 
 
-\subsection{App - Alterarações Necessárias}
+\subsection{App - Alterarações necessárias}
 
-\par A aplicação numa primeira fase irá ser baseada na fornecida pela Ruuvi e serão alteradas as referências para o website da RuuviTag para o website da Captemp, a alteração das imagens para o novo logótipo da solução. Devido é necessidade de desenvolvimento do \textit{Back-end} no Senslive, será desenvolvida apenas a versão Android, e posteriormente o desenvolvimento de uma versão Android e IOS com recurso a uma plataforma que permita o desenvolvimento para ambas as plataformas com apenas um código fonte, tais como o NativeScript\cite{nativescript}, o Ionic\cite{ionic} entre outras.
+\par A aplicação numa primeira fase irá ser baseada na fornecida pela Ruuvi e serão alteradas as referências para o \textit{website} da RuuviTag para o \textit{website} da Captemp, a alteração das imagens para o novo logótipo da solução. Devido é necessidade de desenvolvimento do \textit{Back-end} no Senslive, será desenvolvida apenas a versão Android, e posteriormente o desenvolvimento de uma versão Android e IOS com recurso a uma plataforma que permita o desenvolvimento para ambas as plataformas com apenas um código fonte, tais como o NativeScript\cite{nativescript}, o Ionic\cite{ionic} entre outras.
 
-\subsection{App - Novas Funcionalidades}
+\subsection{App - Novas funcionalidades}
 
-\par A aplicação forncedia pela Ruuvi não está desenvolvida para a leitura das leituras quando a beacon não esteve ao alcance. É necessário então desenvolver o módulo por obter essas leituras e guardar na base de dados para a restante aplicação enviar para o portal Senslive.
-\par O \textit{Firmware} disponibilizado converte a RuuviTag numa beacon connectável e disponibiliza sobre a forma de um serviço os Logs da mesma\cite{ruuvitlog}. Para tal é necessário adaptar a aplicação de modo a quando esta esteja encontra beacons ao alcance descarregue o Log.  Quando a beacon se encontra sempre ao alcance a aplicação não necessita de fazer a conexão para descarregar os logs visto esta além da connexção faz o broadcast dos dados em tempo real. O principal problema a resolver neste projeto é o sincronismo de leituras, já retratado no capitulo \ref{sinc} quando a aplicacao encontra-se a registar através do broadcast. Nos Logs não é possivel fazer esse sincronismo devido á mesma não possuir essa funcionalidade internamente. No Download dos Logs é necessário verificar quais as leituras de Log que possam ser referentes a intervalos que existiu a recelção de broadcast e tiveram leituras sincronizadas. É espectável com o firmware selecionado obter uma autonomia entre 2 a 3 anos com ligações esporádicas para descarregar logs ou 6 meses com a connexão sempre ativa. No Fluxograma do apêndice \ref{E} é possivel observar o ciclo referente á obtenção das leituras e dos Logs
+\par A aplicação fornecida pela Ruuvi não está desenvolvida para a leitura das leituras quando a beacon não esteve ao alcance. É necessário então desenvolver o módulo por obter essas leituras e guardar na base de dados para a restante aplicação enviar para o portal Senslive.
+\par O \textit{Firmware} disponibilizado converte a RuuviTag numa beacon connectável e disponibiliza sobre a forma de um serviço os Logs da mesma\cite{ruuvitlog}. Para tal é necessário adaptar a aplicação de modo a quando esta esteja encontra uma nova beacons ao alcance descarregue o seu Log. Quando a beacon se encontra sempre ao alcance a aplicação não necessita de fazer a conexão para descarregar os Logs visto esta além da conexão faz o \textit{broadcast} dos dados em tempo real. O principal problema a resolver neste projeto é o sincronismo de leituras, já retratado no capítulo \ref{sinc} quando a aplicação se encontra a registar através do \textit{broadcast}. Nos Logs não é possível fazer esse sincronismo devido á mesma não possuir essa funcionalidade internamente. No \textit{download} dos Logs é necessário verificar quais as leituras de Log que possam ser referentes a intervalos que existiu a receção de \textit{broadcast} e tiveram leituras sincronizada, não sendo necessário o armazenamento. É espectável com o \textit{Firmware} selecionado obter uma autonomia entre 2 a 3 anos com ligações esporádicas para descarregar Logs ou 6 meses com a conexão sempre ativa. No Fluxograma do apêndice \ref{E} é possível observar o ciclo referente á obtenção das leituras e dos Logs.
 
 
-% O principal problema deste projeto a resolver é a definição do intervalo que a aplicação deve descarregars os Logs da Beacon. No caso mais simples a aplicação num intervalo programado e fixo descarrega os Logs desde o ultimo \textit{download}, mas é criado um problema caso a beacon não esteja ao alcance no preciso momento do intervalo. Caso falhe um intervalo a beacon tem suporte para no intervalo seguinte descarregar ambos os intervalos, mas tem um limite, este variável consoante o valor definido como intervalo de \textit{download}. No caso apresentado anteriormente, no momento definido para descarregar os Logs a beacon pode não estar ao alcance, mas a mesma pode ter estado ao alcence momento antes ou momentos futuros. Nesses casos a aplicação deve segundo o tempo desde a ultima conecção verificar se a deve se ligar a beacon ou não diminuindo a possibilidade de perder leituras. Esta solução é necessário pois a beacon com o \textit{firmware} em questão caso esteja sempre com a connexão ativa para descarregar o Log da última leitura apenas tem autonomia para 6 meses e caso seja feito o \textit{download}  periodicamente de um conjunto de Logs, uma autonomia espectável entre 2 e 3 anos. 
+% O principal problema deste projeto a resolver é a definição do intervalo que a aplicação deve descarregars os Logs da Beacon. No caso mais simples a aplicação num intervalo programado e fixo descarrega os Logs desde o ultimo \textit{download}, mas é criado um problema caso a beacon não esteja ao alcance no preciso momento do intervalo. Caso falhe um intervalo a beacon tem suporte para no intervalo seguinte descarregar ambos os intervalos, mas tem um limite, este variável consoante o valor definido como intervalo de \textit{download}. No caso apresentado anteriormente, no momento definido para descarregar os Logs a beacon pode não estar ao alcance, mas a mesma pode ter estado ao alcence momento antes ou momentos futuros. Nesses casos a aplicação deve segundo o tempo desde a ultima conecção verificar se a deve se ligar a beacon ou não diminuindo a possibilidade de perder leituras. Esta solução é necessário pois a beacon com o \textit{firmware} em questão caso esteja sempre com a connexão ativa para descarregar o Log da última leitura apenas tem autonomia para 6 meses e caso seja feito o \textit{download} periodicamente de um conjunto de Logs, uma autonomia espectável entre 2 e 3 anos. 
 
-\subsubsection{Download Manual}
-\par A aplicação desenvolvida permitirá  ainda ao utilizador a possibilidade de fazer um \textit{Download} manualmente, o máximo de tentativas do \textit{Download} automático pode ser configurado pelo utilizador , com o valor de \textit{default} definido em 1. Além dessa configuração é implementada uma medida de segurança onde caso o RSSI seja inferior a -90, significando que se encontra longe não descarrega os logs devido á possibilidade de perder a ligação no download, neste caso é apresentado ao utilizador uma nota para aproximar o equipamento da Beacon. %Caso uma das beacons entre no alcance do Smartphone e a mesma tenha estabelecido a última ligação num intervalo superior ao configurado(\textit{default}- 1 Hora) a aplicação estabelecerá automaticamente a ligação para descarregar e minimizar a perda de leituras. Igualmente caso a beacon antes do intervalo definido esteja ao alcance e o sinal tenha um valor baixo, significando que se encontra longe e poderá não conseguir descarregar os dados a app descarrega os dados minimizando igualmente as perdas de possíveis dados.
+\subsubsection{\textit{Download} manual}
+\par A aplicação desenvolvida permitirá ainda ao utilizador a possibilidade de fazer um \textit{download} manualmente, configurar o máximo de tentativas do \textit{download} automático, com o valor de \textit{default} definido em 1. Além dessa configuração é implementada uma medida de segurança onde caso o RSSI seja inferior a -90, significando que se encontra longe não são descarregados os Logs devido á possibilidade de perder a ligação no \textit{download}, neste caso é apresentado ao utilizador uma nota para aproximar o equipamento da beacon. %Caso uma das beacons entre no alcance do Smartphone e a mesma tenha estabelecido a última ligação num intervalo superior ao configurado(\textit{default}- 1 Hora) a aplicação estabelecerá automaticamente a ligação para descarregar e minimizar a perda de leituras. Igualmente caso a beacon antes do intervalo definido esteja ao alcance e o sinal tenha um valor baixo, significando que se encontra longe e poderá não conseguir descarregar os dados a app descarrega os dados minimizando igualmente as perdas de possíveis dados.
 
 \section {dot.Tracker}
 \par
-A pedido de um cliente, foi proposto o desenvolvimento de uma plataforma WEB para fazer a monitorização de pessoas e objetos em tempo real. O projeto passou por várias  etapas das quais destacam-se a análise dos requesitos do cliente, anáilise de tecnologias disponiveis, análise de soluções existentes já em comercialização, o desenvolvimento do portal Web, desenvolvimento do Back-End, e testes ao sistema. Apesar do projeto ser apenas desenvolvido por um elemento, mas devido á maior complexidade e duração do mesmo foi adotada a metodlogia SCRUM com entregas/apresentações ao cliente para obter o feed-back do trabalho desenvolvido e assim poder alterar alguns dos requesitos solicitados.
-\par O Cliente indicou que devia ter atualizações dos mapas em tempo real, alertas enviados para o cliente WEB caso este esteja online e por email.
-É assim possivel definir a tabela, apresentada na tabela \ref{tab1} com os requisitos da solução e a sua importância no desenvolvimento.
+A pedido de um cliente, foi proposto o desenvolvimento de uma plataforma WEB para fazer a monitorização de pessoas e objetos em tempo real. O projeto passou por várias etapas das quais destacam-se a análise dos requisitos do cliente, análise de tecnologias disponíveis, análise de soluções existentes já em comercialização, o desenvolvimento do portal Web, desenvolvimento do Back-End, e testes ao sistema. Apesar do projeto ser apenas desenvolvido por um elemento, mas devido á maior complexidade e duração do mesmo foi adotada a metodologia SCRUM com entregas/apresentações ao cliente para obter o \textit{feedback} do trabalho desenvolvido e assim poder alterar alguns dos requisitos solicitados.
+\par O Cliente indicou que devia ter atualizações dos mapas em tempo real, alertas enviados para o cliente WEB caso este esteja \textit{online} e por email.
+É assim possível definir a tabela, apresentada na tabela \ref{tab1} com os requisitos da solução e a sua importância no desenvolvimento.
 
 \begin{table}[htb]
 \centering
-\caption{Requesitos da Solução}\label{tab1}
+\caption{Requesitos da solução}\label{tab1}
 \begin{tabular}{|p{3cm}|p{8cm}|p{2cm}|}\hline
 Requesito&Descrição&Importância (1-10)\\\hline
 
 Portal Cloud (Front-End)&Portal Cloud com mapas em tempo Real& 7\\\hline
 Portal Cloud (Back-End) & API REST para integração com o Front-End e recolha dos dados para a localização &9\\\hline
-Histórico de posições&Possibilidade de revisualizar no mapa o percurso entre datas&5\\\hline
-Alertas Email&Alertas de Email (Exemplo: Entrada e Saída de zonas criadas no mapa)&6\\\hline
-Alertas Web&Alertas Informativos no Mapa(Exemplo: Entrada e Saída de zonas criadas no mapa)&2\\\hline
+Histórico de posições&Possibilidade de re-visualizar no mapa o percurso entre datas&5\\\hline
+Alertas Email&Alertas de Email (Exemplo: Entrada e Saída de zonas criadas no mapa )&6\\\hline
+Alertas Web&Alertas Informativos no Mapa (Exemplo: Entrada e Saída de zonas criadas no mapa )&2\\\hline
 \end{tabular} 
 \end{table}
 
 \par
-De seguida são apresentados as funcionalidades e objetivos de cada requesito e escolhas selecionadas.
+De seguida são apresentados as funcionalidades e objetivos de cada requisito e escolhas selecionadas.
 
-\subsection {Portal Cloud -  Front-End}
+\subsection {Portal Cloud - \textit{Front-End}}
 
-\par O Front-end da solução é desenvolvido com recurso á Framework Vue, tornando a solução numa solução Single-Page Aplication. A adoção da Framework é baseada na necessidade de possuir fluidez na navegação entre páginas e igualmente nos mapas em tempo real minimizando o delay.
-\par A plataforma é capaz igualmente de suportar várias \textit{Companies}, significa isto que é possivel criar várias \textit{Companies} e temos os administradores e os utilizadores normais de cada \textit{Company} que apenas tem acesso ás suas definições e equipamentos. Possibilitando fornecer o projeto como uma solução Cloud a váriados clientes no mesmo Servidor, onde cada um apenas possui o acesso ao que pertence à sua \textit{Company}.
+\par O \textit{Front-end} da solução é desenvolvido com recurso á \textit{Framework Vue}, tornando a solução numa solução \textit{Single-Page Aplication}. A adoção da \textit{framework} é baseada na necessidade de possuir fluidez na navegação entre páginas e igualmente nos mapas em tempo real minimizando o \textit{delay}.
+\par A plataforma é capaz igualmente de suportar várias \textit{Companies}, significa isto que é possível criar várias \textit{Companies} e temos os administradores e os utilizadores normais de cada \textit{Company} que apenas tem acesso ás suas definições e equipamentos. Possibilitando fornecer o projeto como uma solução \textit{Cloud} a váriados clientes no mesmo servidor, onde cada um apenas possui o acesso ao que pertence à sua \textit{Company}.
 No final o utilizador da plataforma deve ser capaz de realizar as seguintes operações:
 \par
 \begin{itemize}
-\item Login na Plataforma para visualizar os dados
-\item Vizualizar mapas com atualizações em tempo real
+\item Login na plataforma para visualizar os dados
+\item Visualizar mapas com atualizações em tempo real
 \item Editar o seu perfil
 \item Visualizar a página numa língua á sua escolha
-\item Utilizar a plataforma em vários equipamentos PC,Tablet,Smartphone,...
-\item Gerir Utilizadores (Administradores)
-\item Gerir Equipamentos (Administradores)
-\item Gerir Mapas e Zonas (Administradores)
-\item Gerir Alertas (Administradores)
-\item Iniciar/ Finalizar Missões (Administradores)
+\item Utilizar a plataforma em vários equipamentos PC, Tablet, Smartphone,...
+\item Gerir utilizadores (Administradores)
+\item Gerir equipamentos (Administradores)
+\item Gerir mapas e zonas (Administradores)
+\item Gerir alertas (Administradores)
+\item Iniciar/ finalizar missões (Administradores)
 \end{itemize}
 
 
-\subsubsection{Login}
- 
-\par Para aceder á plataforma é necessário aos utilizadores procederem ao login na mesma, uma vez que possuimos uma API o login é realizado através de JsonWebTokens ou simplesmente, JWT. No momento do login são enviadas as credenciais para o servidor, caso este as valide cria um token que é devolvido ao cliente e este em futuras requisições à API inclui o token identificando-se perante o servidor. Este método de login é regularmente utilizado devido á necessidade de possuir métodos \textit{Stateless} ao invés da utilização de variáveis de sessão. No exemplo apresentado na figura \ref{jwt1} é apresentado o conteudo de um token JWT. 
+\subsubsection{\textit{Login}}
+\par Para aceder á plataforma é necessário aos utilizadores procederem ao login na mesma, uma vez que possuímos uma API o \textit{login} é realizado através de Json WebTokens ou simplesmente, JWT. No momento do \textit{login} são enviadas as credenciais para o servidor, caso este as valide cria um \textit{Token} que é devolvido ao cliente e este em futuras requisições à API inclui o \textit{token} identificando-se e autenticando-se perante o servidor. Este método de login é regularmente utilizado devido á necessidade de possuir métodos \textit{stateless} ao invés da utilização de variáveis de sessão. No exemplo apresentado na figura \ref{jwt1} é apresentado o conteúdo de um textit{Token} JWT. 
 
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{images/jwt.png}
 \caption{Token JWT codificado e descodificado \cite{jwt}}\label{jwt1}
@@ -497,74 +495,74 @@ No final o utilizador da plataforma deve ser capaz de realizar as seguintes oper
 
 \subsubsection{Rotas e proteções}
 
-\par Para proteger as páginas apenas referentes a administradores e as gerais ao público não logado através da \textit{Framework} Vue e da funcionalidade de rotas foram criadas as rotas necessárias para o funcionamento da plataforma e os restantes endpoints são tratados por uma vista de erro indicando ao utilizador que não existe aquele endpoint. EM cada rota é aplicado um \textit{middleware} para verificar as permissões. Os \textit{middlewares} criados verificam se o utilizador está logado e no caso de serem necessárias permissões se este é administrador ou não. Caso o \textit{middleware} indique que não tem acesso o Vue apresenta a mensagem de erro a indicar que a página não existe.
+\par Para proteger as páginas apenas referentes a administradores e as gerais ao público não autenticado através da \textit{framework Vue} e da funcionalidade de rotas foram criadas as rotas necessárias para o funcionamento da plataforma e os restantes \textit{end-points} são tratados por uma vista de erro indicando ao utilizador que não existe aquele \textit{end-point}. Em cada rota é aplicado um \textit{middleware} para verificar as permissões. Os \textit{middlewares} criados verificam se o utilizador está autenticado e no caso de serem necessárias permissões se este as possui ou não. Caso o \textit{middleware} indique que não tem acesso a \textit{framework Vue}, redireciona para a rota de tratamento de erro apresentado a mensagem de erro correspondente.
 
-\subsection{Portal Cloud - Back-end}
+\subsection{Portal Cloud - \textit{Back-end}}
 
-\par O Back-End é responsável por fornecer uma API REST ao Front-end para o mesmo obter os dados da base de dados. É igualmente responsável por obter os dados proveninentes dos gateways das beacons e calcular as suas posiçoes para apresentar no mapa. 
-\par O primeiro problema a identificado no back-end é a necessidade de possuir atualizações em tempo real das posições. O Front-end não é capaz de calcular quando uma beacon comunica com o back-end apesar da mesma enviar o broadcast em tempos regulares, mas tanto a beacon  pode não estar ao alcance do gateway, como a mesma pode apenas estar ao alcance de menos de X(dependendo do algoritmo) gateways impossibilitando a utilização do algoritmo. Deste modo não é eficaz o Browser solicitar ao servidor num intervalo regular qual a posição do elemento no mapa.
-\par Para tal além do serviço web é disponibilizado um servidor de WEB-Sockets para comunicações em tempo real entre o Back-end e o Front-End. Os WEB-Sockets é uma tecnologia que permite aos browsers mais recentes, ter um canal em tempo real com o back-end sem a necessidade de fazer um pedido HTTP, o que acarreta todo o processo do protocolo, como o \textit{3-Way Handshake}. No momento da criação do websocket é criado uma ligação TCP a qual não é finalizada até ao fechar do websocket, o que elemina o sobrecarregamento da criação de pedidos e soluciona o problema da comunicação em tempo real para as atualizações dos mapas.
-\par Outro problema e solucionar deparado na análise das tecnologias e soluções existentes é a falta de sincronismo da comunicação dos gateways. Supondo um cenário com 5 gateways e 1 beacon. A beacon ao intervalo de tempo X1 comunica o pacote e apenas 4 gateways recebem o pacote e o enviam para o servidor através de um pedido HTTP. O servidor apesar de ter configurado 5 gateways não é capaz de prever se o 5º gateway irá comunicar a transmissão da beacon, o mesmo pode não estar ao alcance, pode não ter comunicação ao servidor, pode estar desligado ou pode haver algum problema na rede que atrase a chegada do pacote. Igualmente por variados motivos os 4 gateways que enviaram o pacote ao servidor não irão chegar todos em simultaneamente, criando o problema "Já chegaram todos os pacotes? Calculo com os que tenho, ou espero que chegue mais algum pacote?",
-\par O primeiro passo para resolver o problema acima citado ao contrário das soluções mais tradicionais não irá ser utilizado um serviço WEB como o APACHE2 ou o NGINX, pois o mesmo não possui nenhum sincronismo entre pedidos e seria necessário armazenar momentaneamente todos os pacotes na base de dados e ter a tabela em constante escrita e leitura, não sendo o mais eficaz no cenário deste projeto. Para tal o serviço web irá ser responsabilidade do NodeJS(módulo express), onde é possivel amazenar variáveis entre pedidos distintos que irá ter além do serviço WEB o servidor de WEB-Sockets, centralizando assim os dois serviçoes e possibilitando igualmente durante o processamento do pedido HTTP o envio de mensagens através do WEB-Socket. 
-\par Na lista apresentada de seguida estão selecionados os pontos principais das funcionalidades do Back-End:
+\par O \textit{Back-End} é responsável por fornecer uma API REST ao \textit{Front-end} para o mesmo obter os dados da base de dados. É igualmente responsável por obter os dados provenientes dos \textit{Gateways} das beacons e calcular as suas posições para apresentar no mapa. 
+\par O primeiro problema a identificado no \textit{Back-end} é a necessidade de possuir atualizações em tempo real das posições. O \textit{Front-end} não é capaz de calcular quando uma beacon comunica com o \textit{Back-end} apesar da mesma enviar o \textit{broadcast} em tempos regulares, mas tanto a beacon pode não estar ao alcance do \textit{Gateway}, como a mesma pode apenas estar ao alcance de menos de X(dependendo do algoritmo) \textit{Gateways} impossibilitando a utilização do algoritmo. Deste modo não é eficaz o \textit{browser} solicitar ao servidor num intervalo regular qual a posição do elemento no mapa.
+\par Para tal além do serviço WEB é disponibilizado um servidor de WEB-Sockets para comunicações em tempo real entre o \textit{Back-end} e o \textit{Front-End}. Os WEB-Sockets é uma tecnologia que permite aos \textit{browsers} mais recentes, ter um canal em tempo real com o \textit{Back-end} sem a necessidade de fazer váris pedidos HTTP, o que acarreta todo o processo do protocolo, como o \textit{3-Way Handshake}. No momento da criação do Web-Socket é criado uma ligação TCP a qual não é finalizada até ao fechar do WEB-Socket, o que elemina o sobre carregamento da criação de pedidos e soluciona o problema da comunicação em tempo real para as atualizações dos mapas.
+\par Outro problema e solucionar deparado na análise das tecnologias e soluções existentes é a falta de sincronismo da comunicação dos \textit{Gateways}. Supondo um cenário com 5 \textit{Gateways} e 1 beacon. A beacon ao intervalo de tempo X1 comunica o pacote e apenas 4 \textit{Gateways} recebem o pacote e o enviam para o servidor através de um pedido HTTP. O servidor apesar de ter configurado 5 \textit{Gateways} não é capaz de prever se o 5º \textit{Gateway} irá comunicar a transmissão da beacon, o mesmo pode não estar ao alcance, pode não ter comunicação ao servidor, pode estar desligado ou pode haver algum problema na rede que atrase a chegada do pacote. Igualmente por variados motivos os 4 \textit{Gateways} que enviaram o pacote ao servidor não irão chegar todos em simultaneamente, criando o problema "Já chegaram todos os pacotes? Cálculo com os que tenho, ou espero que chegue mais algum pacote?",
+\par O primeiro passo para resolver o problema acima citado ao contrário das soluções mais tradicionais não irá ser utilizado um serviço WEB como o APACHE2 ou o NGINX, pois o mesmo não possui nenhum sincronismo entre pedidos e seria necessário armazenar momentaneamente todos os pacotes na base de dados e ter a tabela em constante escrita e leitura, não sendo o mais eficaz no cenário deste projeto. Para tal o serviço WEB irá ser responsabilidade do NodeJS (módulo express), onde é possível armazenar variáveis entre pedidos distintos que irá ter além do serviço WEB o servidor de WEB-Sockets, centralizando assim os dois serviços e possibilitando igualmente durante o processamento do pedido HTTP o envio de mensagens através do WEB-Socket de forma mais fácil. 
+\par Na lista apresentada de seguida estão selecionados os pontos principais das funcionalidades do \textit{Back-End}:
 
 \par
 \begin{itemize}
-\item API REST para o Front-End (Login+ Dados)
-\item API REST para o POST dos Gateways
-\item Serviço WEB (express) para disponibilizar o Front-End 
+\item API REST para o \textit{Front-End}(Login+ Dados)
+\item API REST para o POST dos \textit{Gateways}
+\item Serviço WEB (express) para disponibilizar o \textit{Front-End}
 \item Serviço WEB-Sockets 
 \item Algoritmo de posicionamento
-\item Envio de Alertas
+\item Envio de alertas
 \end{itemize}
 \par
 
-\subsubsection{Sincronismo da Rececão de pacotes}
-\par Os gateways escolhidos enviam dois tipos de pacotes indentificados pelos identificadores GPRP e RSPR. Os pacotes GPRP são referentes ao envio de uma transmissão da beacon. Os pacotes RSPR são referentes ao restante da transmissão da beacon no caso de esta transmitir no Broadcast umas mensagem superior a 31 bytes. O conteúdo do pacote RSPR apenas contem o restante da mensagem não afetando a posição da beacon.
-\par De modo ao servidor possuir todos os pacotes GPRP aquando da utilização no momento da chegada este é armazenado numa variável onde é possivel consultar as ultimas transmissões de todos os gateways. Quando é recebida uma transmissão do tipo GPRP caso esta seja enviada do Gateway X e a ultima transmissão do Gateway X for inferior a 5 segundos(intervalo de envio da beacon) este mesmo pacote é descartado, pois o mesmo  é referente  a um já recebido. Caso seja supeior aos 5 segundos do prórpio Gateways e de todos os restantes, significa que a mesma se trata de uma nova transmissão, neste caso antes de guardar na variável provisória, são selecionados todos os pacotes do intervalo correspondente á ultima transmissão e escolhidos os 4 com o valor mais próximo dos gateways, devido a estes serem os mais fiáveis e é aplicado o algoritmo \textit{Least Squres Estimation} ou vulgarmente denominado de LSE. Após obtenção da posição estimada esta é guardada na Base de dados para consulta futura e são notificados os clientes de uma nova posição do equipamento. Caso essa posição seja referente a alguma zona de alertas previamente definida é gerado os alertas a enviar. No fluxograma do Apêndice \ref{flux1} é apresentado o fluxograma da aplicação para a receção dos pacotes.
+\subsubsection{Sincronismo da rececão de pacotes}
+\par Os \textit{Gateways} escolhidos enviam dois tipos de pacotes identificados pelos identificadores GPRP e RSPR. Os pacotes GPRP são referentes ao envio de uma transmissão da beacon. Os pacotes RSPR são referentes ao restante da transmissão da beacon no caso de esta transmitir no Broadcast uma mensagem superior a 31 bytes. O conteúdo do pacote RSPR apenas contem o restante da mensagem não afetando a posição da beacon.
+\par De modo ao servidor possuir todos os pacotes GPRP aquando da utilização no momento da chegada este é armazenado numa variável onde é possível consultar as ultimas transmissões de todos os \textit{Gateways}. Quando é recebida uma transmissão do tipo GPRP caso esta seja enviada do \textit{Gateway} X e a ultima transmissão do \textit{Gateway} X for inferior a 5 segundos(intervalo de envio da beacon) este mesmo pacote é descartado, pois o mesmo é referente a um já recebido. Caso seja superior aos 5 segundos do próprio \textit{Gateway} e de todos os restantes, significa que a mesma se trata de uma nova transmissão, neste caso antes de guardar na variável provisória, são selecionados todos os pacotes do intervalo correspondente á ultima transmissão e escolhidos os 4 com o valor mais próximo dos \textit{Gateway}, devido a estes serem os mais fiáveis e é aplicado o algoritmo \textit{Least Squres Estimation} ou simplesmente LSE. Após obtenção da posição estimada esta é guardada na Base de dados para consulta futura e são notificados os clientes de uma nova posição do equipamento. Caso essa posição seja referente a alguma zona de alertas previamente definida é gerado os alertas a enviar. No fluxograma do Apêndice \ref{flux1} é apresentado o fluxograma da aplicação para a receção dos pacotes.
 
 
 \subsubsection{Diferenças de alturas}
 
-\par Uma questão analisada nos primeiros testes é a divergências nas distâncias observadas quando a beacon apenas se movia no eixo do Z (altura). O gateway calcula a potência do sinal(RSSI) recebido da beacon, esta receção ocorreu em linha reta entre os dois equipamentos e nos mapas utilizados apenas são utilizadas dimensões 2D significando que o valor da distância obtido pelo RSSI é referente ao mesmo em linha reta e não á distancia numa planta 2D, como é apresentado na figura \ref{altura1}.
+\par Uma questão analisada nos primeiros testes é a divergências nas distâncias observadas quando a beacon apenas se movia no eixo do Z (altura). O \textit{Gateway} calcula a potência do sinal(RSSI) recebido da beacon, esta receção ocorreu em linha reta entre os dois equipamentos e nos mapas utilizados apenas são utilizadas dimensões 2D significando que o valor da distância obtido pelo RSSI é referente ao mesmo em linha reta e não á distancia numa planta 2D, como é apresentado na figura \ref{altura1}.
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.95\textwidth]{images/disr.png}
 \caption{Diferença entre distâncias Planta vs realidade}\label{altura1}
 \end{figure}
 
 
-\par Para tal na aplicação teve de ser desenvolvido a possibilidade de o utilizador configurar as alturas a que se encontram os gateways e as beacons, de modo a compensar a distância. No exemplo apresentado na figura \ref{altura1} o servidor irá receber a informação que o gateway recebe um pacote com o RSSI correspondente á distância de 5 metros mas no mapa não é a distância a considerar para utilizar o algoritmo que apenas possui suporte a coordernadas 2D. Para tal é necessário conjugar a diferença de alturas e a distância em linha reta para calcular a distância a considerar para o algoritmo, segundo o teorema de Pitágoras. No caso exempleficado ao invés dos 5 metros deve ser considerado os 4 metros.
+\par Para tal na aplicação teve de ser desenvolvido a possibilidade de o utilizador configurar as alturas a que se encontram os \textit{Gateways} e as beacons, de modo a compensar a distância. No exemplo apresentado na figura \ref{altura1} o servidor irá receber a informação que o \textit{Gateway} recebe um pacote com o RSSI correspondente á distância de 5 metros mas no mapa não é a distância a considerar para utilizar o algoritmo que apenas possui suporte a coordenadas 2D. Para tal é necessário conjugar a diferença de alturas e a distância em linha reta para calcular a distância a considerar para o algoritmo, segundo o teorema de Pitágoras. No caso exemplificado ao invés dos 5 metros deve ser considerado os 4 metros.
 
-\subsubsection{Algoritmo de Triangulação}
+\subsubsection{Algoritmo de triangulação}
 
-\par Para o projeto foi selecionado o Algoritomo LSE analisado no Capítulo \ref{indoor}, pois o mesmo demonstra os melhores resultados em vários testes. Como parametros deste algoritmo é necessário indicar as posiçoes X,Y de cada gateway e a distância caculada previamente segundo o RSSI e o algoritmo de Pitágoras de modo a resolver a diferença referente á altura.
-\par No Caso do mapa ter configurado um número superior ao necessário para a utilização do algoritmo, neste caso 4, e nos casos em que existam mais do 4 gateways que receberam comunicações apenas são utilizadas as 4 que tiverem menores valores de distância, isto significa que têm um peso maior no cálculo da posição do mesmo. Previamente á selecção das 4 melhores trânsmissões caso alguma das trânsmissões tenha uma distância inferior a 1 metro não é utilizado o algoritmo e é definido a posição da beacon igual á posição do Gateway no mapa. Caso não exista nenhum valor abaixo do 1 metro é utilizado o algoritmo indicado.                                                                                                                                                                                                                                                                                                  
-\par De modo a otimizar o processamento do algoritmo, devido a este envolver cálculos em matrizes e estas não possuirem tamanhos dinâmicos, não foi utilizado nenhuma biblioteca para realizar as operações em matrizes devido ao sobrecarregamento existente nessas bibliotecas. Ao invés os cálculos são realizados manualmente em código segundo as regras den operações das matrizes e o alojamento das suas posições em várias variáveis numéricas. Cada variável possui o valor de uma posição da matriz correspondente. No apêndice \ref{D} é fornecido a função responsável por retornar a posição estimada da beacon ou -1 em caso de erro ou o mapa definido não possua a escala definida, apesar da plataforma não perimitr adicionar gateways a mapas sem escala. No caso especifico apresentado nas linhas 47 a 50 de modo a otimizar a velocidade do algoritmo é mutiplicado por 0.5 ao invés de 1/2, devido ao fator de para multiplicar o valor por 1/2 ocupa mais tempo do processador, uma vez que  são efetuadas duas operçãos, uma multiplicação e uma divisão sendo ainda a divisão uma operação mais lenta de efetuar em relação á multiplicação devido a esta ser emulada pelos processadores.
+\par Para o projeto foi selecionado o Algoritmo LSE analisado no Capítulo \ref{indoor}, pois o mesmo demonstra os melhores resultados em vários testes. Como parâmetros deste algoritmo é necessário indicar as posições X,Y de cada \textit{Gateway} e a distância calculada previamente segundo o RSSI e o algoritmo de Pitágoras de modo a resolver a diferença referente á altura.
+\par No Caso do mapa ter configurado um número superior ao necessário para a utilização do algoritmo, neste caso 4, e nos casos em que existam mais do 4 \textit{Gateways} que receberam comunicações apenas são utilizadas as 4 que tiverem menores valores de distância, isto significa que têm um peso maior no cálculo da posição do mesmo. Previamente á seleção das 4 melhores transmissões caso alguma das transmissões tenha uma distância inferior a 1 metro não é utilizado o algoritmo e é definido a posição da beacon igual á posição do \textit{Gateway} no mapa. Caso não exista nenhum valor abaixo do 1 metro é utilizado o algoritmo indicado. 
+\par De modo a otimizar o processamento do algoritmo, devido a este envolver cálculos em matrizes e estas não possuírem tamanhos dinâmicos, não foi utilizado nenhuma biblioteca para realizar as operações em matrizes devido ao sobre carregamento existente nessas bibliotecas. Ao invés os cálculos são realizados manualmente em código segundo as regras de operações das matrizes e o alojamento das suas posições em várias variáveis numéricas. Cada variável possui o valor de uma posição da matriz correspondente. No apêndice \ref{D} é fornecido a função responsável por retornar a posição estimada da beacon ou -1 em caso de erro ou o mapa definido não possua a escala definida, apesar da plataforma não permitir adicionar \textit{Gateways} a mapas sem escala. No caso especifico apresentado nas linhas 47 a 50 de modo a otimizar a velocidade do algoritmo é multiplicado por 0.5 ao invés de 1/2, devido ao fator de para multiplicar o valor por 1/2 ocupa mais tempo do processador, uma vez que são efetuadas duas operações ao invés de apenas uma, uma multiplicação e uma divisão sendo ainda a divisão uma operação mais lenta de efetuar em relação á multiplicação devido a esta ser emulada pelos processadores.
 
 \subsubsection{Filtros - RSSI}
 
-\par  Após o desenvolvimento do algoritmo e de alguns testes á receção de pacotes, foi possivel analizar numa sala com 6m por 6m  e 4 gateways o sinal das beacons paradas em posições estratégicas   o sinal tem algumas flutuações fazendo com que o algoritmo devolva posições incorretas. De modo a eliminar essas flutuações é necessário filtrar os pacotes com ruido e tentar apróximar o valor do esperado. Para tal irá ser utilizado um modelo matemático denominado por Filtro de Kalman. Este modelo matemático é capaz de ao longo do tempo consonante os valores recebidos tentar aproximar o valor recebido do espectáctável segundo a tendência anterior. Deste modo é necessário alterar o servidor de modo a além de guardar temporáriamente os pacotes inserir o valor no filtro correspondente. Por cada beacon existente na plataforma existe um conjunto de filtros, um por cada gateway que já recebeu alguma comunicação da beacon. Sempre que um gateway comunicação a receção de um pacote da Beacon o valor recebido do RSSI é inserido no filtro onde é retornado o valor estimado segundo os valores anteriormente recebidos. No exemplo da figura \ref{kalman1} é possivel obsservar o funcionamento do filtro ao longo do tempo. Para o projeto é utilizado o plugin Javascript dispónivel no Github onde é implementado o filtro Kalman para dados do tipo 1D. Uma dos fatores para a utilização deste filtro ao invés de outros, além da sua utilização por parte de outras pessas na comunidade cientifica no ambito das localizaçõe \textit{inndoor}, foi a necessidade de um algoritmo rápido a estabiliar os dados e que não sobrecarregue o servidor. Após analise do filtro foi possivel analizar, que por cada filtro apenas são alojados em memória o ultimo valor e 6 variáveis referente aos calculos necessários na próxima filtragem. 
+\par Após o desenvolvimento do algoritmo e de alguns testes á receção de pacotes, foi possível analisar numa sala com 6 metros por 6 metros e 4 \textit{Gateways} o sinal das beacons paradas em posições estratégicas o sinal tem algumas flutuações fazendo com que o algoritmo devolva posições incorretas. De modo a eliminar essas flutuações é necessário filtrar os pacotes com ruido e tentar aproximar o valor do esperado. Para tal irá ser utilizado um modelo matemático denominado por Filtro de \textit{Kalman}. Este modelo matemático é capaz de ao longo do tempo consonante os valores recebidos tentar aproximar o valor recebido do espectável segundo a tendência anterior. Deste modo é necessário alterar o servidor de modo a além de guardar temporariamente os pacotes inserir o valor no filtro correspondente. Por cada beacon existente na plataforma existe um conjunto de filtros, um por cada \textit{Gateway} que já recebeu alguma comunicação da beacon. Sempre que um \textit{Gateway} comunicação a receção de um pacote da beacon o valor recebido do RSSI é inserido no filtro onde é retornado o valor estimado segundo os valores anteriormente recebidos. No exemplo da figura \ref{kalman1} é possível observar o funcionamento do filtro ao longo do tempo. Para o projeto é utilizado o plugin JavaScript disponível no GitHub onde é implementado o filtro \textit{Kalman} para dados do tipo 1D. Um dos fatores para a utilização deste filtro ao invés de outros, além da sua utilização por parte de outras pessoas na comunidade científica no âmbito das localizações \textit{inndoor}, foi a necessidade de um algoritmo rápido a estabilizar os dados e que não sobrecarregue o servidor. Após analise do filtro foi possível analisar, que por cada filtro apenas são alojados em memória o último valor e 6 variáveis referente aos cálculos necessários na próxima filtragem, não sendo o espaço assim influenciado pelo tempo que tiver em funcionamento.
 
- \begin{figure}[ht]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.90\textwidth]{images/kalman-example.png}
-\caption{Exemplo do Filtro Kalman \cite{kalman}}\label{kalman1}
+\caption{Exemplo da aplicação do Filtro Kalman \cite{kalman}}\label{kalman1}
 \end{figure}
 
 
 
-\subsubsection{Filtros - Posição no Mapa}
+\subsubsection{Filtros - Posição no mapa}
 
-\par Após filtragem do ruido gerado pela transmissão dos dados no meio ambiente, é necessário ainda filtrar certas ocorrências que ocorrem em certas posições e suavizar o movimento quando as beacons se encontram em movimento. O primeiro caso a filtrar  referente ao caso da beacon esteja numa posição X1,Y1 no momento t e no momento t+1  em X2,Y2 onde a distância entre pontos é elevada. Para tal quando uma posição é calculada segundo o algoritmo LSE esta posição é comparada com a última guardada do mapa correspondente e é calculada a distância entre ambos os pontos, de seguida é calculada igualmente a velocidade segundo o tempo entre as leituras e a distância. Caso esta seja superior à definida, 5 m/s (18 Km/h), esta posição não é considerada enquanto o tempo entre leituras não permitir o deslocamento da pessoa/objeto para essa mesma posição. O valor máximo da velocidade é possivel de ser adapatado consoante o pretendido medir, mas neste caso o cliente pretende monotorizar pessoas e objetos. Os objetos alojados no armazém devem ter um deslocamento maioroitariamente de 0 pois encontram-se parados e o valor de 5m/s corresponde á possibilidade de estar em movimento num empilhador ou similar. A velocidade média de uma pessoa a andar é de cerca 1 a 2m/s em caminhada e cerca de 1 a 3.8m/s em corrida, valores sempre inferiores à já definida no intervalo dos objetos \cite{walkingSpeed},\cite{Long2013}.
-\par Outro filtro a aplicar é no caso particular de uma beacon se encontrar parada e apesar do filtro Kalman filtrar o RSSI a posição possuir pequenas oscilações. Para tal se for gerada uma nova posição, esta passar no filtro da velocidade pois esta se encontra parada e perto da posição da ultima comunicação com pequenas oscilações e esta oscilação for inferior a 1 metro a posição é guardada para comparação futura mas não é atualizada nos mapas através do Websocket. Na próxima receção caso esteja numa posição inferior a 1 metro da posição do mapa dos browsers e a menos de 1 metro da ultima posição guardada existente apenas no servidor, não é atualizada a posição apenas novamente no servidor para futura comparação, caso não aconteça e esteja a menos de 1 metro da ultima guardada no servidor e a mais de 1 metro da presente nos browsers esta é guardada e enviada para os browsers através do Websocket. Caso se encontre a uma distância superior a 1 metro em ambas e abaixo dos 5m/s a posição é atualizada no servidor e nos Browsers.
+\par Após filtragem do ruido gerado pela transmissão dos dados no meio ambiente, é necessário ainda filtrar certas ocorrências que ocorrem em certas posições e suavizar o movimento quando as beacons se encontram em movimento. O primeiro caso a filtrar referente ao caso da beacon esteja numa posição X1,Y1 no momento t e no momento t+1 em X2,Y2 onde a distância entre pontos é elevada. Para tal quando uma posição é calculada segundo o algoritmo LSE esta posição é comparada com a última guardada do mapa correspondente e é calculada a distância entre ambos os pontos, de seguida é calculada igualmente a velocidade segundo o tempo entre as leituras e a distância. Caso esta seja superior à definida, 5 m/s (18 Km/h), esta posição não é considerada enquanto o tempo entre leituras não permitir o deslocamento da pessoa/objeto para essa mesma posição. O valor máximo da velocidade é possível de ser adaptado consoante o pretendido medir, mas neste caso o cliente pretende monitorar pessoas e objetos. Os objetos alojados no armazém devem ter um deslocamento maioritariamente de 0 pois encontram-se parados e o valor de 5m/s corresponde á possibilidade de estar em movimento num empilhador ou similar. A velocidade média de uma pessoa a andar é de cerca 1 a 2m/s em caminhada\cite{walkingSpeed} e cerca de 1 a 3.8m/s \cite{Long2013}. em corrida, valores sempre inferiores à já definida no intervalo dos objetos.
+\par Outro filtro a aplicar é no caso particular de uma beacon se encontrar parada e apesar do filtro \textit{Kalman} filtrar o RSSI a posição possuir pequenas oscilações. Para tal se for gerada uma nova posição, esta passar no filtro da velocidade pois esta se encontra parada e perto da posição da última comunicação com pequenas oscilações e esta oscilação for inferior a 1 metro a posição é guardada para comparação futura mas não é atualizada nos mapas através do Web-Socket. Na próxima receção caso esteja numa posição inferior a 1 metro da posição do mapa dos \textit{browsers} e a menos de 1 metro da ultima posição guardada existente apenas no servidor, não é atualizada a posição apenas novamente no servidor para futura comparação, caso não aconteça e esteja a menos de 1 metro da ultima guardada no servidor e a mais de 1 metro da presente nos \textit{browsers} esta é guardada e enviada para os \textit{browsers} através do Web-Socket. Caso se encontre a uma distância superior a 1 metro em ambas e abaixo dos 5m/s a posição é atualizada no servidor e nos \textit{browsers}.
 
-\subsubsection{Zonas de Alerta}
+\subsubsection{Zonas de alerta}
 
-\par Um dos requesitos do cliente na solução é a definição de zonas de alerta, onde é possivel indicar se a plataforma deve enviar alertas quando as beacons saem ou entram de uma zona. Para tal além da programação do Front-end onde o utilizador através da colucação dos vários vertices da zona indica ao sistema os limites da zona. Após a definição da regra e dos limites é necessário  o servidor no calculo de uma posição verificar se a beacon saiu ou entrou numa zona definida como alarme. No caso de poligonos regulares tais como circulos, retangulos, triangulos é fácilmente calculado se um ponto se encontra dentro da área. No caso de poligonos irrregulares o caso é diferente. Para tal foi utilizado na solução o plugin "point-in-polygon" \cite {pointpoint}. Este algoritmo é capaz de indicar se um determinado ponto X,Y se encontra dentro do poligono ou fora, definido pelos conjunto de pontos.
+\par Um dos requisitos do cliente na solução é a definição de zonas de alerta, onde é possível indicar se a plataforma deve enviar alertas quando as beacons saem ou entram de uma zona. Para tal além da programação do \textit{Front-end} onde o utilizador através da colocação dos vários vértices da zona indica ao sistema os limites da zona. Após a definição da regra e dos limites é necessário o servidor no cálculo de uma posição verificar se a beacon saiu ou entrou numa zona definida como alarme. No caso de polígonos regulares tais como círculos, retângulos, triângulos é facilmente calculado se um ponto se encontra dentro da área. No caso de polígonos irregulares o caso é diferente. Para tal foi utilizado na solução o plugin "point-in-polygon" \cite {pointpoint}. Este algoritmo é capaz de indicar se um determinado ponto X,Y se encontra dentro do polígono ou fora, definido pelos conjunto de pontos fornecidos .
 
-\subsection{Reutilização de Beacons}
+\subsection{Reutilização de beacons}
 
-\par De modo a contruir uma plataforma modular e reutilizável cada beacon pode ser reutilizada na plataforma. No momento da configração é adicionada uma beacon á conta da \textit{Company}. Para as posições serem guardadas na base de dados é necessário o utilizador aceder á plataforma e iniciar uma missão indicando a data de inicio e se pretende localizar pessoas ou objetos e qual o utilizador/ objeto a localizar. Neste momento sempre que a beacon seja localizada nos mapas referentes á \textit{Company} detentora da beacon a posiçao é guardada com informação sobre a missão do tracking. Quando a beacon já não é necessária o utilizador pode terminar a missão da beacon e a plataforma deixa de registar as posiçoies enquanto não possuri missão ativa novamente. Desta forma o cliente pode adquirir várias beacons, mas caso pretenda mudar de objetivo, como por exemplo um emregago seixe trabalhar na empresa e começar outro funcionário pode ser trespassada a beacon e nos históricos estes ficam separados e é possivel de forma intuitiva decidir quais os dados que são de cada utilizador, excluindo a necessidade de utilizar uma beacon com um identificador diferente (MAC) para isso.
+\par De modo a contruir uma plataforma modular e reutilizável cada beacon pode ser reutilizada na plataforma. No momento da configuração é adicionada uma beacon á conta da \textit{Company}. Para as posições serem guardadas na base de dados é necessário o utilizador aceder á plataforma e iniciar uma missão indicando a data de início e se pretende localizar pessoas ou objetos e qual o utilizador/ objeto a localizar. Neste momento sempre que a beacon seja localizada nos mapas referentes á \textit{Company} detentora da beacon a posição é guardada com informação sobre a missão do \textit{tracking}. Quando a beacon já não é necessária o utilizador pode terminar a missão da beacon e a plataforma deixa de registar as posições enquanto não possuir missão ativa novamente. Desta forma o cliente pode adquirir várias beacons, mas caso pretenda mudar de objetivo, como por exemplo um empregado deixe de trabalhar na empresa e começar outro funcionário pode ser trespassada a beacon e nos históricos estes ficam separados e é possível de forma intuitiva decidir quais os dados que são de cada utilizador, excluindo a necessidade de utilizar uma beacon com um identificador diferente (MAC) para isso.
 \par

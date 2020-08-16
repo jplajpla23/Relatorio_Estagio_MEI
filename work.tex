@@ -425,9 +425,10 @@ A estrutura criada pela Captemp segue o formato apresentado na figura \ref{packe
 
 \par De modo a substituir um produto descontinuado e apresentar novas soluções aos clientes, irão ser utilizadas beacons para armazenar os valores da temperatura, humidade e pressão ambiental para posterior envio para o portal Senslive. No início do estágio não estava disponível nenhuma versão de \textit{Firmware} com armazenamento dos dados e estava proposto o desenvolvimento da solução utilizando o Espruino, uma plataforma que permite fazer a programação de microcontroladores com recurso a JavaScript. Foram realizados pequenos testes e chegou-se á conclusão que a camada interpretadora do Javascript tem um consumo mais elevado comparando com uma versão desenvolvida em C. Além do maior consumo energético, já foi disponibilizado um \textit{Firmware} com armazenamento de leituras para posterior arquivo. Devido a esses dois fatores não será desenvolvido o \textit{Firmware} como estava inicialmente proposto e irá ser apostado no melhoramento e desenvolvimento da aplicação responsável por obter os dados e enviar para o portal Senslive. 
 
+
 \subsection{App - Alterarações necessárias}
 
-\par A aplicação numa primeira fase irá ser baseada na fornecida pela Ruuvi e serão alteradas as referências para o \textit{website} da RuuviTag para o \textit{website} da Captemp, a alteração das imagens para o novo logótipo da solução. Devido é necessidade de desenvolvimento do \textit{Back-end} no Senslive, será desenvolvida apenas a versão Android, e posteriormente o desenvolvimento de uma versão Android e IOS com recurso a uma plataforma que permita o desenvolvimento para ambas as plataformas com apenas um código fonte, tais como o NativeScript\cite{nativescript}, o Ionic\cite{ionic} entre outras.
+\par A aplicação na primeira fase irá ser baseada na fornecida pela Ruuvi e serão alteradas as referências referentes ao \textit{website} da RuuviTag para o \textit{website} da Captemp e a alteração das imagens para o novo logótipo da solução. Devido é necessidade de desenvolvimento do \textit{Back-end} no Senslive, será desenvolvida apenas adaptada a versão Android, e na segunda fase do projeto desenvolvimento de uma versão Android e IOS com recurso a uma plataforma que permita o desenvolvimento para ambas as plataformas com apenas um código fonte, tais como o NativeScript\cite{nativescript}, o Ionic\cite{ionic} entre outras.
 
 \subsection{App - Novas funcionalidades}
 
@@ -439,6 +440,19 @@ A estrutura criada pela Captemp segue o formato apresentado na figura \ref{packe
 
 \subsubsection{\textit{Download} manual}
 \par A aplicação desenvolvida permitirá ainda ao utilizador a possibilidade de fazer um \textit{download} manualmente, configurar o máximo de tentativas do \textit{download} automático, com o valor de \textit{default} definido em 1. Além dessa configuração é implementada uma medida de segurança onde caso o RSSI seja inferior a -90, significando que se encontra longe não são descarregados os Logs devido á possibilidade de perder a ligação no \textit{download}, neste caso é apresentado ao utilizador uma nota para aproximar o equipamento da beacon. %Caso uma das beacons entre no alcance do Smartphone e a mesma tenha estabelecido a última ligação num intervalo superior ao configurado(\textit{default}- 1 Hora) a aplicação estabelecerá automaticamente a ligação para descarregar e minimizar a perda de leituras. Igualmente caso a beacon antes do intervalo definido esteja ao alcance e o sinal tenha um valor baixo, significando que se encontra longe e poderá não conseguir descarregar os dados a app descarrega os dados minimizando igualmente as perdas de possíveis dados.
+
+\subsection{Desenvolvimento de uma aplicação multi-plataforma}
+
+\par A \textit{Framework} escolhida foi o Ionic, uma \textit{Framework open-source} que permite o desenvolvimento de aplicações \textit{mobile} para múltiplas plataformas com o mesmo código, melhorando o tempo necessário para o desenvolvimento e simplificando os processos de atualização visto apenas existir um código fonte a atualizar. 
+\par Esta fase do projeto Kea.Tracker é referente á conversão da aplicação existente em Kotlin para o Ionic e migrar todas a funcionalidades existentes atualmente na versão em Kotlin. 
+Ao invés da utilização de \textit{Activities} como no Kotlin o Ionic utiliza um sistema similar a um serviço WEB onde são criadas várias rotas e é possível navegar entre elas. Todo o \textit{design} da platadorma seguiu o mesmo layout da aplicação já existente, onde foram retiradas as opções de alertas e vizualização dos gráficos visto pretendermos centralizar essas opões no portal Senslive e utilizar a aplicação apenas como um \textit{Gateway}. Fica assim disponível na aplicação apenas de adicionar novos equipamentos ao gateway neste caso a App, editar o nome do equipamento para mais fácil distinção entre os vários equipamentos, as configurações da aplicação e um serviço em \textit{Background} para realizar as leituras sem necessidade da aplicção estar aberta.
+	
+\subsubsection{Distinção entre \textit{Beacons} \& Leitura de Dados  }
+
+\par Para facilitar a utilização da interface da aplicação ao utilizador da mesma ao adicionar um novo dispositivo apenas são mostrados os dispositivos ao alcance que correspondam a equipamentos da Ruuvi que estejam a transmitir os dados nos formatos definidos. Todos os equipamentos BLE nos dados transmitidos em \textit{Broadcast} possuem informaçãoes no \textit{header} da transmissão, tais como o fabricante, denominado de \textit{"Company Identifier"}. No caso das \textit{Beacons} da Ruuvi é enviado o código  correspondente á Ruuvi, "0x0499. Estes códigos podem ser consultados na documentação do \textit{Bluetooth} \cite{companySI}. Juntamente com o \textit{Company Identifier} o protocolo define mais alguns parâmteros tais como o tamanho do header. No caso das \textit{Beacons} da Ruuvi é enviado os dados referentes aos sensores nos diversos formatos definidos na documentaão da Ruuvi \cite{GitHubRuuvi}, precedidos por um byte com o valor correspondente  ao formato dos dados.
+\par Segundo a documentação a aplicação deve suportar a leitura em tempo real de dois formato o formato 3 e 5, pois são estes os existentes nas \textit{Beacons} atuais
+
+
 
 \section {dot.Tracker}
 \par

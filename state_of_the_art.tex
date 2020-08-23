@@ -160,7 +160,7 @@ De seguida estão apresentadas as alterações necessárias na aplicação já e
 \section{dot.Tracker} \label{dot.tracker}
 
 
-\par O Projeto dot.Tracker é um desenvolvimento de um projeto a pedido do cliente que pretende através de uma plataforma WEB monitorar a posição de objetos e de pessoas em tempo real. Neste projeto serão utilizadas beacons BLE e \textit{Gateways} responsáveis por receber os pacotes das beacons e os transmitir para um servidor. O servidor será capaz de processar os pacotes e calcular a posição da beacon no mapa e informar os utilizadores sobre alertas e estatísticas.
+\par O Projeto dot.Tracker é um desenvolvimento de um projeto a pedido do cliente que pretende através de uma plataforma WEB monitorar a posição de objetos e de pessoas em tempo real. Neste projeto serão utilizadas beacons BLE e \textit{Gateways} responsáveis por receber os pacotes das beacons e os transmitir para um servidor. O servidor será capaz de processar os pacotes e calcular a posição da beacon no mapa e informar os utilizadores sobre alertas e estatísticas. Visto este projeto ter sido solicitado por um cliente que pretendia uma solução à medida e este não se encontrar no espaço Europeu não há problemas de registo e armazenamento do \textit{Tracking} das pessoas devido á legislação em vigor na Europa para proteção de dados, o RGDP.
 
 Á semelhança do projeto Kea Tracker o projeto dot.Tracker usa igualmente beacon's BLE para enviar a informação necessária para o respetivo portal. É necessário recolher os pacotes recebidos das beacons enviá-los para o servidor e calcular a distância entre a beacon e o recetor e com o auxilio de múltiplos recetores realizar a triangulação da beacon num mapa. No decorrer do projeto será necessário desenvolver uma plataforma WEB para receber e visualizar as localizações provenientes das beacons e respetivas configurações, adotar o método de algoritmo para a triangulação da beacon relativamente a vários recetores e realizar testes ao funcionamento e precisão do sistema.
 \subsection{Beacons e \textit{Gateway}}
@@ -169,7 +169,7 @@ Para este projeto irá ser utilizado durante o desenvolvimento a solução da Be
 
 \section{Soluções e tecnologias disponíveis} \label{solucoesDisponiveis}
 
-Neste subcapítulo abordamos algumas das abordagens possíveis para atingir os objetivos nas secções anteriores (Secção \ref{compressaoFicheiros}), assim como a aplicação dos mesmos em produtos existentes (Secção \ref{produtos}).
+Neste subcapítulo é abordado algumas das abordagens possíveis para atingir os objetivos nas secções anteriores (Secção \ref{compressaoFicheiros}), assim como a aplicação dos mesmos em produtos existentes (Secção \ref{produtos}).
 
 
 \subsection{Tecnologias disponíveis} \label{compressaoFicheiros}
@@ -207,6 +207,8 @@ O GZIP e o brotli usam na sua compressão para reduzir o tamanho do ficheiro o a
 \includegraphics[width=0.85\textwidth]{images/gzip2.png}
 \caption{Sequência comprimida com LZ77(palavras e sequências)}\label{gzip2}
 \end{figure}
+
+
 
 
 \subsubsection{Compressão de imagens}
@@ -301,6 +303,8 @@ $ X= \frac{1}{2}(A^T A)^{-1} A^T b$
 \par Os testes analisados demonstram\cite{Wang2013} , que o método LSE é o método que obtém os melhores resultados com os valores mais próximos do real. No teste apresentado em segundo lugar está o \textit{Three-border Position} e por último o \textit{centroid}. Com algumas discrepâncias em algumas das amostragens.
 
 \subsection{Produtos similares} \label{produtos}
+
+\par Neste subcapítulo é abordado alguns produtos já existentes no mercado para os projetos NB-IOT e Kea Tracker
 \subsubsection{NB-Iot}
 \par
 Atualmente no mercado começam a surgir alguns produtos similares ao que se pretende desenvolver como é o caso dos sensores da Efento\cite{epoka}, que disponibiliza vários tipos de sensores que comunicam por NB-Iot. A Efento é uma empresa fundada em 2014 e é focada em desenvolvimento de equipamentos IOT. Atualmente desenvolveram versões com suporte para NB-Iot. Estes equipamentos tem a desvantagem de não ser compatível com o pacote de envio desenvolvido no portal Senslive e apenas permite o envio para o portal da Efento e não existe a possibilidade da utilização das sondas já comercializadas pela Captemp. Como vantagem á semelhança do equipamento a desenvolver é a utilização de um sistema com Log para quando não existe possibilidade de comunicação.

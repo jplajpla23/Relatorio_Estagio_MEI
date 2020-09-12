@@ -65,14 +65,14 @@ Tipo de SIM & 4FF Nano \\\hline
 Interfaces& UART, SPI, USB \\\hline 
 Programação MicroPython& 32 KB Flash / 32 KB RAM \\\hline 
 I/O& 4 ADC (10-bit), 13 I/O digitais, USB, I2C \\\hline 
-Bluetooth& BLE Ready \\\hline 
+\textit{Bluetooth}& BLE Ready \\\hline 
 Potencia de Transmissão& Até 23 dBm \\\hline 
 Sensibilidade de Receção (LTE-M) & -105 dBm \\\hline 
 Sensibilidade de Receção (NB-IoT) & -113 dBm \\\hline 
 Velocidade Downlink/Uplink(LTE-M) & Até 375 kb/s \\\hline 
 Velocidade Downlink/Uplink(NB-IoT) & Até 27.2 kb/s Downlink, 62.5kb/s Uplink \\\hline 
 Alimentação & 3.3-4.3VDC \\\hline 
-Pico corrente na transmissão & \begin{tabular}{@{}c@{}} 550mA - Bluetooth OFF \\ 610mA - Bluetooth ON\end{tabular}\\\hline 
+Pico corrente na transmissão & \begin{tabular}{@{}c@{}} 550mA - \textit{Bluetooth} OFF \\ 610mA - \textit{Bluetooth} ON\end{tabular}\\\hline 
 Corrente média de transmissão (LTE-M) & 235mA \\\hline 
 Corrente média de transmissão (NB-IoT) & 190mA \\\hline 
 Modo Power Save& 20uA \\\hline 
@@ -95,7 +95,7 @@ A placa de expansão inclui um módulo de RTC, um conversor 1Wire para possibili
 \item Xtensa
 \end{itemize}
 \par
-Em microcontroladores que suportem \textit{multi-thread} , não sendo o caso do módulo usado está disponível ao programador o módulo de "\_thread" para criar processamento paralelo. Disponibiliza a programação de interrupções físicas, uteis em microcontroladores, tem disponível um \textit{Garbage collector} para gerir a memória do microcontrolador e bibliotecas tais como "usocket" para criação e gestão de sockets, "network" para gerir a comunicação com o módulo específico de cada microcontrolador, ou a biblioteca para gerir o módulo de bluetooth denominada por "ubluetooth". As bibliotecas disponíveis encontram-se no site oficial da documentação\cite{micropython_lib}. 
+Em microcontroladores que suportem \textit{multi-thread} , não sendo o caso do módulo usado está disponível ao programador o módulo de "\_thread" para criar processamento paralelo. Disponibiliza a programação de interrupções físicas, uteis em microcontroladores, tem disponível um \textit{Garbage collector} para gerir a memória do microcontrolador e bibliotecas tais como "usocket" para criação e gestão de sockets, "network" para gerir a comunicação com o módulo específico de cada microcontrolador, ou a biblioteca para gerir o módulo de \textit{Bluetooth} denominada por "ubluetooth". As bibliotecas disponíveis encontram-se no site oficial da documentação\cite{micropython_lib}. 
 
 \subsection {NB-Iot/ LTE-M}
 O NB-Iot ou Narrowband Iot e o LTE-M são tecnologias de \textit{Low Power Wide Area}. São indicadas para sistemas \textit{smart} em diversas áreas como a monitorização, a agricultura, localizadores entre outras áreas. Similar ao funcionamento da rede móvel, onde cada equipamento possui um cartão SIM e se liga á rede fornecida pelo operador, mas utilizado em equipamentos com menor transmissão de dados e que não tem acesso a fontes de alimentação fixas e requerem de baterias, o NB-Iot promete autonomias das baterias a rondar os 10 anos\cite{u_2017}.Devido ao baixo volume de dados o plano de dados é possível apenas com pequeno investimento obter anos e até décadas de transmissões de dados.
@@ -129,8 +129,8 @@ O Projeto Kea Tracker utiliza \textit{beacons} da Ruuvi,\textit{beacons open-sou
 O \textit{Bluetooth Low Energy} ou simplesmente BLE foi desenvolvido a pensar nos novos equipamentos IOT, onde os utilizadores querem vários equipamentos ligado ao mesmo tempo. Para tal foi desenvolvido o BLE que permite mais ligações ao mesmo tempo comparando com o \textit{Bluetooth} clássico.
 Como é indicado no nome, o principal fator diferenciador nesta versão, utilizada muitas vezes em equipamentos IOT, é o baixo consumo de aproximadamente metade relativamente ao \textit{Bluetooth} normal. Outras características melhoradas a visar os equipamentos de IOT no BLE são a baixa largura de banda e o baixo tempo de transmissão.
 
-Com o desenvolver do BLE foram criados, novos tipos de equipamentos, nomeadamente os beacons, equipamentos quase sempre alimentados por pilhas, que comunicam através de BLE, tornando o equipamento portátil. Os beacons são caracterizadas por transmitir pequenas quantidades de informação em \textit{broadcast}.
-Existem dois tipos de beacons, os beacons não conectáveis e as conectáveis\cite{blepacket}. Como indicado no nome os beacons conectáveis permitem que um equipamento (como um \textit{smartphone}) se conecte ao \textit{beacons} e esta fica preparada para receber dados. As não conectáveis apenas permitem o \textit{broadcast}  dos dados, poupando energia pois apenas é necessário ter o módulo acordado para fazer o \textit{broadcast} e o restante do tempo podem estar num estado \textit{sleep}. Na figura \ref{blepacket} é apresentado o pacote que é transmitido em \textit{broadcast} para os outros equipamentos ao alcance.
+Com o desenvolver do BLE foram criados, novos tipos de equipamentos, nomeadamente os \textit{beacons}, equipamentos quase sempre alimentados por pilhas, que comunicam através de BLE, tornando o equipamento portátil. Os \textit{beacons} são caracterizadas por transmitir pequenas quantidades de informação em \textit{broadcast}.
+Existem dois tipos de \textit{beacons}, os \textit{beacons} não conectáveis e as conectáveis\cite{blepacket}. Como indicado no nome os \textit{beacons} conectáveis permitem que um equipamento (como um \textit{smartphone}) se conecte ao \textit{beacon} e este fica preparado para receber dados. Os não conectáveis apenas permitem o \textit{broadcast}  dos dados, poupando energia pois apenas é necessário ter o módulo acordado para fazer o \textit{broadcast} e o restante do tempo podem estar num estado \textit{sleep}. Na figura \ref{blepacket} é apresentado o pacote que é transmitido em \textit{broadcast} para os outros equipamentos ao alcance.
 
 \begin{figure}[htb]
 \centering
@@ -162,9 +162,10 @@ De seguida estão apresentadas as alterações necessárias na aplicação já e
 
 \par O Projeto dot.Tracker é um desenvolvimento de um projeto a pedido do cliente que pretende através de uma plataforma WEB monitorar a posição de objetos e de pessoas em tempo real. Neste projeto serão utilizados \textit{beacons} BLE e \textit{Gateways} responsáveis por receber os pacotes dos \textit{beacons} e os transmitir para um servidor. O servidor será capaz de processar os pacotes e calcular a posição do \textit{beacon} no mapa e informar os utilizadores sobre alertas e estatísticas. Visto este projeto ter sido solicitado por um cliente que pretendia uma solução à medida e este não se encontrar no espaço Europeu não há problemas de registo e armazenamento do \textit{Tracking} das pessoas devido á legislação em vigor na Europa para proteção de dados, o RGDP.
 
-Á semelhança do projeto Kea Tracker o projeto dot.Tracker usa igualmente\textit{beacons} BLE para enviar a informação necessária para o respetivo portal. É necessário recolher os pacotes recebidos dos \textit{beacons} enviá-los para o servidor e calcular a distância entre o \textit{beacon} e o recetor e com o auxilio de múltiplos recetores realizar a triangulação do \textit{beacon} num mapa. No decorrer do projeto será necessário desenvolver uma plataforma WEB para receber e visualizar as localizações provenientes dos \textit{beacons} e respetivas configurações, adotar o método de algoritmo para a triangulação do \textit{beacon} relativamente a vários recetores e realizar testes ao funcionamento e precisão do sistema.
+Á semelhança do projeto Kea Tracker o projeto dot.Tracker usa igualmente\textit{beacons} BLE para enviar a informação necessária para o respetivo portal. É necessário recolher os pacotes recebidos dos \textit{beacons} enviá-los para o servidor e calcular a distância entre o \textit{beacon} e o recetor e com o auxílio de múltiplos recetores realizar a triangulação do \textit{beacon} num mapa. No decorrer do projeto será necessário desenvolver uma plataforma WEB para receber e visualizar as localizações provenientes dos \textit{beacons} e respetivas configurações, adotar o método de algoritmo para a triangulação do \textit{beacon} relativamente a vários recetores e realizar testes ao funcionamento e precisão do sistema.
+
 \subsection{\textit{Beacons} e \textit{Gateway}}
-Para este projeto irá ser utilizado durante o desenvolvimento a solução da Beacon Line\cite{taskit} e outras a pesquisar de modo a procurar as melhores soluções e posteriormente desenvolvido recetores proprietários da Captemp. A solução apresentada pela Beacon Line, é composta por um \textit{Gateway} e vários nós. Cada nó possui um recetor BLE e quando o mesmo recebe um \textit{broadcast} proveniente do \textit{beacon} o transmite para o \textit{Gateway}. Caso exista alguma divergência da potência de transmissão desde o último pacote enviado por esse mesmo \textit{beacon} o gateway com conectividade Ethernet realiza o \textit{Publish} num broker onde é possível o servidor obter os pacotes dos \textit{beacon}. As restantes soluções baseiam-se em equipamentos com uma interface BLE e outra Wi-Fi e comunicam diretamente com o servidor ao invés de comunicarem com um ponto central como acontece no caso da Beacon Line.
+Para este projeto irá ser utilizado durante o desenvolvimento a solução da Beacon Line\cite{taskit} e outras a pesquisar de modo a procurar as melhores soluções e posteriormente desenvolvido recetores proprietários da Captemp. A solução apresentada pela Beacon Line, é composta por um \textit{Gateway} e vários nós. Cada nó possui um recetor BLE e quando o mesmo recebe um \textit{broadcast} proveniente do \textit{beacon} o transmite para o \textit{Gateway}. Caso exista alguma divergência da potência de transmissão desde o último pacote enviado por esse mesmo \textit{beacon} o \textit{gateway} com conectividade Ethernet realiza o \textit{Publish} num broker onde é possível o servidor obter os pacotes dos \textit{beacon}. As restantes soluções baseiam-se em equipamentos com uma interface BLE e outra Wi-Fi e comunicam diretamente com o servidor ao invés de comunicarem com um ponto central como acontece no caso da Beacon Line.
 
 
 \section{Soluções e tecnologias disponíveis} \label{solucoesDisponiveis}
@@ -221,7 +222,7 @@ Com a enorme quantidade e diversidade de monitores existentes, as páginas web n
 
 \subsubsection{Localização \textit{indoor}} \label{indoor}
 \par
-É possível encontrar na comunidade científica vários estudos sobre a utilização de redes Wi-Fi e Bluetooth para sistemas de localização. Estes mesmos focam-se no cálculo das distâncias do equipamento para vários recetores no mesmo intervalo temporal, algumas destas soluções baseiam-se nos valores de RSSI da transmissão e o valor definido como constante da potência de transmissão á distância de 1 metro, e estimar a sua distância aproximada de cada recetor, com essas aproximações é possível através do algoritmo escolhido\cite{Wang2013}, obter a estimativa da localização do equipamento e a sua colocação num mapa.
+É possível encontrar na comunidade científica vários estudos sobre a utilização de redes Wi-Fi e \textit{Bluetooth} para sistemas de localização. Estes mesmos focam-se no cálculo das distâncias do equipamento para vários recetores no mesmo intervalo temporal, algumas destas soluções baseiam-se nos valores de RSSI da transmissão e o valor definido como constante da potência de transmissão á distância de 1 metro, e estimar a sua distância aproximada de cada recetor, com essas aproximações é possível através do algoritmo escolhido\cite{Wang2013}, obter a estimativa da localização do equipamento e a sua colocação num mapa.
 A distância de um recetor para o emissor baseada no valor de RSSI é expressa pela seguinte fórmula, onde dbm é a constante da potência de transmissão da \textit{beacon} a 1 metro, n a constante do ambiente e o RSSI corresponde ao RSSI da transmissão:
 \par
 \begin{center}
@@ -230,7 +231,7 @@ $d=10^(\frac{dbm-RSSI}{10 \times n})$
 
 \par
 Após a obtenção da distância para cada recetor é possível aplicar um algoritmo para estimar a localização. Os mais referenciados e adotados são o \textit{centroid} baseado no centro geométrico do polígono formado pelas interceções das circunferências criadas com o raio da distância calculada pela fórmula anteriormente apresentada, o método \textit{Three-border Positioning} e o \textit{Least Square Estimation}.
-Como é possível observar na figura \ref{centroid} utilizando o método \textit{centroid}, o centro geométrico corresponde á localização do equipamento com base nos recetores. A fórmula que representa o centro utilizando o \textit{centroid} é expressa pela seguinte equação onde n representa o numero de recetores utilizados no cálculo.
+Como é possível observar na figura \ref{centroid} utilizando o método \textit{centroid}, o centro geométrico corresponde á localização do equipamento com base nos recetores. A fórmula que representa o centro utilizando o \textit{centroid} é expressa pela seguinte equação onde n representa o número de recetores utilizados no cálculo.
 \par
 \begin{center}
 $ (x,y)= (\frac{x_{1}+x_{2}+x_{3}+...+x_{n}}{n},\frac{y_{1}+y_{2}+y_{3}+...+y_{n}}{n})$
@@ -256,7 +257,7 @@ Utilizando o método \textit{Least Sqare Estimation} ou simplesmente LSE e á se
 \]
 \end{center}
 
-\par Após a criação da função é subtraído o primeiro ramo aos restantes ramos e a função reduz o numero de ramos para n-1 onde n representa o numero de recetores a usar na função.
+\par Após a criação da função é subtraído o primeiro ramo aos restantes ramos e a função reduz o número de ramos para n-1 onde n representa o número de recetores a usar na função.
 \begin{center}
 
 \[
@@ -308,7 +309,7 @@ $ X= \frac{1}{2}(A^T A)^{-1} A^T b$
 \subsubsection{NB-Iot}
 \par
 Atualmente no mercado começam a surgir alguns produtos similares ao que se pretende desenvolver como é o caso dos sensores da Efento\cite{epoka}, que disponibiliza vários tipos de sensores que comunicam por NB-Iot. A Efento é uma empresa fundada em 2014 e é focada em desenvolvimento de equipamentos IOT. Atualmente desenvolveram versões com suporte para NB-Iot. Estes equipamentos tem a desvantagem de não ser compatível com o pacote de envio desenvolvido no portal Senslive e apenas permite o envio para o portal da Efento e não existe a possibilidade da utilização das sondas já comercializadas pela Captemp. Como vantagem á semelhança do equipamento a desenvolver é a utilização de um sistema com Log para quando não existe possibilidade de comunicação.
-Devido ao desenvolvimento da tecnologia ainda existem poucas soluções em comercialização, estando as mesmas em desenvolvimento. A Captemp possui igualmente outro equipamento, completamente desenvolvido pela empresa, em desenvolvimento que tira partido do NB-Iot com o acréscimo em relação ao que se pretende desenvolver durante o estágio, a possibilidade de ter mais sensores, maior capacidade de Log interno, configuração por Bluetooth, GPS e um Display integrado como extras.
+Devido ao desenvolvimento da tecnologia ainda existem poucas soluções em comercialização, estando as mesmas em desenvolvimento. A Captemp possui igualmente outro equipamento, completamente desenvolvido pela empresa, em desenvolvimento que tira partido do NB-Iot com o acréscimo em relação ao que se pretende desenvolver durante o estágio, a possibilidade de ter mais sensores, maior capacidade de Log interno, configuração por \textit{Bluetooth}, GPS e um Display integrado como extras.
 
 
 \subsubsection{Kea Tracker}
@@ -324,7 +325,7 @@ Na tabela \ref{tabbeacons} são apresentadas as diferenças e semelhanças entre
 & Ruuvi Tag& Fujitsu \textit{beacon} &Blue Maestro \\\hline
 Processador& nRF52832& nRF52832 &? \\\hline
 Memória&\begin{tabular}{@{}c@{}}512kB Flash \\ 64kB RAM\end{tabular} & 32K Não volátil &?\\\hline 
-Protocolos&\begin{tabular}{@{}c@{}c@{}@{}c@{}} Bluetooth 5 \\ Wirepass \\ Mira OS\\QUUPA\\Others (2.4GHz)\end{tabular}&Bluetooth 4.1&BLE 4.2\\\hline 
+Protocolos&\begin{tabular}{@{}c@{}c@{}@{}c@{}} \textit{Bluetooth} 5 \\ Wirepass \\ Mira OS\\QUUPA\\Others (2.4GHz)\end{tabular}&\textit{Bluetooth} 4.1&BLE 4.2\\\hline 
 \begin{tabular}{@{}c@{}}Potência de\\ Transmissão\end{tabular} &+4 dBm &\begin{tabular}{@{}c@{}}-16, -12, -8\\ -4, 0, +4 dBm\end{tabular} &-4, 0, +4 dBm \\\hline
 Sensores& \begin{tabular}{@{}c@{}c@{}c@{}} Acelerometro\\ Temperatura\\ Humidade \\Pressão\end{tabular} &\begin{tabular}{c@{}c@{}} Acelerómetro\\ Temperatura\end{tabular}&\begin{tabular}{@{}c@{}c@{}} Temperatura\\ Humidade \\Pressão\end{tabular}\\\hline 
 NFC & \checkmark&- &-\\\hline

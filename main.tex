@@ -342,7 +342,8 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \chapter*{RESUMO}
 \addcontentsline{toc}{chapter}{Resumo}
 \input{resumo}
-\newpage\null\thispagestyle{empty}\newpage 
+
+%\newpage\null\thispagestyle{empty}\newpage  %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!se for necessario
 
 %ABSTRACT
 \titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
@@ -350,6 +351,7 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \addcontentsline{toc}{chapter}{Abstract}
 \input{abstract}
 % And here as well
+
 \newpage\null\thispagestyle{empty}\newpage
 
 % INSPIRATIONAL QUOTE
@@ -364,17 +366,17 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \epigraph{"Persistence is the shortest path to success"}{}
 { ---  \textup{Charles Chaplin}}
 \vspace*{\fill}
-\newpage\null\thispagestyle{empty}\newpage
+%\newpage\null\thispagestyle{empty}\newpage  %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!se for necessario
+
+
 
 % TABLE OF CONTENTS
 
 \titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
 \tableofcontents
 \clearpage
-% LIST OF ACRONYMS
-\chapter*{ACRÓNIMOS}
-\addcontentsline{toc}{chapter}{Acrónimos}
-\input{list_acronyms}
+
+\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \addcontentsline{toc}{chapter}{Índice de Figuras}
 \listoffigures
@@ -382,6 +384,7 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \addcontentsline{toc}{chapter}{Índice de Tabelas}
 \listoftables
 
+\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \clearpage %\cleardoublepage %for openright
 \renewcommand\lstlistlistingname{ÍNDICE DE ALGORITMOS}
@@ -389,6 +392,13 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \lstlistoflistings
 \renewcommand\lstlistingname{Algoritmo}
 \renewcommand\lstlistlistingname{Algoritmos}
+
+\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+% LIST OF ACRONYMS
+\chapter*{ACRÓNIMOS}
+\addcontentsline{toc}{chapter}{Acrónimos}
+\input{list_acronyms}
 
 % BODY
 \newpage
@@ -416,11 +426,16 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \label{chap:state_of_the_art}
 \input{state_of_the_art}
 
+\clearpage \cleardoublepage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 \chapter{Trabalho Desenvolvido}\label{workcharp}
 \input{work}
 
 \chapter{Testes e Avaliação}\label{cap4}
 \input{tests}
+
+\clearpage \cleardoublepage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 \chapter{Conclusões e Trabalho Futuro}
 \input{conclusion_future_work}
@@ -429,31 +444,50 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 % Edit the references.bib file to add your own references, that you can then
 % \cite on your text.
 
+\clearpage \cleardoublepage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 
 \bibliographystyle{ieeetr}
 
 \addcontentsline{toc}{chapter}{Bibliografia}
 \bibliography{references}
 
-%\clearpage %\cleardoublepage %for openright
+\clearpage \cleardoublepage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+\clearpage %\cleardoublepage %for openright
 \renewcommand{\thesection}{Apêndices \Roman{section}}
 
 \begin{appendices}
+
+\clearpage \cleardoublepage
+
 \chapter{Exemplo de um SVG} \label{svg}
 \input{svg}
+
+\clearpage \cleardoublepage
+
  \chapter{Exemplo de um SVG comprimido} \label{svggo}
 \input{svggo}
+
+\clearpage \cleardoublepage
 \chapter{Fluxograma dos processos de Registo -App}\label{E}
 \input{E}
 
+\clearpage \cleardoublepage
+
 \chapter{Fluxograma do processo de Envio - App}\label{F}
 \input{F}
+\clearpage \cleardoublepage
 
 \chapter{Fluxograma de receção de Pacotes BLE}\label{G}
 \input{G}
 
+\clearpage \cleardoublepage
  \chapter{Fluxograma do processo de receção de pacotes} \label{flux1}
 \input{C}
+\clearpage \cleardoublepage
 \chapter{Código da obtenção da posição - LSE}\label{D}
 \input{D}
 

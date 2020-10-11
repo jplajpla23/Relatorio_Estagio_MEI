@@ -11,6 +11,9 @@
 
 \usepackage{listings}
 
+
+
+
 \usepackage{color}
 \definecolor{lightgray}{rgb}{.9,.9,.9}
 \definecolor{white}{rgb}{0,0,0}
@@ -318,6 +321,7 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \pagenumbering{roman}
 
 \includepdf[pages={-}]{images/cover/capa.pdf}
+
 % Blank page
 \newpage
 \thispagestyle{empty}
@@ -373,24 +377,30 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 %\newpage\null\thispagestyle{empty}\newpage  %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!se for necessario
 
 
-
 % TABLE OF CONTENTS
 
 \titleformat{\chapter}[display]{\rmfamily\Large\bfseries}{\thechapter}{0.5ex}{\centering}[\vspace{-0.5ex}\rule{\textwidth}{0.3pt}]
+\pdfbookmark[0]{Índice}{toc}%
 \tableofcontents
 \clearpage
 
-\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\clearpage \cleardoublepage
+
+\phantomsection
 
 \addcontentsline{toc}{chapter}{Índice de Figuras}
 \listoffigures
 \clearpage %\cleardoublepage %for openright
+\phantomsection
 \addcontentsline{toc}{chapter}{Índice de Tabelas}
 \listoftables
 
-\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%\newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\clearpage \cleardoublepage
 
 \clearpage %\cleardoublepage %for openright
+\phantomsection
 \renewcommand\lstlistlistingname{ÍNDICE DE ALGORITMOS}
 \addcontentsline{toc}{chapter}{Índice de Algoritmos}
 \lstlistoflistings
@@ -400,7 +410,7 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \newpage\null\thispagestyle{empty}\newpage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 %\clearpage \cleardoublepage %for openright
-\addcontentsline{toc}{chapter}{Acrónimos}
+%\addcontentsline{toc}{chapter}{Acrónimos}%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 % LIST OF ACRONYMS
 \chapter*{ACRÓNIMOS}
 \addcontentsline{toc}{chapter}{Acrónimos}
@@ -451,10 +461,13 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 % \cite on your text.
 
 \clearpage \cleardoublepage %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+\phantomsection
 
 
 \bibliographystyle{ieeetr}
+
+
+
 
 \addcontentsline{toc}{chapter}{Bibliografia}
 \bibliography{references}
@@ -465,11 +478,13 @@ literate=*{0}{{\textcolor{numericC}{0}}}{1}
 \clearpage %\cleardoublepage %for openright
 \renewcommand{\thesection}{Apêndices \Roman{section}}
 
+
 \begin{appendices}
 
 \clearpage \cleardoublepage
 
 \chapter{Exemplo de um SVG} \label{svg}
+
 \input{svg}
 
 \clearpage \cleardoublepage
